@@ -13,7 +13,7 @@ class AppShell extends StatelessWidget {
   static const _tabs = [
     ('/', 'nav.home', Icons.home_outlined, Icons.home_rounded),
     ('/routes', 'nav.routes', Icons.route_outlined, Icons.route),
-    ('/live', 'nav.live', Icons.map_outlined, Icons.map_rounded),
+    ('/live', 'nav.liveTab', Icons.map_outlined, Icons.map_rounded),
     ('/trips', 'header.myWave', Icons.waves_outlined, Icons.waves_rounded),
   ];
 

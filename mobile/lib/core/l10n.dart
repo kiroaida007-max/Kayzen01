@@ -46,6 +46,8 @@ class Tr {
     'nav.tv': ['WAVE TV', 'WAVE TV', 'WAVE TV'],
     'nav.community': ['Communauté', 'Community', 'المجتمع'],
     'nav.live': ['Carte live', 'Live map', 'الخريطة المباشرة'],
+    // Bottom tab bar: one line at phone width (the map icon says the rest).
+    'nav.liveTab': ['Carte live', 'Live map', 'الخريطة'],
     'nav.home': ['Accueil', 'Home', 'الرئيسية'],
     'nav.more': ['Plus', 'More', 'المزيد'],
     'header.myWave': ['Ma vague', 'My wave', 'موجتي'],
