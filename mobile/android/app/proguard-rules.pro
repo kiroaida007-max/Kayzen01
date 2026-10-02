@@ -4,3 +4,6 @@
 # Tink dependency references optional annotations.
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn javax.annotation.**
+# The Flutter embedding references Play Core (deferred components) optionally; the app does not
+# ship it, and R8 would otherwise stop on the missing classes.
+-dontwarn com.google.android.play.core.**
