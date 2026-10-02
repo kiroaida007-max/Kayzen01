@@ -47,7 +47,10 @@ fun Route.internalRoutes(c: AppContainer) {
         rateLimit(Limits429.INGEST) {
             post("/sailings") {
                 val batch = AppJson.decodeFromString(IngestBatch.serializer(), call.verifiedBody(c))
-                call.respond(c.ingest.ingest(batch))
+                val result = c.ingest.ingest(batch)
+                c.count("wave.ingest.sailings", result.accepted.toDouble(), "result", "accepted")
+                c.count("wave.ingest.sailings", result.rejected.size.toDouble(), "result", "rejected")
+                call.respond(result)
             }
             post("/rates") {
                 val rates = AppJson.decodeFromString(IngestRates.serializer(), call.verifiedBody(c))

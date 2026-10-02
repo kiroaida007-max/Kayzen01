@@ -72,6 +72,20 @@ private val log = LoggerFactory.getLogger("dz.wave.api")
 
 fun ApplicationCall.clientIp(): String = request.origin.remoteHost
 
+private val CLIENT_ID = Regex("^[A-Za-z0-9-]{16,64}$")
+
+/**
+ * Algerian mobile carriers put thousands of subscribers behind one carrier-grade NAT address, so
+ * per-IP buckets would throttle legitimate users. Buckets are per IP *and* app install
+ * (`X-Wave-Client`, a random id the app generates); the edge load balancer keeps a hard per-IP
+ * ceiling, which bounds what rotating ids can gain.
+ */
+fun ApplicationCall.rateLimitKey(): String {
+    val ip = clientIp()
+    val client = request.headers["X-Wave-Client"]?.takeIf { CLIENT_ID.matches(it) } ?: return ip
+    return "$ip|$client"
+}
+
 fun Application.waveModule(c: AppContainer) {
     val config = c.config
 
@@ -122,6 +136,7 @@ fun Application.waveModule(c: AppContainer) {
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
         allowHeader("Idempotency-Key")
+        allowHeader("X-Wave-Client")
         allowHeader(HttpHeaders.XRequestId)
         exposeHeader(HttpHeaders.XRequestId)
         exposeHeader(HttpHeaders.ETag)
@@ -154,18 +169,19 @@ fun Application.waveModule(c: AppContainer) {
             .percentilesHistogram(true)
             .build()
     }
+    c.registerGauges()
 
     install(RateLimit) {
-        fun limit(name: RateLimitName, perMinute: Int) = register(name) {
+        fun limit(name: RateLimitName, perMinute: Int, perInstall: Boolean = true) = register(name) {
             rateLimiter(limit = perMinute, refillPeriod = 1.minutes)
-            requestKey { call -> call.clientIp() }
+            requestKey { call -> if (perInstall) call.rateLimitKey() else call.clientIp() }
         }
         limit(Limits429.API, config.globalRateLimitPerMinute)
         limit(Limits429.SEARCH, config.searchRateLimitPerMinute)
         limit(Limits429.BOOKING, 20)
         limit(Limits429.LOOKUP, 30)
         limit(Limits429.AUTH, 10)
-        limit(Limits429.INGEST, 120)
+        limit(Limits429.INGEST, 120, perInstall = false)
     }
 
     install(Authentication) {
@@ -201,6 +217,9 @@ fun Application.waveModule(c: AppContainer) {
         exception<SerializationException> { call, e -> badRequest(call, e) }
         exception<IllegalArgumentException> { call, e -> badRequest(call, e) }
         exception<java.time.format.DateTimeParseException> { call, e -> badRequest(call, e) }
+        // Postgres or Redis unreachable: a clear, retryable 503 instead of a 500.
+        exception<io.lettuce.core.RedisException> { call, e -> dependencyDown(call, e) }
+        exception<java.sql.SQLTransientException> { call, e -> dependencyDown(call, e) }
         exception<Throwable> { call, e ->
             log.error("Unhandled error on {} [{}]", call.request.path(), call.callId, e)
             call.respond(
@@ -229,4 +248,13 @@ fun Application.waveModule(c: AppContainer) {
 private suspend fun badRequest(call: ApplicationCall, e: Throwable) {
     log.debug("Bad request on {}: {}", call.request.path(), e.message)
     call.respond(HttpStatusCode.BadRequest, ApiError("INVALID_REQUEST", "Requête invalide : vérifiez les champs envoyés.", call.callId))
+}
+
+private suspend fun dependencyDown(call: io.ktor.server.application.ApplicationCall, e: Throwable) {
+    log.warn("Dependency unavailable on {} [{}]: {}", call.request.path(), call.callId, e.message)
+    call.response.headers.append(HttpHeaders.RetryAfter, "5")
+    call.respond(
+        HttpStatusCode.ServiceUnavailable,
+        ApiError("TEMPORARILY_UNAVAILABLE", "Service momentanément indisponible. Réessayez dans quelques secondes.", call.callId),
+    )
 }

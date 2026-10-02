@@ -52,11 +52,16 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.websocket.WebSockets
+import io.lettuce.core.ClientOptions
 import io.lettuce.core.RedisClient
+import io.lettuce.core.RedisURI
+import io.lettuce.core.TimeoutOptions
 import io.lettuce.core.api.StatefulRedisConnection
 import io.micrometer.prometheusmetrics.PrometheusConfig
+import io.micrometer.core.instrument.Gauge
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -82,7 +87,18 @@ class AppContainer(
             poolSize = config.dbPoolSize,
         )
     }
-    private val redisClient: RedisClient? = config.redisUrl?.let { RedisClient.create(it) }
+    // Fail fast instead of Lettuce's defaults (60 s timeout, unbounded queue while disconnected):
+    // during a Redis incident search degrades instantly and booking answers 503.
+    private val redisClient: RedisClient? = config.redisUrl?.let { url ->
+        RedisClient.create(RedisURI.create(url).apply { timeout = Duration.ofSeconds(1) }).apply {
+            options = ClientOptions.builder()
+                .autoReconnect(true)
+                .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
+                .requestQueueSize(10_000)
+                .timeoutOptions(TimeoutOptions.enabled(Duration.ofSeconds(1)))
+                .build()
+        }
+    }
     private val redis: StatefulRedisConnection<String, String>? = redisClient?.connect()
 
     val metrics = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
@@ -143,9 +159,36 @@ class AppContainer(
     private val leader: LeaderLock = redis?.let { RedisLeaderLock(it) } ?: AlwaysLeader()
     val content = ContentService(catalogData, clock)
 
+    /**
+     * Business gauges next to the JVM/HTTP ones: what dashboards and alerts actually watch.
+     * Called once the metrics plugin is installed, so its meter filters apply to them.
+     */
+    fun registerGauges() {
+        for (name in listOf("database", "redis")) {
+            Gauge.builder("wave.dependency.up") { if (dependencies[name] == true) 1.0 else 0.0 }
+                .tag("dependency", name).description("1 when the shared dependency answers").register(metrics)
+        }
+        Gauge.builder("wave.catalog.version") { catalog.current().version.toDouble() }
+            .description("Version of the in-memory catalog (moves on every accepted ingest)").register(metrics)
+        Gauge.builder("wave.live.sailings") { catalog.overlaySize().toDouble() }
+            .description("Crossings currently backed by scraped (LIVE) data").register(metrics)
+        Gauge.builder("wave.catalog.sailings") { catalog.current().sailingCount.toDouble() }
+            .description("Crossings searchable on this pod").register(metrics)
+    }
+
+    fun count(name: String, amount: Double = 1.0, vararg tags: String) = metrics.counter(name, *tags).increment(amount)
+
     private val jobs = mutableListOf<Job>()
 
-    fun healthy(): Boolean = (database?.healthy() ?: true) && (redis?.isOpen ?: true)
+    /** Last known state of the shared dependencies, refreshed in the background (never on a probe). */
+    @Volatile
+    var dependencies: Map<String, Boolean> = mapOf("database" to true, "redis" to true)
+        private set
+
+    private fun checkDependencies(): Map<String, Boolean> = mapOf(
+        "database" to (database?.healthy() ?: true),
+        "redis" to (redis?.let { runCatching { it.sync().ping() == "PONG" }.getOrDefault(false) } ?: true),
+    )
 
     fun start(scope: CoroutineScope) {
         database?.migrate()
@@ -161,6 +204,14 @@ class AppContainer(
         }
         jobs += live.start(scope)
         jobs += scope.launch { sweepHolds() }
+        jobs += scope.launch(Dispatchers.IO) {
+            while (isActive) {
+                val now = checkDependencies()
+                if (now != dependencies) log.warn("Dependencies changed: {}", now)
+                dependencies = now
+                delay(5_000)
+            }
+        }
         config.aisApiKey?.let { key -> jobs += scope.launch { runAisWhenLeader(scope, key) } }
         log.info("WAVE backend {} started (env={}, db={}, redis={})", instanceId, config.env, database != null, redis != null)
     }
@@ -170,7 +221,12 @@ class AppContainer(
     private suspend fun CoroutineScope.sweepHolds() {
         while (isActive) {
             runCatching { bookings.expireHolds() }
-                .onSuccess { if (it > 0) log.info("Expired {} unpaid bookings", it) }
+                .onSuccess {
+                    if (it > 0) {
+                        log.info("Expired {} unpaid bookings", it)
+                        count("wave.bookings", it.toDouble(), "event", "expired")
+                    }
+                }
                 .onFailure { log.warn("Hold sweeper failed", it) }
             delay(60_000)
         }

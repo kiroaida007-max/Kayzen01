@@ -5,13 +5,14 @@ WAVE_INGEST_URL=http://localhost:8080 WAVE_INGEST_SECRET=... pytest tests/test_b
 
 from __future__ import annotations
 
+import contextlib
 import os
 from datetime import UTC, date, datetime
 
 import httpx
 import pytest
-
 from conftest import context, fixture_json, fixture_text
+
 from wave_scraper import firecrawl
 from wave_scraper.catalog import catalog
 from wave_scraper.extract import Rejected, build_sailing, extract_page, from_json_payload
@@ -41,10 +42,8 @@ def fixture_sailings() -> list:
         ctx = context(operator, url, currency)
         ctx.today = date.today()
         for record in records:
-            try:
+            with contextlib.suppress(Rejected):
                 sailings.append(build_sailing(record, ctx, catalog()))
-            except Rejected:
-                pass
     return sailings
 
 
@@ -56,8 +55,9 @@ def test_backend_accepts_scraped_sailings_and_serves_them_live() -> None:
     assert answer["accepted"] == len(sailings), answer["rejected"]
 
     # The Baleària crossing now carries the scraped price as a LIVE offer in search.
+    api = os.environ.get("WAVE_API_URL", config.base_url)
     search = httpx.post(
-        f"{config.base_url}/api/v1/search",
+        f"{api}/api/v1/search",
         json={
             "tripType": "ONE_WAY",
             "from": "ESVLC",

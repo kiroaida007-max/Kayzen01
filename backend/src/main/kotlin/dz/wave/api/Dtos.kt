@@ -193,7 +193,13 @@ data class VerifyTicketRequest(val payload: String)
 data class VerifyTicketResponse(val valid: Boolean, val reference: String?, val status: BookingStatus?, val passengers: Int?)
 
 @Serializable
-data class HealthResponse(val status: String, val catalogVersion: Long, val sailings: Int, val liveSailings: Int)
+data class HealthResponse(
+    val status: String,
+    val catalogVersion: Long,
+    val sailings: Int,
+    val liveSailings: Int,
+    val dependencies: Map<String, Boolean> = emptyMap(),
+)
 
 /** Masks document numbers: support staff and screenshots never expose a full passport number. */
 fun Booking.toView(): BookingView = BookingView(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,10 +11,21 @@ import '../data/api_client.dart';
 import '../data/models.dart';
 import '../data/search_request.dart';
 
-final apiProvider = Provider<ApiClient>((ref) => ApiClient());
-
 /// Overridden in `main()` once SharedPreferences is loaded.
 final prefsProvider = Provider<SharedPreferences>((ref) => throw UnimplementedError('prefsProvider not initialised'));
+
+/// Random id of this installation (not linked to the traveller), sent for fair rate limiting.
+final installIdProvider = Provider<String>((ref) {
+  final prefs = ref.watch(prefsProvider);
+  final existing = prefs.getString('install_id');
+  if (existing != null && existing.length >= 16) return existing;
+  final random = Random.secure();
+  final id = List.generate(16, (_) => random.nextInt(256).toRadixString(16).padLeft(2, '0')).join();
+  prefs.setString('install_id', id);
+  return id;
+});
+
+final apiProvider = Provider<ApiClient>((ref) => ApiClient(clientId: ref.watch(installIdProvider)));
 
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) => const FlutterSecureStorage());
 

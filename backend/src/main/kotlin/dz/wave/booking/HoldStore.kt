@@ -7,6 +7,7 @@ import dz.wave.pricing.Consumption
 import dz.wave.search.ConsumptionReader
 import dz.wave.search.ResourceNeed
 import io.lettuce.core.ScriptOutputType
+import io.lettuce.core.RedisException
 import io.lettuce.core.api.StatefulRedisConnection
 import kotlinx.coroutines.future.await
 import kotlinx.serialization.Serializable
@@ -147,12 +148,27 @@ class RedisHoldStore(
 
     override fun consumed(sailingId: String): Consumption {
         val now = clock.instant()
-        cache[sailingId]?.takeIf { Duration.between(it.at, now) < cacheTtl }?.let { return it.value }
-        val fields = connection.sync().hgetall(counterKey(sailingId)).mapValues { it.value.toIntOrNull() ?: 0 }
+        val cached = cache[sailingId]
+        cached?.takeIf { Duration.between(it.at, now) < cacheTtl }?.let { return it.value }
+        val fields = try {
+            connection.sync().hgetall(counterKey(sailingId)).mapValues { it.value.toIntOrNull() ?: 0 }
+        } catch (e: RedisException) {
+            // Search keeps answering with the last known level; capacity is re-checked atomically
+            // by the hold script when booking, which fails cleanly while Redis is away.
+            if (Duration.between(lastWarning, now) > Duration.ofSeconds(30)) {
+                lastWarning = now
+                log.warn("Hold counters unavailable, search uses last known availability: {}", e.message)
+            }
+            return cached?.value ?: Consumption.NONE
+        }
         val value = consumptionOf(fields)
         cache[sailingId] = Cached(value, now)
         return value
     }
+
+    @Volatile
+    private var lastWarning: Instant = Instant.EPOCH
+    private val log = org.slf4j.LoggerFactory.getLogger(RedisHoldStore::class.java)
 
     override suspend fun place(holdId: String, requests: List<HoldRequest>, ttl: Duration): Boolean {
         val keys = mutableListOf(holdKey(holdId), expiryKey)

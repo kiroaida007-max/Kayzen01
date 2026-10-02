@@ -66,6 +66,7 @@ fun Route.bookingRoutes(c: AppContainer) {
                     try {
                         val request = call.receive<CreateBookingRequest>()
                         val booking = c.bookings.create(request, call.userId())
+                        c.count("wave.bookings", 1.0, "event", "held")
                         key?.let { c.idempotency.complete(it, booking.reference, IDEMPOTENCY_TTL) }
                         call.respond(HttpStatusCode.Created, booking.toView())
                     } catch (e: Throwable) {
@@ -78,13 +79,17 @@ fun Route.bookingRoutes(c: AppContainer) {
             post("/bookings/{ref}/payments") {
                 val request = call.receive<PaymentRequest>()
                 val booking = c.bookings.find(call.parameters["ref"].orEmpty(), request.lastName, request.lang)
-                call.respond(c.payments.initiate(booking, request.method, request.lang))
+                val started = c.payments.initiate(booking, request.method, request.lang)
+                c.count("wave.payments", 1.0, "method", request.method.name, "event", "started")
+                call.respond(started)
             }
 
             post("/bookings/{ref}/cancel") {
                 val request = call.receive<CancelRequest>()
                 val booking = c.bookings.find(call.parameters["ref"].orEmpty(), request.lastName, request.lang)
-                call.respond(c.bookings.cancel(booking, request.lang, request.dryRun))
+                val result = c.bookings.cancel(booking, request.lang, request.dryRun)
+                if (!request.dryRun) c.count("wave.bookings", 1.0, "event", "cancelled")
+                call.respond(result)
             }
         }
 
@@ -110,6 +115,9 @@ fun Route.bookingRoutes(c: AppContainer) {
                     paymentId = q["paymentId"].orEmpty(),
                     params = q.entries().associate { it.key to it.value.firstOrNull().orEmpty() },
                 )
+                booking.payments.firstOrNull { it.id == q["paymentId"] }?.let { payment ->
+                    c.count("wave.payments", 1.0, "method", payment.method.name, "event", payment.status.name.lowercase())
+                }
                 if (call.request.accept()?.contains(ContentType.Application.Json.toString()) == true) {
                     call.respond(booking.toView())
                 } else {

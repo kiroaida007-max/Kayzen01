@@ -28,7 +28,9 @@ class ApiException implements Exception {
 }
 
 class ApiClient {
-  ApiClient({Dio? dio})
+  /// [clientId] is a random per-install id: rate limits are per IP *and* install, because mobile
+  /// carriers share one public IP between thousands of subscribers (CGNAT).
+  ApiClient({Dio? dio, String? clientId})
       : _dio = dio ??
             Dio(
               BaseOptions(
@@ -38,6 +40,7 @@ class ApiClient {
                 sendTimeout: const Duration(seconds: 10),
                 contentType: Headers.jsonContentType,
                 responseType: ResponseType.json,
+                headers: {'X-Wave-Client': ?clientId},
               ),
             ) {
     _dio.interceptors.add(_RetryInterceptor(_dio));

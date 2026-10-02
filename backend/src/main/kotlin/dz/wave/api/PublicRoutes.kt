@@ -62,13 +62,19 @@ private class MetaCache(val key: String, val body: MetaResponse)
 
 fun Route.healthRoutes(c: AppContainer) {
     get("/health/live") { call.respondText("ok") }
+    // Readiness reflects this pod only. A shared dependency (Postgres, Redis) going away must not
+    // pull every pod out of the load balancer: search and the live map do not need either.
     get("/health/ready") {
         val snap = c.catalog.current()
-        if (c.healthy()) {
-            call.respond(HealthResponse("ready", snap.version, snap.sailingCount, c.catalog.overlaySize()))
-        } else {
-            call.respond(HttpStatusCode.ServiceUnavailable, HealthResponse("degraded", snap.version, snap.sailingCount, c.catalog.overlaySize()))
-        }
+        val deps = c.dependencies
+        call.respond(HealthResponse(if (deps.values.all { it }) "ready" else "degraded", snap.version, snap.sailingCount, c.catalog.overlaySize(), deps))
+    }
+    // For monitoring and dashboards (not used by probes).
+    get("/health/deps") {
+        val deps = c.dependencies
+        val snap = c.catalog.current()
+        val body = HealthResponse(if (deps.values.all { it }) "ok" else "degraded", snap.version, snap.sailingCount, c.catalog.overlaySize(), deps)
+        call.respond(if (deps.values.all { it }) HttpStatusCode.OK else HttpStatusCode.ServiceUnavailable, body)
     }
     get("/metrics") {
         if (call.request.local.localPort != c.config.managementPort) {
