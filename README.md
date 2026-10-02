@@ -93,17 +93,18 @@ See [`docs/scaling-100k.md`](docs/scaling-100k.md) and [`docs/security.md`](docs
 | Scraper tests (+ integration against the API through the LB) | 78 passed |
 | Flutter analyze / tests | clean / 6 passed |
 | Browser E2E: search → travellers → hold → CIB (sandbox) → QR e-ticket | passed |
-| Production web build behind the LB, CSP enforced | no CSP violations; API, WebSocket and install id OK |
+| Production web build behind the LB, CSP enforced | no CSP violations; API, WebSocket and install id OK; fonts all bundled (no external font requests in the French and Arabic flows) |
 | Load: 3 API replicas behind nginx on one 4-core VM (generator on the same VM) | 2,900 req/s, 0 errors, search p99 75 ms |
 | Failover: one replica SIGKILLed under load | 1,500/1,500 requests OK |
 | Redis frozen 20 s under traffic | 8,761 searches all OK (p99 10 ms); bookings `503 Retry-After`, then OK |
 | Carrier NAT: 300 users behind one IP vs. one flooding client | 300/300 OK vs. throttled after burst |
 | Backend container: prod mode, read-only root FS, non-root, no capabilities | healthy |
 | Kubernetes manifests (kubeconform, strict, CRDs) / Prometheus rules (promtool) | 33/33 valid / 7/7 valid |
+| GitHub Actions CI: backend, pipeline, app (analyze, tests, web, release APK), infra checks, 3 container images | all green |
 
-Not run here: Android/iOS builds (no Android SDK in the sandbox; CI builds the APK), container
-builds that need the Gradle/Flutter toolchains inside Docker (CI builds all images), scrapers
-against the live operator sites.
+The release APK and the container images are built by CI (no Android SDK in the sandbox).
+Not run anywhere yet: the iOS build (needs macOS and Xcode) and the scrapers against the live
+operator sites.
 
 ## Documentation
 
