@@ -1,0 +1,29 @@
+<configuration>
+    <!-- LOG_FORMAT=json in containers (one JSON object per line), plain text for local development. -->
+    <appender name="PLAIN" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%X{requestId:-}] %logger{24} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>requestId</includeMdcKeyName>
+        </encoder>
+    </appender>
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>8192</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="${LOG_APPENDER:-PLAIN}"/>
+    </appender>
+
+    <logger name="io.netty" level="WARN"/>
+    <logger name="org.flywaydb" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="io.lettuce" level="WARN"/>
+    <logger name="wave.access" level="${ACCESS_LOG_LEVEL:-INFO}"/>
+
+    <root level="${LOG_LEVEL:-INFO}">
+        <appender-ref ref="ASYNC"/>
+    </root>
+</configuration>

@@ -1,0 +1,78 @@
+[
+ {
+  "id": "NE_ONLINE_20",
+  "operator": "NE",
+  "discount": 0.2,
+  "bookFrom": "2026-09-01",
+  "bookTo": "2027-01-31",
+  "travelTo": "2027-01-31",
+  "title": {
+   "fr": "-20 % en réservant en ligne",
+   "en": "20 % off when booking online",
+   "ar": "تخفيض 20٪ عند الحجز عبر الإنترنت"
+  },
+  "description": {
+   "fr": "Nouris Elbahr Ferries accorde 20 % de remise sur les réservations en ligne depuis le 1er septembre 2026.",
+   "en": "Nouris Elbahr Ferries gives 20 % off online bookings since 1 September 2026.",
+   "ar": "تمنح نورس البحر فيريز تخفيضًا بنسبة 20٪ على الحجوزات عبر الإنترنت منذ 1 سبتمبر 2026."
+  },
+  "conditions": {
+   "online": true
+  },
+  "badge": "-20 %",
+  "image": "deal_nouris",
+  "source": "https://observalgerie.com/2026/09/01/voyage/nouris-elbahr-ferries-20-de-remise-sur-les-reservations-en-ligne-des-le-1er-septembre/"
+ },
+ {
+  "id": "CL_FAMILLE",
+  "operator": "CL",
+  "discount": 0.15,
+  "estimated": true,
+  "title": {
+   "fr": "Tarif Famille",
+   "en": "Family fare",
+   "ar": "تعريفة العائلة"
+  },
+  "description": {
+   "fr": "Au moins un adulte avec un enfant de 3 à 12 ans, aller et retour ensemble, en cabine privative avec véhicule. Séjour de 180 jours maximum.",
+   "en": "At least one adult with a child aged 3–12, outbound and return together, private cabin with a vehicle. Stay of up to 180 days.",
+   "ar": "بالغ واحد على الأقل مع طفل من 3 إلى 12 سنة، ذهاب وإياب معًا، في مقصورة خاصة مع مركبة. إقامة لا تتجاوز 180 يومًا."
+  },
+  "conditions": {
+   "requiresChildAgeRange": [
+    3,
+    12
+   ],
+   "requiresRoundTrip": true,
+   "requiresCabin": true,
+   "requiresVehicle": true
+  },
+  "badge": "Famille",
+  "image": "deal_family",
+  "source": "https://www.corsicalinea.com/reserver/offres-et-promotions/algerie/tarif-famille"
+ },
+ {
+  "id": "GNV_DESTINATION_FAMILLE",
+  "operator": "GNV",
+  "discount": 0.1,
+  "estimated": true,
+  "title": {
+   "fr": "Destination Famille",
+   "en": "Family destination",
+   "ar": "وجهة العائلة"
+  },
+  "description": {
+   "fr": "Traversée avec véhicule dès 280 € : véhicule de 4,99 m et 1,90 m maximum, galerie comprise.",
+   "en": "Crossing with a vehicle from 280 €: vehicle up to 4.99 m long and 1.90 m high including roof rack.",
+   "ar": "عبور مع مركبة ابتداءً من 280 يورو: مركبة بطول أقصى 4.99 م وارتفاع 1.90 م مع الحامل."
+  },
+  "conditions": {
+   "requiresVehicle": true,
+   "maxVehicleLengthM": 4.99,
+   "maxVehicleHeightM": 1.9
+  },
+  "badge": "Famille",
+  "image": "deal_gnv",
+  "source": "https://observalgerie.com/2026/02/05/voyage/ferry-france-algerie-des-traversees-gnv-avec-vehicule-a-partir-de-280-e/"
+ }
+]

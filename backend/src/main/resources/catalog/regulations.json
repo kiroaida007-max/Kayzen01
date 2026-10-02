@@ -1,0 +1,51 @@
+[
+ {
+  "id": "DZ_SUMMER_VANS",
+  "from": "06-15",
+  "to": "09-15",
+  "ports": [],
+  "direction": "ANY",
+  "title": {
+   "fr": "Fourgons interdits l'été",
+   "en": "Vans banned in summer",
+   "ar": "منع الشاحنات الصغيرة صيفا"
+  },
+  "description": {
+   "fr": "Du 15 juin au 15 septembre, les fourgons et véhicules utilitaires ne peuvent pas embarquer sur les navires de passagers desservant les ports algériens (décision de la Direction de la marine marchande).",
+   "en": "From 15 June to 15 September, vans and utility vehicles may not board passenger ships serving Algerian ports (Merchant Marine Directorate).",
+   "ar": "من 15 جوان إلى 15 سبتمبر، يُمنع صعود الشاحنات الصغيرة والمركبات النفعية على سفن نقل المسافرين المتجهة إلى الموانئ الجزائرية (قرار مديرية البحرية التجارية)."
+  },
+  "effect": {
+   "bannedVehicleTypes": [
+    "VAN"
+   ]
+  },
+  "severity": "ERROR",
+  "source": "https://algerie-eco.com/2026/05/30/transport-maritime-reconduction-des-restrictions-sur-certains-vehicules-pour-lete-2026/"
+ },
+ {
+  "id": "DZ_SUMMER_NEW_VEHICLES",
+  "from": "06-15",
+  "to": "09-15",
+  "ports": [
+   "DZALG",
+   "DZORN"
+  ],
+  "direction": "TO_DZ",
+  "title": {
+   "fr": "Véhicules neufs refusés à Alger et Oran",
+   "en": "New vehicles refused in Algiers and Oran",
+   "ar": "رفض المركبات الجديدة في الجزائر ووهران"
+  },
+  "description": {
+   "fr": "L'été, les véhicules neufs ou de moins de 3 ans achetés à l'étranger par des citoyens algériens sont refusés aux ports d'Alger et d'Oran : choisissez Béjaïa, Skikda, Annaba, Mostaganem ou Ghazaouet.",
+   "en": "In summer, new or under-3-year-old vehicles bought abroad by Algerian citizens are refused at Algiers and Oran: choose Bejaia, Skikda, Annaba, Mostaganem or Ghazaouet.",
+   "ar": "في الصيف، تُرفض المركبات الجديدة أو التي يقل عمرها عن 3 سنوات والمشتراة من الخارج من طرف المواطنين الجزائريين في ميناءي الجزائر ووهران: اختر بجاية أو سكيكدة أو عنابة أو مستغانم أو الغزوات."
+  },
+  "effect": {
+   "newVehicleMaxAgeYears": 3
+  },
+  "severity": "WARNING",
+  "source": "https://www.algerie360.com/voyager-en-algerie-en-ete-2026-attention-ces-vehicules-seront-interdits-sur-les-ferries/"
+ }
+]

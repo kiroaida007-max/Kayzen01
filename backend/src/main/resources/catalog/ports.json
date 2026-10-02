@@ -1,0 +1,16 @@
+[
+  {"code": "DZALG", "shortCode": "ALG", "name": {"fr": "Alger", "en": "Algiers", "ar": "الجزائر"}, "country": "DZ", "lat": 36.7745, "lon": 3.0647, "zone": "Africa/Algiers", "terminal": "Gare maritime d'Alger"},
+  {"code": "DZORN", "shortCode": "ORN", "name": {"fr": "Oran", "en": "Oran", "ar": "وهران"}, "country": "DZ", "lat": 35.7086, "lon": -0.6432, "zone": "Africa/Algiers", "terminal": "Gare maritime d'Oran"},
+  {"code": "DZBJA", "shortCode": "BJA", "name": {"fr": "Béjaïa", "en": "Bejaia", "ar": "بجاية"}, "country": "DZ", "lat": 36.7520, "lon": 5.0950, "zone": "Africa/Algiers", "terminal": "Gare maritime de Béjaïa"},
+  {"code": "DZSKI", "shortCode": "SKI", "name": {"fr": "Skikda", "en": "Skikda", "ar": "سكيكدة"}, "country": "DZ", "lat": 36.8833, "lon": 6.9060, "zone": "Africa/Algiers", "terminal": "Gare maritime de Skikda"},
+  {"code": "DZAAE", "shortCode": "AAE", "name": {"fr": "Annaba", "en": "Annaba", "ar": "عنابة"}, "country": "DZ", "lat": 36.8990, "lon": 7.7690, "zone": "Africa/Algiers", "terminal": "Gare maritime d'Annaba"},
+  {"code": "DZMOS", "shortCode": "MOS", "name": {"fr": "Mostaganem", "en": "Mostaganem", "ar": "مستغانم"}, "country": "DZ", "lat": 35.9340, "lon": 0.0790, "zone": "Africa/Algiers", "terminal": "Port de Mostaganem"},
+  {"code": "DZGHZ", "shortCode": "GHZ", "name": {"fr": "Ghazaouet", "en": "Ghazaouet", "ar": "الغزوات"}, "country": "DZ", "lat": 35.1050, "lon": -1.8650, "zone": "Africa/Algiers", "terminal": "Port de Ghazaouet"},
+  {"code": "FRMRS", "shortCode": "MRS", "name": {"fr": "Marseille", "en": "Marseille", "ar": "مرسيليا"}, "country": "FR", "lat": 43.3373, "lon": 5.3359, "zone": "Europe/Paris", "terminal": "Terminal Cap Janet"},
+  {"code": "FRSET", "shortCode": "SET", "name": {"fr": "Sète", "en": "Sète", "ar": "سات"}, "country": "FR", "lat": 43.4000, "lon": 3.6950, "zone": "Europe/Paris", "terminal": "Gare maritime de Sète"},
+  {"code": "ESBCN", "shortCode": "BCN", "name": {"fr": "Barcelone", "en": "Barcelona", "ar": "برشلونة"}, "country": "ES", "lat": 41.3660, "lon": 2.1740, "zone": "Europe/Madrid", "terminal": "Moll de Ponent"},
+  {"code": "ESVLC", "shortCode": "VLC", "name": {"fr": "Valence", "en": "Valencia", "ar": "فالنسيا"}, "country": "ES", "lat": 39.4560, "lon": -0.3180, "zone": "Europe/Madrid", "terminal": "Estación Marítima"},
+  {"code": "ESALC", "shortCode": "ALC", "name": {"fr": "Alicante", "en": "Alicante", "ar": "أليكانتي"}, "country": "ES", "lat": 38.3390, "lon": -0.4810, "zone": "Europe/Madrid", "terminal": "Terminal de pasajeros"},
+  {"code": "ESLEI", "shortCode": "LEI", "name": {"fr": "Almería", "en": "Almería", "ar": "ألميريا"}, "country": "ES", "lat": 36.8350, "lon": -2.4690, "zone": "Europe/Madrid", "terminal": "Estación Marítima de Almería"},
+  {"code": "ITCVV", "shortCode": "CVV", "name": {"fr": "Civitavecchia", "en": "Civitavecchia", "ar": "تشيفيتافيكيا"}, "country": "IT", "lat": 42.0970, "lon": 11.7810, "zone": "Europe/Rome", "terminal": "Terminal traghetti"}
+]

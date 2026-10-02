@@ -1,0 +1,37 @@
+[
+ {
+  "from": "DZALG",
+  "to": "ESBCN",
+  "image": "dest_barcelona"
+ },
+ {
+  "from": "DZALG",
+  "to": "FRMRS",
+  "image": "dest_marseille"
+ },
+ {
+  "from": "DZORN",
+  "to": "ESVLC",
+  "image": "dest_valencia"
+ },
+ {
+  "from": "DZBJA",
+  "to": "FRSET",
+  "image": "dest_sete"
+ },
+ {
+  "from": "DZAAE",
+  "to": "ITCVV",
+  "image": "dest_civitavecchia"
+ },
+ {
+  "from": "FRMRS",
+  "to": "DZALG",
+  "image": "dest_alger"
+ },
+ {
+  "from": "ESLEI",
+  "to": "DZGHZ",
+  "image": "dest_ghazaouet"
+ }
+]

@@ -1,0 +1,65 @@
+[
+ {
+  "name": "SUMMER_PEAK_TO_DZ",
+  "from": "06-25",
+  "to": "08-10",
+  "direction": "TO_DZ",
+  "multiplier": 1.45
+ },
+ {
+  "name": "SUMMER_HIGH_TO_DZ",
+  "from": "06-15",
+  "to": "09-15",
+  "direction": "TO_DZ",
+  "multiplier": 1.25
+ },
+ {
+  "name": "SUMMER_PEAK_FROM_DZ",
+  "from": "08-15",
+  "to": "09-10",
+  "direction": "FROM_DZ",
+  "multiplier": 1.45
+ },
+ {
+  "name": "SUMMER_HIGH_FROM_DZ",
+  "from": "06-15",
+  "to": "09-15",
+  "direction": "FROM_DZ",
+  "multiplier": 1.2
+ },
+ {
+  "name": "SPRING_SHOULDER",
+  "from": "04-01",
+  "to": "06-14",
+  "direction": "ANY",
+  "multiplier": 1.08
+ },
+ {
+  "name": "AUTUMN_SHOULDER",
+  "from": "09-16",
+  "to": "10-31",
+  "direction": "ANY",
+  "multiplier": 1.05
+ },
+ {
+  "name": "YEAR_END_HOLIDAYS",
+  "from": "12-18",
+  "to": "01-04",
+  "direction": "ANY",
+  "multiplier": 1.15
+ },
+ {
+  "name": "EID_AL_FITR_2027",
+  "from": "2027-03-04",
+  "to": "2027-03-14",
+  "direction": "ANY",
+  "multiplier": 1.2
+ },
+ {
+  "name": "EID_AL_ADHA_2027",
+  "from": "2027-05-10",
+  "to": "2027-05-21",
+  "direction": "ANY",
+  "multiplier": 1.2
+ }
+]

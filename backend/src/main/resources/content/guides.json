@@ -1,0 +1,425 @@
+[
+ {
+  "id": "documents",
+  "icon": "passport",
+  "title": {
+   "fr": "Documents de voyage",
+   "en": "Travel documents",
+   "ar": "وثائق السفر"
+  },
+  "summary": {
+   "fr": "Passeport, visa et pièces exigées à l'embarquement.",
+   "en": "Passport, visa and papers checked at boarding.",
+   "ar": "جواز السفر والتأشيرة والوثائق المطلوبة عند الصعود."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Passeport obligatoire",
+     "en": "Passport required",
+     "ar": "جواز السفر إلزامي"
+    },
+    "body": {
+     "fr": "Chaque passager, bébé compris, doit présenter un passeport valide pour toute la durée du voyage. La carte d'identité n'est pas acceptée sur les lignes d'Algérie. Visez une validité d'au moins 6 mois après le retour.",
+     "en": "Every passenger, babies included, needs a passport valid for the whole trip. ID cards are not accepted on Algeria lines. Aim for at least 6 months of validity after your return.",
+     "ar": "يجب على كل مسافر، بما في ذلك الرضع، تقديم جواز سفر صالح طوال مدة الرحلة. لا تُقبل بطاقة التعريف على خطوط الجزائر. يُستحسن أن تبقى الصلاحية 6 أشهر على الأقل بعد العودة."
+    },
+    "source": "https://ulysse.com/news/douane-algerie-2026-guide-diaspora-devises-vehicules-bagages"
+   },
+   {
+    "title": {
+     "fr": "Visa",
+     "en": "Visa",
+     "ar": "التأشيرة"
+    },
+    "body": {
+     "fr": "Les ressortissants algériens doivent détenir un visa Schengen ou un titre de séjour pour entrer en France, en Espagne ou en Italie. Les voyageurs étrangers vérifient s'ils ont besoin d'un visa algérien.",
+     "en": "Algerian nationals need a Schengen visa or a residence permit to enter France, Spain or Italy. Foreign travellers should check whether they need an Algerian visa.",
+     "ar": "يحتاج المواطنون الجزائريون إلى تأشيرة شنغن أو بطاقة إقامة لدخول فرنسا أو إسبانيا أو إيطاليا. على المسافرين الأجانب التحقق من حاجتهم إلى تأشيرة جزائرية."
+    }
+   },
+   {
+    "title": {
+     "fr": "Le nom doit être identique au passeport",
+     "en": "Name must match the passport",
+     "ar": "يجب أن يطابق الاسم جواز السفر"
+    },
+    "body": {
+     "fr": "Saisissez nom et prénom exactement comme sur la page d'identité du passeport : la compagnie transmet la liste des passagers aux autorités portuaires.",
+     "en": "Enter first and last names exactly as printed on the passport's data page: the operator sends the passenger list to port authorities.",
+     "ar": "أدخل الاسم واللقب تمامًا كما هما في صفحة البيانات بجواز السفر: ترسل الشركة قائمة المسافرين إلى سلطات الميناء."
+    }
+   }
+  ]
+ },
+ {
+  "id": "minors",
+  "icon": "child",
+  "title": {
+   "fr": "Voyager avec des enfants",
+   "en": "Travelling with children",
+   "ar": "السفر مع الأطفال"
+  },
+  "summary": {
+   "fr": "Âges, autorisations de sortie et règles des cabines.",
+   "en": "Ages, exit authorisations and cabin rules.",
+   "ar": "الأعمار وتراخيص الخروج وقواعد المقصورات."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Un adulte obligatoire",
+     "en": "An adult is mandatory",
+     "ar": "وجود شخص بالغ إلزامي"
+    },
+    "body": {
+     "fr": "Une réservation doit comprendre au moins un adulte de 18 ans ou plus. Chez GNV, les moins de 14 ans ne voyagent jamais seuls et les 14-17 ans seulement avec une autorisation écrite. Chaque bébé de moins de 2 ans doit avoir son propre adulte, et chaque cabine au moins un adulte.",
+     "en": "A booking must include at least one adult aged 18+. With GNV, under-14s never travel alone and 14–17-year-olds only with written authorisation. Each infant under 2 needs their own adult, and each cabin at least one adult.",
+     "ar": "يجب أن يتضمن الحجز شخصًا بالغًا واحدًا على الأقل (18 سنة فما فوق). لدى GNV لا يسافر من هم دون 14 سنة بمفردهم، ومن 14 إلى 17 سنة فقط بترخيص كتابي. يحتاج كل رضيع دون السنتين إلى بالغ خاص به، وكل مقصورة إلى بالغ على الأقل."
+    },
+    "source": "https://info.gnv.it/fr/condizioni-generali.html"
+   },
+   {
+    "title": {
+     "fr": "Autorisations",
+     "en": "Authorisations",
+     "ar": "التراخيص"
+    },
+    "body": {
+     "fr": "Depuis la France, un mineur qui voyage sans l'un de ses parents présente l'AST (autorisation de sortie du territoire) et la copie de la pièce d'identité du parent signataire. Pour quitter l'Algérie sans le père, une autorisation paternelle légalisée (commissariat, mairie ou consulat) peut être exigée.",
+     "en": "From France, a minor travelling without one of their parents carries the AST (exit authorisation) and a copy of the signing parent's ID. To leave Algeria without the father, a certified paternal authorisation (police station, town hall or consulate) may be required.",
+     "ar": "من فرنسا، يقدم القاصر الذي يسافر دون أحد والديه ترخيص الخروج من التراب (AST) مع نسخة من وثيقة هوية الوالد الموقّع. لمغادرة الجزائر دون الأب، قد يُطلب ترخيص أبوي مصادق عليه (محافظة الشرطة أو البلدية أو القنصلية)."
+    },
+    "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/F36350/1_1_2"
+   },
+   {
+    "title": {
+     "fr": "Tarifs enfants",
+     "en": "Child fares",
+     "ar": "أسعار الأطفال"
+    },
+    "body": {
+     "fr": "Les tranches d'âge varient : Algérie Ferries (bébé < 3 ans gratuit, enfant 3-12 ans -60 %), Baleària (bébé < 1 an gratuit, enfant 1-13 ans -50 %), GNV (gratuit < 4 ans sur la plupart des lignes). Indiquez l'âge exact de chaque enfant : WAVE applique la grille de chaque compagnie.",
+     "en": "Age bands differ: Algérie Ferries (infant < 3 free, child 3–12 −60 %), Baleària (infant < 1 free, child 1–13 −50 %), GNV (free under 4 on most lines). Enter each child's exact age: WAVE applies each operator's grid.",
+     "ar": "تختلف الفئات العمرية: الجزائر فيريز (رضيع أقل من 3 سنوات مجانًا، طفل 3-12 سنة تخفيض 60٪)، باليريا (رضيع أقل من سنة مجانًا، طفل 1-13 سنة تخفيض 50٪)، GNV (مجانًا دون 4 سنوات في معظم الخطوط). أدخل العمر الدقيق لكل طفل: تطبق WAVE جدول كل شركة."
+    }
+   }
+  ]
+ },
+ {
+  "id": "vehicles",
+  "icon": "car",
+  "title": {
+   "fr": "Voyager avec son véhicule",
+   "en": "Travelling with a vehicle",
+   "ar": "السفر بالمركبة"
+  },
+  "summary": {
+   "fr": "Catégories, papiers, TPD et restrictions d'été.",
+   "en": "Categories, papers, customs pass and summer restrictions.",
+   "ar": "الفئات والوثائق وسند المرور الجمركي وقيود الصيف."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Bien déclarer son véhicule",
+     "en": "Declare your vehicle correctly",
+     "ar": "صرّح بمركبتك بدقة"
+    },
+    "body": {
+     "fr": "Le prix dépend de la longueur et de la hauteur totale, coffre de toit ou porte-vélos compris. Une voiture standard mesure au plus 5 m et 1,90 m. Au-delà (SUV, monospace, galerie), le véhicule passe en catégorie haute. Une hauteur mal déclarée peut entraîner un supplément ou un refus au port.",
+     "en": "The price depends on length and total height, roof box or bike rack included. A standard car is at most 5 m long and 1.90 m high. Beyond that (SUV, MPV, roof rack) it becomes a high vehicle. A wrongly declared height can mean a surcharge or refusal at the port.",
+     "ar": "يعتمد السعر على الطول والارتفاع الإجمالي بما في ذلك صندوق السقف أو حامل الدراجات. السيارة العادية لا يتجاوز طولها 5 م وارتفاعها 1.90 م. ما فوق ذلك (رباعية الدفع، العائلية، الحامل) يُصنف كمركبة عالية. التصريح الخاطئ بالارتفاع قد يؤدي إلى رسوم إضافية أو الرفض في الميناء."
+    }
+   },
+   {
+    "title": {
+     "fr": "Papiers du véhicule",
+     "en": "Vehicle papers",
+     "ar": "وثائق المركبة"
+    },
+    "body": {
+     "fr": "Carte grise au nom du conducteur (ou procuration), permis de conduire, assurance carte verte valable en Algérie et, pour un véhicule immatriculé à l'étranger, le titre de passage en douane (TPD) : demande en ligne sur ALCES (alces.douane.gov.dz) ou à bord entre Marseille et l'Algérie. Le TPD des Algériens résidant à l'étranger vaut 6 mois par période de 12 mois.",
+     "en": "Registration certificate in the driver's name (or power of attorney), driving licence, green-card insurance valid in Algeria and, for a foreign-registered vehicle, the customs pass (TPD): apply online on ALCES (alces.douane.gov.dz) or on board between Marseille and Algeria. For Algerians living abroad the TPD lasts 6 months per 12-month period.",
+     "ar": "البطاقة الرمادية باسم السائق (أو وكالة)، رخصة السياقة، تأمين البطاقة الخضراء صالح في الجزائر، وبالنسبة للمركبة المسجلة في الخارج سند المرور الجمركي (TPD): يُطلب عبر منصة ALCES (alces.douane.gov.dz) أو على متن السفينة بين مرسيليا والجزائر. صلاحية TPD للجزائريين المقيمين بالخارج 6 أشهر في كل فترة 12 شهرًا."
+    },
+    "source": "https://www.eplaque.fr/infos/titre-passage-douane-en-ligne-algerie"
+   },
+   {
+    "title": {
+     "fr": "Restrictions de l'été",
+     "en": "Summer restrictions",
+     "ar": "قيود الصيف"
+    },
+    "body": {
+     "fr": "Du 15 juin au 15 septembre : fourgons et utilitaires interdits sur les navires de passagers vers tous les ports algériens ; véhicules neufs ou de moins de 3 ans achetés à l'étranger refusés à Alger et Oran. WAVE masque ou signale automatiquement les traversées concernées.",
+     "en": "From 15 June to 15 September: vans and utility vehicles banned on passenger ships to all Algerian ports; new or under-3-year-old vehicles bought abroad refused at Algiers and Oran. WAVE hides or flags affected sailings automatically.",
+     "ar": "من 15 جوان إلى 15 سبتمبر: يُمنع نقل الشاحنات الصغيرة والمركبات النفعية على سفن المسافرين نحو جميع الموانئ الجزائرية، وتُرفض المركبات الجديدة أو التي يقل عمرها عن 3 سنوات والمشتراة من الخارج في الجزائر ووهران. تُخفي WAVE الرحلات المعنية أو تنبه إليها تلقائيًا."
+    },
+    "source": "https://algerie-eco.com/2026/05/30/transport-maritime-reconduction-des-restrictions-sur-certains-vehicules-pour-lete-2026/"
+   }
+  ]
+ },
+ {
+  "id": "pets",
+  "icon": "pets",
+  "title": {
+   "fr": "Voyager avec un animal",
+   "en": "Travelling with a pet",
+   "ar": "السفر مع حيوان أليف"
+  },
+  "summary": {
+   "fr": "Puce, rage, certificat et titrage pour le retour en Europe.",
+   "en": "Microchip, rabies, certificate and titration to return to Europe.",
+   "ar": "الشريحة، داء الكلب، الشهادة والمعايرة للعودة إلى أوروبا."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Documents",
+     "en": "Documents",
+     "ar": "الوثائق"
+    },
+    "body": {
+     "fr": "Puce électronique (ou tatouage lisible fait avant le 3 juillet 2011), vaccination antirabique faite entre 21 jours et 12 mois avant le départ, certificat sanitaire établi par votre vétérinaire et visé par un vétérinaire officiel dans les 48 h avant l'embarquement.",
+     "en": "Microchip (or readable tattoo made before 3 July 2011), rabies vaccination done between 21 days and 12 months before departure, health certificate from your vet endorsed by an official vet within 48 h before boarding.",
+     "ar": "شريحة إلكترونية (أو وشم مقروء قبل 3 جويلية 2011)، تلقيح ضد داء الكلب بين 21 يومًا و12 شهرًا قبل السفر، وشهادة صحية من بيطري مصادق عليها من بيطري رسمي خلال 48 ساعة قبل الصعود."
+    },
+    "source": "https://algerieferries.com/algerie-ferries/guide-de-passager/animaux"
+   },
+   {
+    "title": {
+     "fr": "Retour vers l'Union européenne",
+     "en": "Returning to the EU",
+     "ar": "العودة إلى الاتحاد الأوروبي"
+    },
+    "body": {
+     "fr": "Depuis l'Algérie, l'entrée dans l'UE exige un titrage des anticorps antirabiques réalisé dans un laboratoire agréé au moins 3 mois avant. Si le titrage a été fait avant de quitter l'UE, ce délai ne s'applique pas : faites-le avant le départ.",
+     "en": "From Algeria, entering the EU requires a rabies antibody titration done in an approved lab at least 3 months before. If it was done before leaving the EU, the waiting time does not apply: do it before you go.",
+     "ar": "من الجزائر، يتطلب دخول الاتحاد الأوروبي معايرة الأجسام المضادة لداء الكلب في مخبر معتمد قبل 3 أشهر على الأقل. إذا أُجريت قبل مغادرة الاتحاد الأوروبي فلا تُطبق هذه المهلة: قم بها قبل السفر."
+    },
+    "source": "https://anivetvoyage.com/pays/algerie/"
+   },
+   {
+    "title": {
+     "fr": "À bord",
+     "en": "On board",
+     "ar": "على متن السفينة"
+    },
+    "body": {
+     "fr": "Selon le navire : chenil, cabine « animaux admis » (GNV, Baleària, Corsica Linea) ou pont extérieur en laisse et muselière. Les animaux sont interdits dans les salons fauteuils et les cabines ordinaires. WAVE ne propose que les traversées compatibles.",
+     "en": "Depending on the ship: kennel, pet-friendly cabin (GNV, Baleària, Corsica Linea) or outside deck on a leash with a muzzle. Pets are not allowed in seat lounges or ordinary cabins. WAVE only offers compatible sailings.",
+     "ar": "حسب السفينة: بيت للحيوانات، مقصورة مخصصة للحيوانات (GNV، باليريا، كورسيكا لينيا) أو السطح الخارجي برسن وكمامة. تُمنع الحيوانات في صالات المقاعد والمقصورات العادية. لا تعرض WAVE إلا الرحلات المناسبة."
+    }
+   }
+  ]
+ },
+ {
+  "id": "checkin",
+  "icon": "schedule",
+  "title": {
+   "fr": "Enregistrement et embarquement",
+   "en": "Check-in and boarding",
+   "ar": "التسجيل والصعود"
+  },
+  "summary": {
+   "fr": "À quelle heure arriver au port.",
+   "en": "When to be at the port.",
+   "ar": "متى يجب الوصول إلى الميناء."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Horaires de référence (Marseille – Alger)",
+     "en": "Reference times (Marseille – Algiers)",
+     "ar": "المواعيد المرجعية (مرسيليا – الجزائر)"
+    },
+    "body": {
+     "fr": "À pied : enregistrement de 4 h à 1 h avant le départ, arrivée conseillée 2 h avant. Avec véhicule : de 7 h à 1 h 30 avant, arrivée conseillée 3 h avant. En retard, l'embarquement peut être refusé.",
+     "en": "On foot: check-in from 4 h to 1 h before departure, be there 2 h before. With a vehicle: from 7 h to 1 h 30 before, be there 3 h before. Late passengers may be refused.",
+     "ar": "للمشاة: التسجيل من 4 ساعات إلى ساعة قبل المغادرة، ويُنصح بالحضور قبل ساعتين. مع مركبة: من 7 ساعات إلى ساعة ونصف قبل المغادرة، ويُنصح بالحضور قبل 3 ساعات. قد يُرفض صعود المتأخرين."
+    },
+    "source": "https://ferryguide.fr/routes/ferry-marseille-alger/"
+   },
+   {
+    "title": {
+     "fr": "Heures locales",
+     "en": "Local times",
+     "ar": "التوقيت المحلي"
+    },
+    "body": {
+     "fr": "Les horaires affichés sont ceux du port concerné. L'Algérie reste à UTC+1 toute l'année alors que la France, l'Espagne et l'Italie passent à UTC+2 en été : WAVE convertit automatiquement.",
+     "en": "Times shown are those of each port. Algeria stays on UTC+1 all year while France, Spain and Italy move to UTC+2 in summer: WAVE converts automatically.",
+     "ar": "المواعيد المعروضة هي بتوقيت كل ميناء. تبقى الجزائر على توقيت UTC+1 طوال السنة بينما تنتقل فرنسا وإسبانيا وإيطاليا إلى UTC+2 صيفًا: تقوم WAVE بالتحويل تلقائيًا."
+    }
+   }
+  ]
+ },
+ {
+  "id": "baggage",
+  "icon": "luggage",
+  "title": {
+   "fr": "Bagages",
+   "en": "Baggage",
+   "ar": "الأمتعة"
+  },
+  "summary": {
+   "fr": "Franchises par compagnie.",
+   "en": "Allowances per operator.",
+   "ar": "الحدود المسموح بها لكل شركة."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Franchises",
+     "en": "Allowances",
+     "ar": "الحدود المسموح بها"
+    },
+    "body": {
+     "fr": "Algérie Ferries : 60 kg par adulte en cabine, 30 kg en fauteuil (lignes France et Espagne). Les autres compagnies appliquent des franchises proches ; les bagages volumineux voyagent dans votre véhicule.",
+     "en": "Algérie Ferries: 60 kg per adult in a cabin, 30 kg with a seat (France and Spain lines). Other operators apply similar allowances; bulky luggage travels in your vehicle.",
+     "ar": "الجزائر فيريز: 60 كغ لكل بالغ في المقصورة و30 كغ مع المقعد (خطوط فرنسا وإسبانيا). تطبق الشركات الأخرى حدودًا مماثلة، وتُنقل الأمتعة الكبيرة داخل مركبتك."
+    },
+    "source": "https://algerieferries.com/guide-de-passager/conditions-generales"
+   }
+  ]
+ },
+ {
+  "id": "cancellation",
+  "icon": "policy",
+  "title": {
+   "fr": "Annulation et modification",
+   "en": "Cancellation and changes",
+   "ar": "الإلغاء والتعديل"
+  },
+  "summary": {
+   "fr": "Frais selon le tarif choisi.",
+   "en": "Fees depend on the fare.",
+   "ar": "الرسوم حسب التعريفة."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Algérie Ferries (tarif Standard F0)",
+     "en": "Algérie Ferries (Standard F0)",
+     "ar": "الجزائر فيريز (التعريفة العادية F0)"
+    },
+    "body": {
+     "fr": "20 % jusqu'à 30 jours avant le départ, 30 % de 29 à 10 jours, 50 % de 9 jours à 48 h, 100 % à moins de 48 h. Les tarifs Promo et Open ne sont pas remboursables. Billet acheté à bord : +10 %.",
+     "en": "20 % until 30 days before departure, 30 % from 29 to 10 days, 50 % from 9 days to 48 h, 100 % under 48 h. Promo and Open fares are non-refundable. Tickets bought on board: +10 %.",
+     "ar": "20٪ حتى 30 يومًا قبل المغادرة، 30٪ من 29 إلى 10 أيام، 50٪ من 9 أيام إلى 48 ساعة، 100٪ قبل أقل من 48 ساعة. التعريفات الترويجية والمفتوحة غير قابلة للاسترداد. التذكرة المشتراة على متن السفينة: +10٪."
+    },
+    "source": "https://algerieferries.com/guide-de-passager/conditions-generales"
+   },
+   {
+    "title": {
+     "fr": "Autres compagnies",
+     "en": "Other operators",
+     "ar": "الشركات الأخرى"
+    },
+    "body": {
+     "fr": "Corsica Linea Flex : gratuit jusqu'à ~30 jours puis pénalités ; Super Flex : gratuit jusqu'à 7 jours. Baleària : remboursement intégral sous 24 h après l'achat, puis 10 % jusqu'à 48 h et 20 % entre 48 h et 24 h. Les conditions exactes de votre billet sont affichées avant le paiement.",
+     "en": "Corsica Linea Flex: free until ~30 days then penalties; Super Flex: free until 7 days. Baleària: full refund within 24 h of purchase, then 10 % until 48 h and 20 % between 48 h and 24 h. Your ticket's exact conditions are shown before payment.",
+     "ar": "كورسيكا لينيا Flex: مجاني حتى حوالي 30 يومًا ثم غرامات؛ Super Flex: مجاني حتى 7 أيام. باليريا: استرداد كامل خلال 24 ساعة من الشراء، ثم 10٪ حتى 48 ساعة و20٪ بين 48 و24 ساعة. تُعرض الشروط الدقيقة لتذكرتك قبل الدفع."
+    }
+   }
+  ]
+ },
+ {
+  "id": "rights",
+  "icon": "gavel",
+  "title": {
+   "fr": "Vos droits",
+   "en": "Your rights",
+   "ar": "حقوقك"
+  },
+  "summary": {
+   "fr": "Retards et annulations (règlement UE 1177/2010).",
+   "en": "Delays and cancellations (EU Regulation 1177/2010).",
+   "ar": "التأخير والإلغاء (اللائحة الأوروبية 1177/2010)."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Au départ d'un port européen",
+     "en": "Departing from an EU port",
+     "ar": "المغادرة من ميناء أوروبي"
+    },
+    "body": {
+     "fr": "Information au plus tard 30 min après l'heure prévue ; collations si le retard dépasse 90 min ; choix entre remboursement et réacheminement ; indemnisation de 25 % à 50 % du prix selon le retard à l'arrivée, sauf météo ou circonstances extraordinaires.",
+     "en": "Information within 30 min of the scheduled time; refreshments if the delay exceeds 90 min; choice between refund and re-routing; compensation of 25 % to 50 % of the fare depending on the arrival delay, except for weather or extraordinary circumstances.",
+     "ar": "الإعلام في غضون 30 دقيقة من الموعد المقرر؛ وجبات خفيفة إذا تجاوز التأخير 90 دقيقة؛ الاختيار بين الاسترداد وإعادة التوجيه؛ تعويض من 25٪ إلى 50٪ من السعر حسب تأخير الوصول، باستثناء الأحوال الجوية أو الظروف الاستثنائية."
+    },
+    "source": "https://eur-lex.europa.eu/FR/legal-content/summary/rights-of-passengers-travelling-by-sea-and-inland-waterways.html"
+   }
+  ]
+ },
+ {
+  "id": "payment",
+  "icon": "payments",
+  "title": {
+   "fr": "Paiement et devises",
+   "en": "Payment and currencies",
+   "ar": "الدفع والعملات"
+  },
+  "summary": {
+   "fr": "CIB, EDAHABIA, carte internationale ou agence.",
+   "en": "CIB, EDAHABIA, international card or agency.",
+   "ar": "CIB، الذهبية، بطاقة دولية أو الوكالة."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "En dinars",
+     "en": "In dinars",
+     "ar": "بالدينار"
+    },
+    "body": {
+     "fr": "Payez en DZD avec votre carte CIB ou EDAHABIA via la passerelle SATIM, ou en espèces en agence sous 24 h. Les prix des compagnies européennes sont convertis au cours officiel de la Banque d'Algérie du jour.",
+     "en": "Pay in DZD with your CIB or EDAHABIA card through the SATIM gateway, or in cash at the agency within 24 h. European operators' prices are converted at the Banque d'Algérie official rate of the day.",
+     "ar": "ادفع بالدينار ببطاقة CIB أو الذهبية عبر بوابة SATIM، أو نقدًا في الوكالة خلال 24 ساعة. تُحوّل أسعار الشركات الأوروبية بسعر الصرف الرسمي لبنك الجزائر لذلك اليوم."
+    }
+   },
+   {
+    "title": {
+     "fr": "En euros ou en dollars",
+     "en": "In euros or dollars",
+     "ar": "باليورو أو الدولار"
+    },
+    "body": {
+     "fr": "Depuis l'étranger, payez par carte internationale en EUR ou USD. Vous pouvez afficher tous les prix en DA, € ou $ à tout moment.",
+     "en": "From abroad, pay by international card in EUR or USD. You can show every price in DZD, € or $ at any time.",
+     "ar": "من الخارج، ادفع ببطاقة دولية باليورو أو الدولار. يمكنك عرض جميع الأسعار بالدينار أو اليورو أو الدولار في أي وقت."
+    }
+   }
+  ]
+ },
+ {
+  "id": "accessibility",
+  "icon": "accessible",
+  "title": {
+   "fr": "Mobilité réduite",
+   "en": "Reduced mobility",
+   "ar": "ذوو الحركة المحدودة"
+  },
+  "summary": {
+   "fr": "Cabines adaptées et assistance.",
+   "en": "Adapted cabins and assistance.",
+   "ar": "مقصورات مهيأة ومساعدة."
+  },
+  "sections": [
+   {
+    "title": {
+     "fr": "Prévenir 48 h avant",
+     "en": "Notify 48 h before",
+     "ar": "الإبلاغ قبل 48 ساعة"
+    },
+    "body": {
+     "fr": "Signalez fauteuil roulant ou besoin d'assistance au moins 48 h avant le départ. Les cabines PMR sont en nombre limité : WAVE n'affiche que les traversées qui en disposent. Algérie Ferries accorde -60 % aux personnes à besoins spécifiques.",
+     "en": "Report a wheelchair or assistance needs at least 48 h before departure. Accessible cabins are limited: WAVE only shows sailings that have one. Algérie Ferries gives −60 % to people with specific needs.",
+     "ar": "أبلغ عن الكرسي المتحرك أو الحاجة إلى المساعدة قبل 48 ساعة على الأقل من المغادرة. المقصورات المهيأة محدودة: لا تعرض WAVE إلا الرحلات التي تتوفر عليها. تمنح الجزائر فيريز تخفيضًا بنسبة 60٪ لذوي الاحتياجات الخاصة."
+    }
+   }
+  ]
+ }
+]

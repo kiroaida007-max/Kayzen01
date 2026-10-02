@@ -1,0 +1,630 @@
+[
+ {
+  "id": "AF-BMK3-S",
+  "operator": "AF",
+  "vessel": "BMK3",
+  "season": "SUMMER",
+  "startDay": "WED",
+  "legs": [
+   {
+    "route": "AF-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "15:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-ALG-MRS",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-MRS-ALG",
+    "dayOffset": 3,
+    "departure": "15:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-ALG-MRS",
+    "dayOffset": 5,
+    "departure": "13:00",
+    "durationMin": 1200
+   }
+  ]
+ },
+ {
+  "id": "AF-BMK3-W",
+  "operator": "AF",
+  "vessel": "BMK3",
+  "season": "WINTER",
+  "startDay": "WED",
+  "legs": [
+   {
+    "route": "AF-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "15:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-ALG-MRS",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 1200
+   }
+  ]
+ },
+ {
+  "id": "AF-TSL2-S",
+  "operator": "AF",
+  "vessel": "TSL2",
+  "season": "SUMMER",
+  "startDay": "SAT",
+  "legs": [
+   {
+    "route": "AF-MRS-BJA",
+    "dayOffset": 3,
+    "departure": "13:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-BJA-MRS",
+    "dayOffset": 4,
+    "departure": "19:00",
+    "durationMin": 1200
+   }
+  ]
+ },
+ {
+  "id": "AF-TSL2-W",
+  "operator": "AF",
+  "vessel": "TSL2",
+  "season": "WINTER",
+  "startDay": "SAT",
+  "legs": [
+   {
+    "route": "AF-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "15:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-ALG-MRS",
+    "dayOffset": 2,
+    "departure": "13:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "AF-MRS-BJA",
+    "dayOffset": 3,
+    "departure": "13:00",
+    "durationMin": 1200,
+    "weekParity": 0
+   },
+   {
+    "route": "AF-BJA-MRS",
+    "dayOffset": 4,
+    "departure": "19:00",
+    "durationMin": 1200,
+    "weekParity": 0
+   }
+  ]
+ },
+ {
+  "id": "AF-EDJ2-S",
+  "operator": "AF",
+  "vessel": "EDJ2",
+  "season": "SUMMER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "AF-ALG-ALC",
+    "dayOffset": 0,
+    "departure": "21:00",
+    "durationMin": 780
+   },
+   {
+    "route": "AF-ALC-ALG",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 780
+   },
+   {
+    "route": "AF-ALG-ALC",
+    "dayOffset": 3,
+    "departure": "21:00",
+    "durationMin": 780
+   },
+   {
+    "route": "AF-ALC-ALG",
+    "dayOffset": 4,
+    "departure": "20:00",
+    "durationMin": 780
+   }
+  ]
+ },
+ {
+  "id": "AF-EDJ2-W",
+  "operator": "AF",
+  "vessel": "EDJ2",
+  "season": "WINTER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "AF-ALG-ALC",
+    "dayOffset": 0,
+    "departure": "21:00",
+    "durationMin": 780
+   },
+   {
+    "route": "AF-ALC-ALG",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 780
+   }
+  ]
+ },
+ {
+  "id": "AF-TIZ-S",
+  "operator": "AF",
+  "vessel": "TIZ",
+  "season": "SUMMER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "AF-MRS-ORN",
+    "dayOffset": 0,
+    "departure": "14:00",
+    "durationMin": 1560
+   },
+   {
+    "route": "AF-ORN-ALC",
+    "dayOffset": 1,
+    "departure": "22:00",
+    "durationMin": 600
+   },
+   {
+    "route": "AF-ALC-ORN",
+    "dayOffset": 2,
+    "departure": "14:00",
+    "durationMin": 600
+   },
+   {
+    "route": "AF-ORN-MRS",
+    "dayOffset": 3,
+    "departure": "13:00",
+    "durationMin": 1560
+   },
+   {
+    "route": "AF-MRS-SKI",
+    "dayOffset": 4,
+    "departure": "22:00",
+    "durationMin": 1440,
+    "weeksOfMonth": [
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "route": "AF-SKI-MRS",
+    "dayOffset": 6,
+    "departure": "08:00",
+    "durationMin": 1440,
+    "weeksOfMonth": [
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "route": "AF-MRS-AAE",
+    "dayOffset": 4,
+    "departure": "22:00",
+    "durationMin": 1320,
+    "weeksOfMonth": [
+     4
+    ],
+    "months": [
+     7,
+     8,
+     9
+    ]
+   },
+   {
+    "route": "AF-AAE-MRS",
+    "dayOffset": 6,
+    "departure": "08:00",
+    "durationMin": 1320,
+    "weeksOfMonth": [
+     4
+    ],
+    "months": [
+     7,
+     8,
+     9
+    ]
+   }
+  ]
+ },
+ {
+  "id": "AF-TIZ-W",
+  "operator": "AF",
+  "vessel": "TIZ",
+  "season": "WINTER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "AF-MRS-ORN",
+    "dayOffset": 0,
+    "departure": "14:00",
+    "durationMin": 1560
+   },
+   {
+    "route": "AF-ORN-ALC",
+    "dayOffset": 1,
+    "departure": "22:00",
+    "durationMin": 600
+   },
+   {
+    "route": "AF-ALC-ORN",
+    "dayOffset": 2,
+    "departure": "14:00",
+    "durationMin": 600
+   },
+   {
+    "route": "AF-ORN-MRS",
+    "dayOffset": 3,
+    "departure": "13:00",
+    "durationMin": 1560
+   }
+  ]
+ },
+ {
+  "id": "CL-MED-S",
+  "operator": "CL",
+  "vessel": "MED",
+  "season": "SUMMER",
+  "startDay": "TUE",
+  "legs": [
+   {
+    "route": "CL-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "10:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-ALG-MRS",
+    "dayOffset": 1,
+    "departure": "17:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-MRS-ALG",
+    "dayOffset": 3,
+    "departure": "10:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-ALG-MRS",
+    "dayOffset": 4,
+    "departure": "17:00",
+    "durationMin": 1440
+   }
+  ]
+ },
+ {
+  "id": "CL-DCA-S",
+  "operator": "CL",
+  "vessel": "DCA",
+  "season": "SUMMER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "CL-MRS-BJA",
+    "dayOffset": 0,
+    "departure": "12:00",
+    "durationMin": 1260
+   },
+   {
+    "route": "CL-BJA-MRS",
+    "dayOffset": 1,
+    "departure": "18:00",
+    "durationMin": 1260
+   },
+   {
+    "route": "CL-MRS-BJA",
+    "dayOffset": 3,
+    "departure": "12:00",
+    "durationMin": 1260
+   },
+   {
+    "route": "CL-BJA-MRS",
+    "dayOffset": 4,
+    "departure": "18:00",
+    "durationMin": 1260
+   }
+  ]
+ },
+ {
+  "id": "CL-DCA-W",
+  "operator": "CL",
+  "vessel": "DCA",
+  "season": "WINTER",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "CL-MRS-ALG",
+    "dayOffset": 1,
+    "departure": "12:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-ALG-MRS",
+    "dayOffset": 2,
+    "departure": "20:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-MRS-BJA",
+    "dayOffset": 4,
+    "departure": "12:00",
+    "durationMin": 1260,
+    "weekParity": 0
+   },
+   {
+    "route": "CL-BJA-MRS",
+    "dayOffset": 5,
+    "departure": "18:00",
+    "durationMin": 1260,
+    "weekParity": 0
+   }
+  ]
+ },
+ {
+  "id": "CL-TBA-S",
+  "operator": "CL",
+  "vessel": null,
+  "season": "SUMMER",
+  "startDay": "SUN",
+  "legs": [
+   {
+    "route": "CL-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "19:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-ALG-MRS",
+    "dayOffset": 1,
+    "departure": "22:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "CL-MRS-SKI",
+    "dayOffset": 3,
+    "departure": "10:00",
+    "durationMin": 1560
+   },
+   {
+    "route": "CL-SKI-MRS",
+    "dayOffset": 4,
+    "departure": "19:00",
+    "durationMin": 1560
+   }
+  ]
+ },
+ {
+  "id": "GNV-FAN",
+  "operator": "GNV",
+  "vessel": "FAN",
+  "season": "ALL",
+  "startDay": "TUE",
+  "legs": [
+   {
+    "route": "GNV-SET-ALG",
+    "dayOffset": 0,
+    "departure": "16:00",
+    "durationMin": 1440
+   },
+   {
+    "route": "GNV-ALG-SET",
+    "dayOffset": 1,
+    "departure": "18:00",
+    "durationMin": 1500
+   },
+   {
+    "route": "GNV-SET-BJA",
+    "dayOffset": 3,
+    "departure": "12:00",
+    "durationMin": 1200
+   },
+   {
+    "route": "GNV-BJA-SET",
+    "dayOffset": 4,
+    "departure": "18:00",
+    "durationMin": 1260
+   }
+  ]
+ },
+ {
+  "id": "GNV-CRI",
+  "operator": "GNV",
+  "vessel": "CRI",
+  "season": "ALL",
+  "startDay": "TUE",
+  "legs": [
+   {
+    "route": "GNV-CVV-AAE",
+    "dayOffset": 0,
+    "departure": "20:00",
+    "durationMin": 1410,
+    "validFrom": "2026-08-08"
+   },
+   {
+    "route": "GNV-AAE-CVV",
+    "dayOffset": 2,
+    "departure": "12:00",
+    "durationMin": 1410,
+    "validFrom": "2026-08-08"
+   },
+   {
+    "route": "GNV-CVV-AAE",
+    "dayOffset": 4,
+    "departure": "20:00",
+    "durationMin": 1410,
+    "validFrom": "2026-08-08"
+   },
+   {
+    "route": "GNV-AAE-CVV",
+    "dayOffset": 6,
+    "departure": "12:00",
+    "durationMin": 1410,
+    "validFrom": "2026-08-08"
+   }
+  ]
+ },
+ {
+  "id": "BAL-RBA",
+  "operator": "BAL",
+  "vessel": "RBA",
+  "season": "ALL",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "BAL-BCN-ALG",
+    "dayOffset": 0,
+    "departure": "13:00",
+    "durationMin": 1080
+   },
+   {
+    "route": "BAL-ALG-VLC",
+    "dayOffset": 1,
+    "departure": "18:30",
+    "durationMin": 930
+   },
+   {
+    "route": "BAL-VLC-ORN",
+    "dayOffset": 2,
+    "departure": "18:30",
+    "durationMin": 900
+   },
+   {
+    "route": "BAL-ORN-VLC",
+    "dayOffset": 3,
+    "departure": "15:00",
+    "durationMin": 900
+   },
+   {
+    "route": "BAL-VLC-ALG",
+    "dayOffset": 4,
+    "departure": "19:00",
+    "durationMin": 840
+   },
+   {
+    "route": "BAL-ALG-BCN",
+    "dayOffset": 5,
+    "departure": "14:00",
+    "durationMin": 1080
+   }
+  ]
+ },
+ {
+  "id": "BAL-VIS",
+  "operator": "BAL",
+  "vessel": "VIS",
+  "season": "ALL",
+  "startDay": "MON",
+  "legs": [
+   {
+    "route": "BAL-VLC-MOS",
+    "dayOffset": 0,
+    "departure": "23:00",
+    "durationMin": 900
+   },
+   {
+    "route": "BAL-MOS-VLC",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 900
+   }
+  ]
+ },
+ {
+  "id": "NE-CRA",
+  "operator": "NE",
+  "vessel": "CRA",
+  "season": "ALL",
+  "startDay": "FRI",
+  "legs": [
+   {
+    "route": "NE-MRS-ALG",
+    "dayOffset": 0,
+    "departure": "19:00",
+    "durationMin": 1380
+   },
+   {
+    "route": "NE-ALG-ALC",
+    "dayOffset": 1,
+    "departure": "23:00",
+    "durationMin": 960
+   },
+   {
+    "route": "NE-ALC-ORN",
+    "dayOffset": 2,
+    "departure": "21:00",
+    "durationMin": 660
+   },
+   {
+    "route": "NE-ORN-ALC",
+    "dayOffset": 3,
+    "departure": "14:00",
+    "durationMin": 660
+   },
+   {
+    "route": "NE-ALC-ALG",
+    "dayOffset": 4,
+    "departure": "10:00",
+    "durationMin": 960
+   },
+   {
+    "route": "NE-ALG-MRS",
+    "dayOffset": 5,
+    "departure": "13:00",
+    "durationMin": 1440
+   }
+  ]
+ },
+ {
+  "id": "ATM-ALM",
+  "operator": "ATM",
+  "vessel": "ALM",
+  "season": "ALL",
+  "startDay": "TUE",
+  "legs": [
+   {
+    "route": "ATM-LEI-ORN",
+    "dayOffset": 0,
+    "departure": "23:00",
+    "durationMin": 600
+   },
+   {
+    "route": "ATM-ORN-LEI",
+    "dayOffset": 1,
+    "departure": "20:00",
+    "durationMin": 600
+   },
+   {
+    "route": "ATM-LEI-GHZ",
+    "dayOffset": 3,
+    "departure": "22:00",
+    "durationMin": 690
+   },
+   {
+    "route": "ATM-GHZ-LEI",
+    "dayOffset": 4,
+    "departure": "19:00",
+    "durationMin": 720
+   }
+  ]
+ }
+]

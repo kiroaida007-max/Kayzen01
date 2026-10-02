@@ -1,0 +1,648 @@
+[
+ {
+  "code": "AF",
+  "name": "Algérie Ferries",
+  "legalName": "ENTMV — Entreprise Nationale de Transport Maritime de Voyageurs",
+  "country": "DZ",
+  "website": "https://www.algerieferries.dz",
+  "color": "#0B7A4B",
+  "active": true,
+  "publishedUntil": "2027-03-31",
+  "markets": {
+   "fr": "Algérie ↔ France / Espagne",
+   "en": "Algeria ↔ France / Spain",
+   "ar": "الجزائر ↔ فرنسا / إسبانيا"
+  },
+  "description": {
+   "fr": "Compagnie nationale algérienne : Marseille et Alicante vers Alger, Oran, Béjaïa, Skikda et Annaba. Tarif unique pour tous les Algériens depuis 2026.",
+   "en": "Algeria's national ferry company: Marseille and Alicante to Algiers, Oran, Bejaia, Skikda and Annaba. One price for all Algerians since 2026.",
+   "ar": "الشركة الوطنية الجزائرية: من مرسيليا وأليكانتي إلى الجزائر ووهران وبجاية وسكيكدة وعنابة. سعر موحد لجميع الجزائريين منذ 2026."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 2,
+    "childMaxAge": 12,
+    "youthMaxAge": 25
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.6,
+    "youth": 0.0,
+    "senior": 0.0,
+    "pmr": 0.6
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Promo",
+      "en": "Promo",
+      "ar": "ترويجي"
+     },
+     "multiplier": 0.85,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 21,
+     "maxLoadFactor": 0.75
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Standard (F0)",
+      "en": "Standard (F0)",
+      "ar": "عادي (F0)"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 720,
+       "feePercent": 0.2
+      },
+      {
+       "minHoursBefore": 240,
+       "feePercent": 0.3
+      },
+      {
+       "minHoursBefore": 48,
+       "feePercent": 0.5
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 30,
+    "cabinKg": 60
+   },
+   "minAgeToTravelAlone": 18,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "onboardSurchargePercent": 0.1,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 4,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "CL",
+  "name": "Corsica Linea",
+  "country": "FR",
+  "website": "https://www.corsicalinea.com",
+  "color": "#E2231A",
+  "active": true,
+  "publishedUntil": "2027-01-10",
+  "markets": {
+   "fr": "Algérie ↔ France",
+   "en": "Algeria ↔ France",
+   "ar": "الجزائر ↔ فرنسا"
+  },
+  "description": {
+   "fr": "Compagnie marseillaise : Marseille vers Alger, Béjaïa et Skikda. Le Méditerranée et le Danielle Casanova assurent l'été.",
+   "en": "Marseille-based operator: Marseille to Algiers, Bejaia and Skikda. Méditerranée and Danielle Casanova sail in summer.",
+   "ar": "شركة مقرها مرسيليا: من مرسيليا إلى الجزائر وبجاية وسكيكدة. سفينتا Méditerranée وDanielle Casanova في الصيف."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 2,
+    "childMaxAge": 12,
+    "seniorMinAge": 60
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.3,
+    "senior": 0.25
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Prix mini",
+      "en": "Lowest fare",
+      "ar": "أدنى سعر"
+     },
+     "multiplier": 0.9,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 30,
+     "maxLoadFactor": 0.7
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Flex",
+      "en": "Flex",
+      "ar": "مرن"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "modificationFee": 0.1,
+     "cancellation": [
+      {
+       "minHoursBefore": 720,
+       "feePercent": 0.0
+      },
+      {
+       "minHoursBefore": 168,
+       "feePercent": 0.3
+      },
+      {
+       "minHoursBefore": 48,
+       "feePercent": 0.5
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    },
+    {
+     "code": "FLEX",
+     "name": {
+      "fr": "Super Flex",
+      "en": "Super Flex",
+      "ar": "مرن جدا"
+     },
+     "multiplier": 1.12,
+     "refundable": true,
+     "modifiable": true,
+     "modificationFee": 0.05,
+     "cancellation": [
+      {
+       "minHoursBefore": 168,
+       "feePercent": 0.0
+      },
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.25
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 30,
+    "cabinKg": 60
+   },
+   "minAgeToTravelAlone": 18,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 3,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "GNV",
+  "name": "GNV",
+  "legalName": "Grandi Navi Veloci (MSC)",
+  "country": "IT",
+  "website": "https://www.gnv.it",
+  "color": "#00377B",
+  "active": true,
+  "publishedUntil": "2027-05-31",
+  "markets": {
+   "fr": "Algérie ↔ France / Italie",
+   "en": "Algeria ↔ France / Italy",
+   "ar": "الجزائر ↔ فرنسا / إيطاليا"
+  },
+  "description": {
+   "fr": "Sète vers Alger et Béjaïa, Civitavecchia vers Annaba depuis août 2026. Repas halal, salle de prière, cabines animaux.",
+   "en": "Sète to Algiers and Bejaia, Civitavecchia to Annaba since August 2026. Halal meals, prayer room, pet cabins.",
+   "ar": "من سات إلى الجزائر وبجاية، ومن تشيفيتافيكيا إلى عنابة منذ أوت 2026. وجبات حلال، قاعة صلاة، مقصورات للحيوانات."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 3,
+    "childMaxAge": 11
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.4
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Promo",
+      "en": "Promo",
+      "ar": "ترويجي"
+     },
+     "multiplier": 0.85,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 14,
+     "maxLoadFactor": 0.8
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Standard",
+      "en": "Standard",
+      "ar": "عادي"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 720,
+       "feePercent": 0.1
+      },
+      {
+       "minHoursBefore": 168,
+       "feePercent": 0.3
+      },
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.5
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    },
+    {
+     "code": "FLEX",
+     "name": {
+      "fr": "Flex",
+      "en": "Flex",
+      "ar": "مرن"
+     },
+     "multiplier": 1.15,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.0
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 30,
+    "cabinKg": 60
+   },
+   "minAgeToTravelAlone": 18,
+   "minAgeAloneWithAuthorization": 14,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 3,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "BAL",
+  "name": "Baleària",
+  "country": "ES",
+  "website": "https://www.balearia.com",
+  "color": "#0F6E84",
+  "active": true,
+  "publishedUntil": "2027-06-30",
+  "markets": {
+   "fr": "Algérie ↔ Espagne",
+   "en": "Algeria ↔ Spain",
+   "ar": "الجزائر ↔ إسبانيا"
+  },
+  "description": {
+   "fr": "Barcelone et Valence vers Alger, Oran et Mostaganem. Cabines et fauteuils « pet friendly ».",
+   "en": "Barcelona and Valencia to Algiers, Oran and Mostaganem. Pet-friendly cabins and seats.",
+   "ar": "من برشلونة وفالنسيا إلى الجزائر ووهران ومستغانم. مقصورات ومقاعد مخصصة للحيوانات."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 0,
+    "childMaxAge": 13
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.5
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Basic",
+      "en": "Basic",
+      "ar": "أساسي"
+     },
+     "multiplier": 0.88,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 21,
+     "maxLoadFactor": 0.75
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Tarif réduit",
+      "en": "Reduced fare",
+      "ar": "تعريفة مخفضة"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "freeCancellationHoursAfterPurchase": 24,
+     "cancellation": [
+      {
+       "minHoursBefore": 48,
+       "feePercent": 0.1
+      },
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.2
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    },
+    {
+     "code": "FLEX",
+     "name": {
+      "fr": "Flex",
+      "en": "Flex",
+      "ar": "مرن"
+     },
+     "multiplier": 1.12,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.0
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 25,
+    "cabinKg": 40
+   },
+   "minAgeToTravelAlone": 18,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 2,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "NE",
+  "name": "Nouris Elbahr Ferries",
+  "legalName": "Nouris Elbahr Ferries — نورس البحر فيريز",
+  "country": "DZ",
+  "website": "https://www.nouriselbahrferries.com",
+  "color": "#1D4F91",
+  "active": true,
+  "publishedUntil": "2027-01-31",
+  "markets": {
+   "fr": "Algérie ↔ France / Espagne",
+   "en": "Algeria ↔ France / Spain",
+   "ar": "الجزائر ↔ فرنسا / إسبانيا"
+  },
+  "description": {
+   "fr": "Première compagnie privée algérienne (2024) : Marseille, Alicante, Alger et Oran à bord du Cracovia. -20 % en ligne depuis le 1er septembre 2026.",
+   "en": "Algeria's first private operator (2024): Marseille, Alicante, Algiers and Oran on board Cracovia. 20 % off online since 1 September 2026.",
+   "ar": "أول شركة خاصة جزائرية (2024): مرسيليا، أليكانتي، الجزائر ووهران على متن Cracovia. تخفيض 20٪ عبر الإنترنت منذ 1 سبتمبر 2026."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 2,
+    "childMaxAge": 11
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.4
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Promo",
+      "en": "Promo",
+      "ar": "ترويجي"
+     },
+     "multiplier": 0.85,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 21,
+     "maxLoadFactor": 0.75
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Standard",
+      "en": "Standard",
+      "ar": "عادي"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 720,
+       "feePercent": 0.2
+      },
+      {
+       "minHoursBefore": 240,
+       "feePercent": 0.3
+      },
+      {
+       "minHoursBefore": 48,
+       "feePercent": 0.5
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 30,
+    "cabinKg": 50
+   },
+   "minAgeToTravelAlone": 18,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 4,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "ATM",
+  "name": "Armas Trasmediterránea",
+  "legalName": "Naviera Armas Trasmediterránea (groupe Baleària)",
+  "country": "ES",
+  "website": "https://armastrasmediterranea.com",
+  "color": "#004C97",
+  "active": true,
+  "publishedUntil": "2027-03-31",
+  "markets": {
+   "fr": "Algérie ↔ Espagne",
+   "en": "Algeria ↔ Spain",
+   "ar": "الجزائر ↔ إسبانيا"
+  },
+  "description": {
+   "fr": "Almería vers Ghazaouet (région de Tlemcen) et Oran, toute l'année.",
+   "en": "Almería to Ghazaouet (Tlemcen region) and Oran, all year round.",
+   "ar": "من ألميريا إلى الغزوات (منطقة تلمسان) ووهران طوال السنة."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 1,
+    "childMaxAge": 11
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.4
+   },
+   "tariffs": [
+    {
+     "code": "PROMO",
+     "name": {
+      "fr": "Promo",
+      "en": "Promo",
+      "ar": "ترويجي"
+     },
+     "multiplier": 0.85,
+     "refundable": false,
+     "modifiable": false,
+     "cancellation": [],
+     "minDaysBeforeDeparture": 14,
+     "maxLoadFactor": 0.8
+    },
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Standard",
+      "en": "Standard",
+      "ar": "عادي"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 48,
+       "feePercent": 0.15
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    },
+    {
+     "code": "FLEX",
+     "name": {
+      "fr": "Flex",
+      "en": "Flex",
+      "ar": "مرن"
+     },
+     "multiplier": 1.1,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 24,
+       "feePercent": 0.0
+      },
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 25,
+    "cabinKg": 40
+   },
+   "minAgeToTravelAlone": 18,
+   "roundTripDiscount": 0.0,
+   "infantsPayTaxes": false,
+   "maxPassengersPerBooking": 9,
+   "bookingCutoffHours": 2,
+   "maxPetsPerBooking": 2
+  }
+ },
+ {
+  "code": "MMC",
+  "name": "Madar Maritime (Andalouza)",
+  "country": "DZ",
+  "website": "https://www.madar-holding.dz",
+  "color": "#6B7280",
+  "active": false,
+  "markets": {
+   "fr": "Algérie ↔ Espagne (suspendu)",
+   "en": "Algeria ↔ Spain (suspended)",
+   "ar": "الجزائر ↔ إسبانيا (معلق)"
+  },
+  "description": {
+   "fr": "Dessertes Alicante/Almería – Algérie suspendues depuis février 2026.",
+   "en": "Alicante/Almería – Algeria services suspended since February 2026.",
+   "ar": "رحلات أليكانتي/ألميريا – الجزائر معلقة منذ فيفري 2026."
+  },
+  "rules": {
+   "ageBands": {
+    "infantMaxAge": 2,
+    "childMaxAge": 11
+   },
+   "discounts": {
+    "infant": 1.0,
+    "child": 0.4
+   },
+   "tariffs": [
+    {
+     "code": "STANDARD",
+     "name": {
+      "fr": "Standard",
+      "en": "Standard",
+      "ar": "عادي"
+     },
+     "multiplier": 1.0,
+     "refundable": true,
+     "modifiable": true,
+     "cancellation": [
+      {
+       "minHoursBefore": 0,
+       "feePercent": 1.0
+      }
+     ]
+    }
+   ],
+   "baggage": {
+    "seatKg": 30,
+    "cabinKg": 50
+   }
+  }
+ }
+]

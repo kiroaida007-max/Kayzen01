@@ -1,0 +1,538 @@
+[
+ {
+  "code": "BMK3",
+  "name": "Badji Mokhtar III",
+  "operator": "AF",
+  "imo": "9827889",
+  "mmsi": "605016420",
+  "built": 2021,
+  "lengthM": 200,
+  "speedKn": 24,
+  "capacity": {
+   "passengers": 1800,
+   "vehicles": 600,
+   "laneMeters": 2600
+  },
+  "accommodations": {
+   "SEAT": 700,
+   "CABIN_INT_2": 60,
+   "CABIN_INT_4": 140,
+   "CABIN_EXT_2": 50,
+   "CABIN_EXT_4": 70,
+   "SUITE": 10,
+   "CABIN_PMR": 6
+  },
+  "petKennels": 12,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "CUSTOMS_ON_BOARD",
+   "LOUNGE"
+  ],
+  "verified": true
+ },
+ {
+  "code": "TIZ",
+  "name": "Tariq Ibn Ziyad",
+  "operator": "AF",
+  "imo": "9109768",
+  "mmsi": "605246160",
+  "built": 1995,
+  "lengthM": 153,
+  "speedKn": 21,
+  "capacity": {
+   "passengers": 1276,
+   "vehicles": 500,
+   "laneMeters": 2000
+  },
+  "accommodations": {
+   "SEAT": 500,
+   "CABIN_INT_2": 40,
+   "CABIN_INT_4": 110,
+   "CABIN_EXT_2": 30,
+   "CABIN_EXT_4": 50,
+   "SUITE": 6,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 8,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR"
+  ],
+  "verified": true
+ },
+ {
+  "code": "EDJ2",
+  "name": "El Djazair II",
+  "operator": "AF",
+  "imo": "9265421",
+  "mmsi": "605026190",
+  "built": 2005,
+  "lengthM": 146,
+  "speedKn": 23.5,
+  "capacity": {
+   "passengers": 1320,
+   "vehicles": 330,
+   "laneMeters": 1300
+  },
+  "accommodations": {
+   "SEAT": 600,
+   "CABIN_INT_2": 110,
+   "CABIN_INT_4": 150,
+   "CABIN_EXT_2": 80,
+   "CABIN_EXT_4": 60,
+   "SUITE": 8,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 8,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR"
+  ],
+  "verified": true
+ },
+ {
+  "code": "TSL2",
+  "name": "Tassili II",
+  "operator": "AF",
+  "imo": "9265419",
+  "mmsi": "605046150",
+  "built": 2004,
+  "lengthM": 146,
+  "speedKn": 23.5,
+  "capacity": {
+   "passengers": 1320,
+   "vehicles": 300,
+   "laneMeters": 1250
+  },
+  "accommodations": {
+   "SEAT": 600,
+   "CABIN_INT_2": 100,
+   "CABIN_INT_4": 140,
+   "CABIN_EXT_2": 70,
+   "CABIN_EXT_4": 60,
+   "SUITE": 6,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 8,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR"
+  ],
+  "verified": true
+ },
+ {
+  "code": "MED",
+  "name": "Méditerranée",
+  "operator": "CL",
+  "imo": null,
+  "mmsi": null,
+  "built": 1989,
+  "lengthM": 165,
+  "speedKn": 19,
+  "capacity": {
+   "passengers": 2100,
+   "vehicles": 600,
+   "laneMeters": 1800
+  },
+  "accommodations": {
+   "SEAT": 600,
+   "CABIN_INT_2": 80,
+   "CABIN_INT_4": 160,
+   "CABIN_EXT_2": 70,
+   "CABIN_EXT_4": 90,
+   "SUITE": 10,
+   "CABIN_PET": 10,
+   "CABIN_PMR": 6
+  },
+  "petKennels": 15,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "LOUNGE",
+   "CINEMA",
+   "PET_AREA"
+  ],
+  "verified": false
+ },
+ {
+  "code": "DCA",
+  "name": "Danielle Casanova",
+  "operator": "CL",
+  "imo": "9230476",
+  "mmsi": "226242000",
+  "built": 2002,
+  "lengthM": 176,
+  "speedKn": 24,
+  "capacity": {
+   "passengers": 2204,
+   "vehicles": 700,
+   "laneMeters": 2000
+  },
+  "accommodations": {
+   "SEAT": 500,
+   "CABIN_INT_2": 100,
+   "CABIN_INT_4": 180,
+   "CABIN_EXT_2": 90,
+   "CABIN_EXT_4": 100,
+   "SUITE": 16,
+   "CABIN_PET": 8,
+   "CABIN_PMR": 6
+  },
+  "petKennels": 12,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "LOUNGE",
+   "CINEMA",
+   "PET_AREA",
+   "POOL"
+  ],
+  "verified": true
+ },
+ {
+  "code": "FAN",
+  "name": "GNV Fantastic",
+  "operator": "GNV",
+  "imo": "9100267",
+  "mmsi": "247094000",
+  "built": 1996,
+  "lengthM": 188,
+  "speedKn": 23,
+  "capacity": {
+   "passengers": 2000,
+   "vehicles": 800,
+   "laneMeters": 2600
+  },
+  "accommodations": {
+   "SEAT": 700,
+   "CABIN_INT_2": 60,
+   "CABIN_INT_4": 200,
+   "CABIN_EXT_2": 70,
+   "CABIN_EXT_4": 100,
+   "SUITE": 10,
+   "CABIN_PET": 20,
+   "CABIN_PMR": 6
+  },
+  "petKennels": 20,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "PET_AREA",
+   "CINEMA",
+   "POOL",
+   "LOUNGE"
+  ],
+  "verified": true
+ },
+ {
+  "code": "CRI",
+  "name": "GNV Cristal",
+  "operator": "GNV",
+  "imo": null,
+  "mmsi": null,
+  "built": null,
+  "lengthM": 180,
+  "speedKn": 22,
+  "capacity": {
+   "passengers": 1800,
+   "vehicles": 600,
+   "laneMeters": 2200
+  },
+  "accommodations": {
+   "SEAT": 600,
+   "CABIN_INT_2": 50,
+   "CABIN_INT_4": 160,
+   "CABIN_EXT_2": 60,
+   "CABIN_EXT_4": 80,
+   "SUITE": 8,
+   "CABIN_PET": 16,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 16,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "PET_AREA",
+   "LOUNGE"
+  ],
+  "verified": false
+ },
+ {
+  "code": "RBA",
+  "name": "Regina Baltica",
+  "operator": "BAL",
+  "imo": "7827225",
+  "mmsi": "210976000",
+  "built": 1980,
+  "lengthM": 145,
+  "speedKn": 18,
+  "capacity": {
+   "passengers": 1675,
+   "vehicles": 350,
+   "laneMeters": 1100
+  },
+  "accommodations": {
+   "SEAT": 700,
+   "CABIN_INT_2": 30,
+   "CABIN_INT_4": 110,
+   "CABIN_EXT_2": 30,
+   "CABIN_EXT_4": 60,
+   "SUITE": 4,
+   "CABIN_PET": 10,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 12,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "PET_AREA"
+  ],
+  "verified": true
+ },
+ {
+  "code": "VIS",
+  "name": "Visborg",
+  "operator": "BAL",
+  "imo": null,
+  "mmsi": null,
+  "built": null,
+  "lengthM": 195,
+  "speedKn": 22,
+  "capacity": {
+   "passengers": 1500,
+   "vehicles": 500,
+   "laneMeters": 2000
+  },
+  "accommodations": {
+   "SEAT": 600,
+   "CABIN_INT_2": 40,
+   "CABIN_INT_4": 90,
+   "CABIN_EXT_2": 40,
+   "CABIN_EXT_4": 50,
+   "SUITE": 4,
+   "CABIN_PET": 8,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 10,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "PET_AREA"
+  ],
+  "verified": false
+ },
+ {
+  "code": "CRA",
+  "name": "Cracovia",
+  "operator": "NE",
+  "imo": "9237242",
+  "mmsi": "311000671",
+  "built": 2002,
+  "lengthM": 180,
+  "speedKn": 16.7,
+  "capacity": {
+   "passengers": 650,
+   "vehicles": 64,
+   "laneMeters": 1900
+  },
+  "accommodations": {
+   "SEAT": 250,
+   "CABIN_INT_2": 40,
+   "CABIN_INT_4": 70,
+   "CABIN_EXT_2": 20,
+   "CABIN_EXT_4": 20,
+   "SUITE": 2,
+   "CABIN_PMR": 2
+  },
+  "petKennels": 6,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "PMR_ACCESS",
+   "HALAL_FOOD",
+   "CUSTOMS_ON_BOARD"
+  ],
+  "verified": true
+ },
+ {
+  "code": "ALM",
+  "name": "Almariya",
+  "operator": "ATM",
+  "imo": null,
+  "mmsi": null,
+  "built": null,
+  "lengthM": 160,
+  "speedKn": 20,
+  "capacity": {
+   "passengers": 1000,
+   "vehicles": 300,
+   "laneMeters": 1100
+  },
+  "accommodations": {
+   "SEAT": 500,
+   "CABIN_INT_2": 20,
+   "CABIN_INT_4": 60,
+   "CABIN_EXT_2": 20,
+   "CABIN_EXT_4": 30,
+   "CABIN_PMR": 2
+  },
+  "petKennels": 6,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "PMR_ACCESS"
+  ],
+  "verified": false
+ },
+ {
+  "code": "ROM",
+  "name": "Romantika",
+  "operator": "MMC",
+  "imo": "9237589",
+  "mmsi": null,
+  "built": 2002,
+  "lengthM": 193,
+  "speedKn": 22,
+  "capacity": {
+   "passengers": 2500,
+   "vehicles": 450,
+   "laneMeters": 1030
+  },
+  "accommodations": {
+   "SEAT": 200,
+   "CABIN_INT_2": 200,
+   "CABIN_INT_4": 300,
+   "CABIN_EXT_2": 150,
+   "CABIN_EXT_4": 80,
+   "SUITE": 10,
+   "CABIN_PMR": 4
+  },
+  "petKennels": 0,
+  "maxVehicleHeightM": 4.2,
+  "maxVehicleLengthM": 12.0,
+  "amenities": [
+   "RESTAURANT",
+   "CAFETERIA",
+   "SHOP",
+   "PRAYER_ROOM",
+   "WIFI",
+   "KIDS_AREA",
+   "PMR_ACCESS",
+   "INFIRMARY",
+   "HALAL_FOOD",
+   "ELEVATOR",
+   "LOUNGE",
+   "CINEMA"
+  ],
+  "verified": false
+ }
+]

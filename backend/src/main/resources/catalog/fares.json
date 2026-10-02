@@ -1,0 +1,469 @@
+[
+ {
+  "id": "AF-EU-MRS-ALG",
+  "routes": [
+   "AF-MRS-ALG"
+  ],
+  "currency": "EUR",
+  "adultSeat": 175,
+  "accommodation": {
+   "CABIN_INT_2": 160,
+   "CABIN_INT_4": 210,
+   "CABIN_EXT_2": 215,
+   "CABIN_EXT_4": 265,
+   "SUITE": 420,
+   "CABIN_PMR": 160
+  },
+  "vehicles": {
+   "CAR": 230,
+   "CAR_HIGH": 300,
+   "MOTORCYCLE": 110,
+   "CAMPER": 430,
+   "CAR_TRAILER": 390,
+   "VAN": 360
+  },
+  "pet": 45,
+  "taxes": {
+   "perPassenger": 19,
+   "perVehicle": 25
+  }
+ },
+ {
+  "id": "AF-EU-MRS-ORN",
+  "routes": [
+   "AF-MRS-ORN"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 1.06
+ },
+ {
+  "id": "AF-EU-MRS-SKI",
+  "routes": [
+   "AF-MRS-SKI"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 1.05
+ },
+ {
+  "id": "AF-EU-MRS-BJA",
+  "routes": [
+   "AF-MRS-BJA"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 1.0
+ },
+ {
+  "id": "AF-EU-MRS-AAE",
+  "routes": [
+   "AF-MRS-AAE"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 1.08
+ },
+ {
+  "id": "AF-EU-ALC",
+  "routes": [
+   "AF-ALC-ALG"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 0.68
+ },
+ {
+  "id": "AF-EU-ALC-ORN",
+  "routes": [
+   "AF-ALC-ORN"
+  ],
+  "extends": "AF-EU-MRS-ALG",
+  "scale": 0.6
+ },
+ {
+  "id": "AF-DZ-ALG-MRS",
+  "routes": [
+   "AF-ALG-MRS"
+  ],
+  "currency": "DZD",
+  "adultSeat": 19500,
+  "accommodation": {
+   "CABIN_INT_2": 24000,
+   "CABIN_INT_4": 32000,
+   "CABIN_EXT_2": 32500,
+   "CABIN_EXT_4": 40000,
+   "SUITE": 63000,
+   "CABIN_PMR": 24000
+  },
+  "vehicles": {
+   "CAR": 31500,
+   "CAR_HIGH": 41000,
+   "MOTORCYCLE": 15500,
+   "CAMPER": 60000,
+   "CAR_TRAILER": 55000,
+   "VAN": 50000
+  },
+  "pet": 6500,
+  "taxes": {
+   "perPassenger": 2120,
+   "perVehicle": 3500
+  }
+ },
+ {
+  "id": "AF-DZ-ORN-MRS",
+  "routes": [
+   "AF-ORN-MRS"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 1.05
+ },
+ {
+  "id": "AF-DZ-SKI-MRS",
+  "routes": [
+   "AF-SKI-MRS"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 1.08
+ },
+ {
+  "id": "AF-DZ-BJA-MRS",
+  "routes": [
+   "AF-BJA-MRS"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 1.03
+ },
+ {
+  "id": "AF-DZ-AAE-MRS",
+  "routes": [
+   "AF-AAE-MRS"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 1.1
+ },
+ {
+  "id": "AF-DZ-ALG-ALC",
+  "routes": [
+   "AF-ALG-ALC"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 0.85
+ },
+ {
+  "id": "AF-DZ-ORN-ALC",
+  "routes": [
+   "AF-ORN-ALC"
+  ],
+  "extends": "AF-DZ-ALG-MRS",
+  "scale": 0.78
+ },
+ {
+  "id": "CL-MRS-ALG",
+  "routes": [
+   "CL-MRS-ALG",
+   "CL-ALG-MRS"
+  ],
+  "currency": "EUR",
+  "adultSeat": 128,
+  "accommodation": {
+   "CABIN_INT_2": 358,
+   "CABIN_INT_4": 430,
+   "CABIN_EXT_2": 458,
+   "CABIN_EXT_4": 540,
+   "SUITE": 720,
+   "CABIN_PET": 470,
+   "CABIN_PMR": 358
+  },
+  "vehicles": {
+   "CAR": 254,
+   "CAR_HIGH": 320,
+   "MOTORCYCLE": 120,
+   "CAMPER": 460,
+   "CAR_TRAILER": 420,
+   "VAN": 380
+  },
+  "pet": 50,
+  "taxes": {
+   "perPassenger": 18,
+   "perVehicle": 22
+  }
+ },
+ {
+  "id": "CL-MRS-BJA",
+  "routes": [
+   "CL-MRS-BJA",
+   "CL-BJA-MRS"
+  ],
+  "extends": "CL-MRS-ALG",
+  "scale": 0.95
+ },
+ {
+  "id": "CL-MRS-SKI",
+  "routes": [
+   "CL-MRS-SKI",
+   "CL-SKI-MRS"
+  ],
+  "extends": "CL-MRS-ALG",
+  "scale": 1.0
+ },
+ {
+  "id": "GNV-SET-ALG",
+  "routes": [
+   "GNV-SET-ALG"
+  ],
+  "currency": "EUR",
+  "adultSeat": 125,
+  "accommodation": {
+   "CABIN_INT_2": 120,
+   "CABIN_INT_4": 160,
+   "CABIN_EXT_2": 150,
+   "CABIN_EXT_4": 195,
+   "SUITE": 340,
+   "CABIN_PET": 185,
+   "CABIN_PMR": 120
+  },
+  "vehicles": {
+   "CAR": 150,
+   "CAR_HIGH": 210,
+   "MOTORCYCLE": 85,
+   "CAMPER": 320,
+   "CAR_TRAILER": 300,
+   "VAN": 260
+  },
+  "pet": 35,
+  "taxes": {
+   "perPassenger": 18,
+   "perVehicle": 20
+  }
+ },
+ {
+  "id": "GNV-ALG-SET",
+  "routes": [
+   "GNV-ALG-SET"
+  ],
+  "extends": "GNV-SET-ALG",
+  "scale": 1.0,
+  "adultSeat": 128
+ },
+ {
+  "id": "GNV-SET-BJA",
+  "routes": [
+   "GNV-SET-BJA"
+  ],
+  "extends": "GNV-SET-ALG",
+  "scale": 0.8,
+  "adultSeat": 75,
+  "taxes": {
+   "perPassenger": 16,
+   "perVehicle": 20
+  }
+ },
+ {
+  "id": "GNV-BJA-SET",
+  "routes": [
+   "GNV-BJA-SET"
+  ],
+  "extends": "GNV-SET-ALG",
+  "scale": 0.85,
+  "adultSeat": 103,
+  "taxes": {
+   "perPassenger": 16,
+   "perVehicle": 20
+  }
+ },
+ {
+  "id": "GNV-CVV-AAE",
+  "routes": [
+   "GNV-CVV-AAE",
+   "GNV-AAE-CVV"
+  ],
+  "extends": "GNV-SET-ALG",
+  "scale": 0.95,
+  "adultSeat": 112
+ },
+ {
+  "id": "BAL-VLC-MOS",
+  "routes": [
+   "BAL-VLC-MOS",
+   "BAL-MOS-VLC"
+  ],
+  "currency": "EUR",
+  "adultSeat": 112,
+  "accommodation": {
+   "CABIN_INT_2": 110,
+   "CABIN_INT_4": 150,
+   "CABIN_EXT_2": 140,
+   "CABIN_EXT_4": 185,
+   "SUITE": 260,
+   "CABIN_PET": 160,
+   "CABIN_PMR": 110
+  },
+  "vehicles": {
+   "CAR": 165,
+   "CAR_HIGH": 220,
+   "MOTORCYCLE": 80,
+   "CAMPER": 330,
+   "CAR_TRAILER": 300,
+   "VAN": 270
+  },
+  "pet": 30,
+  "taxes": {
+   "perPassenger": 18,
+   "perVehicle": 20
+  }
+ },
+ {
+  "id": "BAL-VLC-ORN",
+  "routes": [
+   "BAL-VLC-ORN",
+   "BAL-ORN-VLC"
+  ],
+  "extends": "BAL-VLC-MOS",
+  "scale": 1.03
+ },
+ {
+  "id": "BAL-VLC-ALG",
+  "routes": [
+   "BAL-VLC-ALG",
+   "BAL-ALG-VLC"
+  ],
+  "extends": "BAL-VLC-MOS",
+  "scale": 1.15,
+  "adultSeat": 135
+ },
+ {
+  "id": "BAL-BCN-ALG",
+  "routes": [
+   "BAL-BCN-ALG",
+   "BAL-ALG-BCN"
+  ],
+  "extends": "BAL-VLC-MOS",
+  "scale": 1.25,
+  "adultSeat": 165,
+  "taxes": {
+   "perPassenger": 20,
+   "perVehicle": 24
+  }
+ },
+ {
+  "id": "NE-EU-MRS-ALG",
+  "routes": [
+   "NE-MRS-ALG"
+  ],
+  "currency": "EUR",
+  "adultSeat": 245,
+  "accommodation": {
+   "CABIN_INT_2": 190,
+   "CABIN_INT_4": 240,
+   "CABIN_EXT_2": 240,
+   "CABIN_EXT_4": 290,
+   "SUITE": 450,
+   "CABIN_PMR": 190
+  },
+  "vehicles": {
+   "CAR": 260,
+   "CAR_HIGH": 330,
+   "MOTORCYCLE": 130,
+   "CAMPER": 480,
+   "CAR_TRAILER": 440,
+   "VAN": 400
+  },
+  "pet": 50,
+  "taxes": {
+   "perPassenger": 22,
+   "perVehicle": 26
+  }
+ },
+ {
+  "id": "NE-EU-ALC",
+  "routes": [
+   "NE-ALC-ALG",
+   "NE-ALC-ORN"
+  ],
+  "extends": "NE-EU-MRS-ALG",
+  "scale": 0.62,
+  "adultSeat": 150,
+  "taxes": {
+   "perPassenger": 18,
+   "perVehicle": 22
+  }
+ },
+ {
+  "id": "NE-DZ-ALG-MRS",
+  "routes": [
+   "NE-ALG-MRS"
+  ],
+  "currency": "DZD",
+  "adultSeat": 38800,
+  "accommodation": {
+   "CABIN_INT_2": 28000,
+   "CABIN_INT_4": 36000,
+   "CABIN_EXT_2": 36000,
+   "CABIN_EXT_4": 44000,
+   "SUITE": 68000,
+   "CABIN_PMR": 28000
+  },
+  "vehicles": {
+   "CAR": 39000,
+   "CAR_HIGH": 49000,
+   "MOTORCYCLE": 19500,
+   "CAMPER": 72000,
+   "CAR_TRAILER": 66000,
+   "VAN": 60000
+  },
+  "pet": 7500,
+  "taxes": {
+   "perPassenger": 3335,
+   "perVehicle": 3900
+  }
+ },
+ {
+  "id": "NE-DZ-ALC",
+  "routes": [
+   "NE-ALG-ALC",
+   "NE-ORN-ALC"
+  ],
+  "extends": "NE-DZ-ALG-MRS",
+  "scale": 0.62,
+  "adultSeat": 22500,
+  "taxes": {
+   "perPassenger": 2735,
+   "perVehicle": 3300
+  }
+ },
+ {
+  "id": "ATM-LEI-GHZ",
+  "routes": [
+   "ATM-LEI-GHZ",
+   "ATM-GHZ-LEI"
+  ],
+  "currency": "EUR",
+  "adultSeat": 50,
+  "accommodation": {
+   "CABIN_INT_2": 90,
+   "CABIN_INT_4": 120,
+   "CABIN_EXT_2": 110,
+   "CABIN_EXT_4": 140,
+   "CABIN_PMR": 90
+  },
+  "vehicles": {
+   "CAR": 120,
+   "CAR_HIGH": 160,
+   "MOTORCYCLE": 60,
+   "CAMPER": 240,
+   "CAR_TRAILER": 220,
+   "VAN": 200
+  },
+  "pet": 25,
+  "taxes": {
+   "perPassenger": 13,
+   "perVehicle": 15
+  }
+ },
+ {
+  "id": "ATM-LEI-ORN",
+  "routes": [
+   "ATM-LEI-ORN",
+   "ATM-ORN-LEI"
+  ],
+  "extends": "ATM-LEI-GHZ",
+  "scale": 1.2,
+  "adultSeat": 72
+ }
+]
