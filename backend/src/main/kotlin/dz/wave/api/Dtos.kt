@@ -262,7 +262,8 @@ object MetaBuilder {
                 from = p.from,
                 to = p.to,
                 image = p.image,
-                operators = matching.map { it.operator }.distinct(),
+                // The featured company comes first (the one shown on the home card).
+                operators = matching.map { it.operator }.distinct().sortedBy { if (it == p.operator) 0 else 1 },
                 minDurationMin = matching.mapNotNull { it.typicalDurationMin }.minOrNull(),
                 maxDurationMin = matching.mapNotNull { it.typicalDurationMin }.maxOrNull(),
                 fromPriceDzd = matching.map { it.fromPriceDzd }.minByOrNull { it.minor },

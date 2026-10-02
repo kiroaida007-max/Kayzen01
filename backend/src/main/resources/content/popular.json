@@ -2,36 +2,43 @@
  {
   "from": "DZALG",
   "to": "ESBCN",
-  "image": "dest_barcelona"
+  "image": "dest_barcelona",
+  "operator": "BAL"
  },
  {
   "from": "DZALG",
   "to": "FRMRS",
-  "image": "dest_marseille"
+  "image": "dest_marseille",
+  "operator": "CL"
  },
  {
   "from": "DZORN",
   "to": "ESVLC",
-  "image": "dest_valencia"
+  "image": "dest_valencia",
+  "operator": "BAL"
  },
  {
   "from": "DZBJA",
   "to": "FRSET",
-  "image": "dest_sete"
+  "image": "dest_sete",
+  "operator": "GNV"
  },
  {
   "from": "DZAAE",
   "to": "ITCVV",
-  "image": "dest_civitavecchia"
+  "image": "dest_civitavecchia",
+  "operator": "GNV"
  },
  {
   "from": "FRMRS",
   "to": "DZALG",
-  "image": "dest_alger"
+  "image": "dest_alger",
+  "operator": "AF"
  },
  {
   "from": "ESLEI",
   "to": "DZGHZ",
-  "image": "dest_ghazaouet"
+  "image": "dest_ghazaouet",
+  "operator": "ATM"
  }
 ]

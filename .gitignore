@@ -5,6 +5,7 @@
 *.class
 *.jar
 !backend/gradle/wrapper/gradle-wrapper.jar
+!mobile/android/gradle/wrapper/gradle-wrapper.jar
 
 # Python
 __pycache__/

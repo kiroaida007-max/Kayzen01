@@ -24,7 +24,7 @@ data class Guide(
 )
 
 @Serializable
-data class PopularRouteDef(val from: String, val to: String, val image: String)
+data class PopularRouteDef(val from: String, val to: String, val image: String, val operator: String? = null)
 
 class ContentService(private val data: CatalogData, private val clock: Clock) {
     private val json = Json { ignoreUnknownKeys = false }
