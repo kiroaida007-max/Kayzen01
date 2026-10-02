@@ -19,9 +19,6 @@ import '../../widgets/brand.dart';
 import '../../widgets/header.dart';
 import '../search/search_card.dart' show portLabel;
 
-/// Western Mediterranean, framed on the Algerian coast and the European ports it links.
-const _home = LatLng(39.4, 4.2);
-
 /// Bundled coastline (Natural Earth, public domain) drawn under the tiles: the map stays readable
 /// offline, on flaky port Wi-Fi, or if the tile server is down.
 final coastlineProvider = FutureProvider<List<List<LatLng>>>((ref) async {
@@ -181,10 +178,15 @@ class _LiveMap extends ConsumerWidget {
     return FlutterMap(
       mapController: controller,
       options: MapOptions(
-        initialCenter: _home,
-        initialZoom: 5.2,
-        minZoom: 3,
+        // Frame every route on any screen size, from phones to 4K monitors.
+        initialCameraFit: CameraFit.bounds(
+          bounds: LatLngBounds(const LatLng(35.0, -3.5), const LatLng(43.6, 12.3)),
+          padding: const EdgeInsets.all(28),
+        ),
+        minZoom: 4,
         maxZoom: 13,
+        // Keep the view on the western Mediterranean (and the bundled coastline's edges away).
+        cameraConstraint: CameraConstraint.containCenter(bounds: LatLngBounds(const LatLng(28, -12), const LatLng(48, 24))),
         backgroundColor: const Color(0xFFAAD3DF),
         onTap: (_, _) => onClear(),
         interactionOptions: const InteractionOptions(flags: InteractiveFlag.all & ~InteractiveFlag.rotate),

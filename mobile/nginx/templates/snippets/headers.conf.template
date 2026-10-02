@@ -1,0 +1,6 @@
+# Included in every location: nginx drops server-level add_header as soon as a location adds one.
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: ${WAVE_TILE_HOSTS}; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' ${WAVE_CONNECT_SRC} ${WAVE_TILE_HOSTS} https://fonts.gstatic.com; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=(self), payment=(self)" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;

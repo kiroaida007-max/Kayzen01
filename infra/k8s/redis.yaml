@@ -1,0 +1,54 @@
+# Redis for seat holds (Lua, atomic), idempotency keys, the pod-to-pod bus and leader election.
+# noeviction + AOF: a hold or idempotency key must never silently disappear.
+# For high availability use a managed Redis (Memorystore, ElastiCache, Azure Cache) or the
+# Redis/Valkey operator with Sentinel; the API accepts redis-sentinel:// URLs in REDIS_URL.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wave-redis
+  namespace: wave
+spec:
+  serviceName: wave-redis
+  replicas: 1
+  selector:
+    matchLabels: { app.kubernetes.io/name: wave-redis }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: wave-redis, app.kubernetes.io/part-of: wave }
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: redis
+          image: redis:7.4-alpine
+          args: ["--appendonly", "yes", "--appendfsync", "everysec", "--maxmemory", "1500mb", "--maxmemory-policy", "noeviction"]
+          ports: [{ name: redis, containerPort: 6379 }]
+          resources:
+            requests: { cpu: 500m, memory: 2Gi }
+            limits: { memory: 2Gi }
+          readinessProbe:
+            exec: { command: ["redis-cli", "ping"] }
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: data, mountPath: /data }
+  volumeClaimTemplates:
+    - metadata: { name: data }
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources: { requests: { storage: 10Gi } }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wave-redis
+  namespace: wave
+spec:
+  selector: { app.kubernetes.io/name: wave-redis }
+  ports: [{ name: redis, port: 6379, targetPort: redis }]

@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: wave
+resources:
+  - namespace.yaml
+  - config.yaml
+  - postgres.yaml
+  - redis.yaml
+  - backend.yaml
+  - web.yaml
+  - ingress.yaml
+  - scraper.yaml
+  - networkpolicy.yaml
+  - monitoring.yaml
+# Optional source-list override for the scrapers (they fall back to the packaged list):
+#   kubectl -n wave create configmap wave-scraper-sources \
+#     --from-file=sources.yaml=scraper/wave_scraper/data/sources.yaml
+images:
+  - { name: ghcr.io/kiroaida007-max/wave-backend, newTag: latest }
+  - { name: ghcr.io/kiroaida007-max/wave-web, newTag: latest }
+  - { name: ghcr.io/kiroaida007-max/wave-scraper, newTag: latest }

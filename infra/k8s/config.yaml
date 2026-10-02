@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wave-config
+  namespace: wave
+data:
+  WAVE_ENV: prod
+  WAVE_PUBLIC_BASE_URL: https://wave.dz
+  WAVE_APP_RETURN_URL: https://wave.dz/payment-result
+  WAVE_CORS_ORIGINS: https://wave.dz
+  # ingress-nginx adds one X-Forwarded-For hop.
+  WAVE_TRUSTED_PROXY_HOPS: "1"
+  # PgBouncer (transaction pooling) in front of Postgres: small pools per pod are enough.
+  DATABASE_URL: postgres://wave-db-pooler-rw:5432/wave
+  DATABASE_READ_URL: postgres://wave-db-pooler-ro:5432/wave
+  DB_POOL_SIZE: "16"
+  REDIS_URL: redis://wave-redis:6379/0
+  WAVE_SANDBOX_PAYMENTS: "false"
+  WAVE_AGENCY_PHONES: "+213549705582,+213776167407"
+  LOG_APPENDER: JSON
+---
+# Example only: create the real Secret with External Secrets / Sealed Secrets / your cloud's
+# secret manager. Generate keys with `openssl rand -base64 32`.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wave-secrets
+  namespace: wave
+type: Opaque
+stringData:
+  DATABASE_USER: wave
+  DATABASE_PASSWORD: change-me
+  WAVE_JWT_SECRET: change-me-at-least-32-characters-long-secret
+  WAVE_PII_KEY: change-me-base64-32-bytes
+  WAVE_TICKET_KEY: change-me-base64-32-bytes
+  WAVE_INGEST_KEY_ID: scraper
+  WAVE_INGEST_SECRET: change-me
+  SATIM_USERNAME: ""
+  SATIM_PASSWORD: ""
+  SATIM_TERMINAL_ID: ""
+  STRIPE_SECRET_KEY: ""
+  STRIPE_WEBHOOK_SECRET: ""
+  AISSTREAM_API_KEY: ""
+  FIRECRAWL_API_KEY: ""

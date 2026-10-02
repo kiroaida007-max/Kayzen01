@@ -1,0 +1,103 @@
+# Default deny, then only the flows the system needs.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: wave
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-ingress
+  namespace: wave
+spec:
+  podSelector:
+    matchLabels: { app.kubernetes.io/name: wave-backend }
+  policyTypes: [Ingress]
+  ingress:
+    # Public API from the ingress controller.
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: ingress-nginx }
+      ports: [{ port: 8080 }]
+    # Signed ingestion from the scrapers.
+    - from:
+        - podSelector:
+            matchLabels: { app.kubernetes.io/name: wave-scraper }
+      ports: [{ port: 8080 }]
+    # Metrics for Prometheus only.
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: monitoring }
+      ports: [{ port: 9090 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: web-ingress
+  namespace: wave
+spec:
+  podSelector:
+    matchLabels: { app.kubernetes.io/name: wave-web }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: ingress-nginx }
+      ports: [{ port: 8080 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: data-from-backend
+  namespace: wave
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app.kubernetes.io/name, operator: In, values: [wave-redis] }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: { app.kubernetes.io/name: wave-backend }
+      ports: [{ port: 6379 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres-from-poolers
+  namespace: wave
+spec:
+  # CloudNativePG labels: poolers reach the instances; the operator manages replication.
+  podSelector:
+    matchLabels: { cnpg.io/cluster: wave-db }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - { key: cnpg.io/poolerName, operator: Exists }
+        - podSelector:
+            matchLabels: { cnpg.io/cluster: wave-db }
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: cnpg-system }
+      ports: [{ port: 5432 }, { port: 8000 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: poolers-from-backend
+  namespace: wave
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: cnpg.io/poolerName, operator: Exists }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: { app.kubernetes.io/name: wave-backend }
+      ports: [{ port: 5432 }]

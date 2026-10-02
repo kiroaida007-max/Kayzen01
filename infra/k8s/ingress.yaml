@@ -1,0 +1,83 @@
+# ingress-nginx + cert-manager. The edge limits mirror infra/nginx/nginx.conf; per-install
+# buckets are enforced by the API itself (X-Wave-Client), the ingress keeps the per-IP ceiling.
+# Behind a cloud load balancer, enable PROXY protocol or use-forwarded-headers in the
+# ingress-nginx ConfigMap so $remote_addr is the traveller's IP.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wave-api
+  namespace: wave
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/limit-rps: "400"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "3"
+    nginx.ingress.kubernetes.io/limit-connections: "1000"
+    nginx.ingress.kubernetes.io/proxy-body-size: 512k
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "2"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_502 http_503"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "2"
+    nginx.ingress.kubernetes.io/load-balance: ewma
+    nginx.ingress.kubernetes.io/enable-cors: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [wave.dz, www.wave.dz]
+      secretName: wave-tls
+  rules:
+    - host: wave.dz
+      http:
+        paths:
+          # Only the public API is routed: /internal and /metrics are unreachable from outside.
+          - path: /api
+            pathType: Prefix
+            backend: { service: { name: wave-backend, port: { name: http } } }
+          - path: /health
+            pathType: Prefix
+            backend: { service: { name: wave-backend, port: { name: http } } }
+---
+# WebSockets get long timeouts of their own (one connection per open live-map screen).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wave-ws
+  namespace: wave
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/limit-connections: "200"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [wave.dz]
+      secretName: wave-tls
+  rules:
+    - host: wave.dz
+      http:
+        paths:
+          - path: /ws
+            pathType: Prefix
+            backend: { service: { name: wave-backend, port: { name: http } } }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wave-web
+  namespace: wave
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [wave.dz, www.wave.dz]
+      secretName: wave-tls
+  rules:
+    - host: wave.dz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: wave-web, port: { name: http } } }

@@ -1,0 +1,158 @@
+# Data pipeline: timetables every 30 minutes, official rates twice a day, discovery weekly.
+# Jobs talk to the API Service directly (the ingress does not route /internal).
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wave-scraper-crawl
+  namespace: wave
+spec:
+  schedule: "*/30 * * * *"
+  timeZone: Africa/Algiers
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 300
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 1500
+      backoffLimit: 1
+      template:
+        metadata:
+          labels: { app.kubernetes.io/name: wave-scraper, app.kubernetes.io/part-of: wave }
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: crawl
+              image: ghcr.io/kiroaida007-max/wave-scraper:latest
+              args: ["crawl"]
+              env:
+                - { name: WAVE_INGEST_URL, value: "http://wave-backend:8080" }
+                - name: WAVE_INGEST_KEY_ID
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_KEY_ID } }
+                - name: WAVE_INGEST_SECRET
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_SECRET } }
+                - name: FIRECRAWL_API_KEY
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: FIRECRAWL_API_KEY, optional: true } }
+                - { name: WAVE_SOURCES, value: /config/sources.yaml }
+              resources:
+                requests: { cpu: 500m, memory: 1Gi }
+                limits: { memory: 2Gi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: [ALL] }
+              volumeMounts:
+                - { name: sources, mountPath: /config }
+                - { name: dshm, mountPath: /dev/shm }
+          volumes:
+            # Source URLs can change without a release: edit the ConfigMap.
+            - name: sources
+              configMap: { name: wave-scraper-sources, optional: true }
+            # Chromium needs more shared memory than the 64 MB default.
+            - name: dshm
+              emptyDir: { medium: Memory, sizeLimit: 512Mi }
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wave-scraper-rates
+  namespace: wave
+spec:
+  schedule: "15 9,15 * * *"
+  timeZone: Africa/Algiers
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 600
+      backoffLimit: 2
+      template:
+        metadata:
+          labels: { app.kubernetes.io/name: wave-scraper, app.kubernetes.io/part-of: wave }
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: rates
+              image: ghcr.io/kiroaida007-max/wave-scraper:latest
+              args: ["rates"]
+              env:
+                - { name: WAVE_INGEST_URL, value: "http://wave-backend:8080" }
+                - name: WAVE_INGEST_KEY_ID
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_KEY_ID } }
+                - name: WAVE_INGEST_SECRET
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_SECRET } }
+                - name: FIRECRAWL_API_KEY
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: FIRECRAWL_API_KEY, optional: true } }
+                - { name: WAVE_SOURCES, value: /config/sources.yaml }
+              resources:
+                requests: { cpu: 100m, memory: 256Mi }
+                limits: { memory: 512Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: [ALL] }
+              volumeMounts:
+                - { name: sources, mountPath: /config }
+          volumes:
+            - name: sources
+              configMap: { name: wave-scraper-sources, optional: true }
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wave-scraper-discovery
+  namespace: wave
+spec:
+  schedule: "0 4 * * 1"
+  timeZone: Africa/Algiers
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 3600
+      backoffLimit: 0
+      template:
+        metadata:
+          labels: { app.kubernetes.io/name: wave-scraper, app.kubernetes.io/part-of: wave }
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: discover
+              image: ghcr.io/kiroaida007-max/wave-scraper:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - for op in AF CL BAL GNV NE ATM; do wave-scraper discover --operator $op || true; done
+              env:
+                - { name: WAVE_INGEST_URL, value: "http://wave-backend:8080" }
+                - name: WAVE_INGEST_KEY_ID
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_KEY_ID } }
+                - name: WAVE_INGEST_SECRET
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: WAVE_INGEST_SECRET } }
+                - name: FIRECRAWL_API_KEY
+                  valueFrom: { secretKeyRef: { name: wave-secrets, key: FIRECRAWL_API_KEY, optional: true } }
+                - { name: WAVE_SOURCES, value: /config/sources.yaml }
+              resources:
+                requests: { cpu: 500m, memory: 1Gi }
+                limits: { memory: 2Gi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: [ALL] }
+              volumeMounts:
+                - { name: sources, mountPath: /config }
+                - { name: dshm, mountPath: /dev/shm }
+          volumes:
+            - name: sources
+              configMap: { name: wave-scraper-sources, optional: true }
+            - name: dshm
+              emptyDir: { medium: Memory, sizeLimit: 512Mi }

@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wave-web
+  namespace: wave
+  labels: { app.kubernetes.io/name: wave-web, app.kubernetes.io/part-of: wave }
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app.kubernetes.io/name: wave-web }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: wave-web, app.kubernetes.io/part-of: wave }
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        seccompProfile: { type: RuntimeDefault }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector: { matchLabels: { app.kubernetes.io/name: wave-web } }
+      containers:
+        - name: web
+          image: ghcr.io/kiroaida007-max/wave-web:latest
+          ports: [{ name: http, containerPort: 8080 }]
+          env:
+            - { name: WAVE_CONNECT_SRC, value: "wss://wave.dz" }
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits: { memory: 128Mi }
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 15
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wave-web
+  namespace: wave
+spec:
+  selector: { app.kubernetes.io/name: wave-web }
+  ports: [{ name: http, port: 8080, targetPort: http }]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wave-web
+  namespace: wave
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: wave-web }
+  minReplicas: 3
+  maxReplicas: 12
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: { type: Utilization, averageUtilization: 70 }
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: wave-web
+  namespace: wave
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels: { app.kubernetes.io/name: wave-web }
