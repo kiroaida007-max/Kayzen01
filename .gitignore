@@ -48,3 +48,8 @@ key.properties
 .vscode/
 *.iml
 .DS_Store
+
+# Scraper outputs
+scraper/reports/
+*.ndjson
+.mypy_cache/

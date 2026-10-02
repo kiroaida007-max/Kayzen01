@@ -1,0 +1,12 @@
+{"status":"ok","data":{"results":[
+ {"departurePort":{"code":"FRSET","name":"Sète"},"arrivalPort":{"code":"DZBJA","name":"Béjaïa"},
+  "departureDateTime":"2026-10-20T18:00:00+02:00","arrivalDateTime":"2026-10-21T20:00:00+01:00",
+  "ship":"GNV Fantastic","company":"GNV",
+  "fares":[{"type":"Poltrona","price":{"amount":91,"currency":"EUR"}},
+           {"type":"Cabina interna 2 letti","price":{"amount":210,"currency":"EUR"}},
+           {"type":"Auto","price":{"amount":189,"currency":"EUR"}}]},
+ {"departurePort":{"code":"FRSET","name":"Sète"},"arrivalPort":{"code":"DZBJA","name":"Béjaïa"},
+  "departureDateTime":"2026-10-24T18:00:00+02:00","durationMinutes":1560,
+  "ship":"GNV Fantastic","company":"Grimaldi Lines",
+  "fares":[{"type":"Poltrona","price":{"amount":95,"currency":"EUR"}}]}
+]}}

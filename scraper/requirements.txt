@@ -1,0 +1,8 @@
+# Runtime pins (tested together). Regenerate after upgrading: pip install -U ... && pip freeze
+httpx==0.28.1
+playwright==1.63.0
+pyais==3.2.3
+pydantic==2.13.5
+PyYAML==6.0.3
+Scrapy==2.19.0
+scrapy-playwright==0.0.48

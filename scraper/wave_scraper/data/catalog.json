@@ -1,0 +1,572 @@
+{
+ "ports": [
+  {
+   "code": "DZALG",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Alger",
+    "Algeri",
+    "Algier",
+    "Algiers",
+    "Argel",
+    "El Djazair",
+    "الجزائر"
+   ]
+  },
+  {
+   "code": "DZORN",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Oran",
+    "Orán",
+    "Wahran",
+    "وهران"
+   ]
+  },
+  {
+   "code": "DZBJA",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Bejaia",
+    "Bejaïa",
+    "Bougie",
+    "Béjaïa",
+    "بجاية"
+   ]
+  },
+  {
+   "code": "DZSKI",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Skikda",
+    "سكيكدة"
+   ]
+  },
+  {
+   "code": "DZAAE",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Annaba",
+    "Bône",
+    "عنابة"
+   ]
+  },
+  {
+   "code": "DZMOS",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Mostaganem",
+    "مستغانم"
+   ]
+  },
+  {
+   "code": "DZGHZ",
+   "zone": "Africa/Algiers",
+   "country": "DZ",
+   "names": [
+    "Ghazaouet",
+    "Ghazawet",
+    "الغزوات"
+   ]
+  },
+  {
+   "code": "FRMRS",
+   "zone": "Europe/Paris",
+   "country": "FR",
+   "names": [
+    "Marseille",
+    "Marseilles",
+    "Marsella",
+    "Marsiglia",
+    "مرسيليا"
+   ]
+  },
+  {
+   "code": "FRSET",
+   "zone": "Europe/Paris",
+   "country": "FR",
+   "names": [
+    "Sete",
+    "Sète",
+    "سات"
+   ]
+  },
+  {
+   "code": "ESBCN",
+   "zone": "Europe/Madrid",
+   "country": "ES",
+   "names": [
+    "Barcelona",
+    "Barcelone",
+    "برشلونة"
+   ]
+  },
+  {
+   "code": "ESVLC",
+   "zone": "Europe/Madrid",
+   "country": "ES",
+   "names": [
+    "Valence",
+    "Valencia",
+    "València",
+    "فالنسيا"
+   ]
+  },
+  {
+   "code": "ESALC",
+   "zone": "Europe/Madrid",
+   "country": "ES",
+   "names": [
+    "Alacant",
+    "Alicante",
+    "أليكانتي"
+   ]
+  },
+  {
+   "code": "ESLEI",
+   "zone": "Europe/Madrid",
+   "country": "ES",
+   "names": [
+    "Almeria",
+    "Almería",
+    "ألميريا"
+   ]
+  },
+  {
+   "code": "ITCVV",
+   "zone": "Europe/Rome",
+   "country": "IT",
+   "names": [
+    "Civitavecchia",
+    "Roma Civitavecchia",
+    "Rome Civitavecchia",
+    "تشيفيتافيكيا"
+   ]
+  }
+ ],
+ "operators": [
+  {
+   "code": "AF",
+   "name": "Algérie Ferries",
+   "active": true,
+   "names": [
+    "Algeria Ferries",
+    "Algerie Ferries",
+    "Algérie Ferries",
+    "ENTMV"
+   ]
+  },
+  {
+   "code": "CL",
+   "name": "Corsica Linea",
+   "active": true,
+   "names": [
+    "CMN",
+    "Corsica Linea",
+    "Corsica linea"
+   ]
+  },
+  {
+   "code": "GNV",
+   "name": "GNV",
+   "active": true,
+   "names": [
+    "GNV",
+    "Grandi Navi Veloci"
+   ]
+  },
+  {
+   "code": "BAL",
+   "name": "Baleària",
+   "active": true,
+   "names": [
+    "Balearia",
+    "Baleària"
+   ]
+  },
+  {
+   "code": "NE",
+   "name": "Nouris Elbahr Ferries",
+   "active": true,
+   "names": [
+    "Naouris",
+    "Nouris",
+    "Nouris Elbahr",
+    "Nouris Elbahr Ferries"
+   ]
+  },
+  {
+   "code": "ATM",
+   "name": "Armas Trasmediterránea",
+   "active": true,
+   "names": [
+    "Armas Trasmed",
+    "Armas Trasmediterránea",
+    "Naviera Armas",
+    "Trasmed"
+   ]
+  },
+  {
+   "code": "MMC",
+   "name": "Madar Maritime (Andalouza)",
+   "active": false,
+   "names": [
+    "Madar",
+    "Madar Maritime",
+    "Madar Maritime (Andalouza)"
+   ]
+  }
+ ],
+ "routes": [
+  {
+   "id": "AF-MRS-ALG",
+   "operator": "AF",
+   "from": "FRMRS",
+   "to": "DZALG"
+  },
+  {
+   "id": "AF-ALG-MRS",
+   "operator": "AF",
+   "from": "DZALG",
+   "to": "FRMRS"
+  },
+  {
+   "id": "AF-MRS-ORN",
+   "operator": "AF",
+   "from": "FRMRS",
+   "to": "DZORN"
+  },
+  {
+   "id": "AF-ORN-MRS",
+   "operator": "AF",
+   "from": "DZORN",
+   "to": "FRMRS"
+  },
+  {
+   "id": "AF-MRS-SKI",
+   "operator": "AF",
+   "from": "FRMRS",
+   "to": "DZSKI"
+  },
+  {
+   "id": "AF-SKI-MRS",
+   "operator": "AF",
+   "from": "DZSKI",
+   "to": "FRMRS"
+  },
+  {
+   "id": "AF-MRS-BJA",
+   "operator": "AF",
+   "from": "FRMRS",
+   "to": "DZBJA"
+  },
+  {
+   "id": "AF-BJA-MRS",
+   "operator": "AF",
+   "from": "DZBJA",
+   "to": "FRMRS"
+  },
+  {
+   "id": "AF-MRS-AAE",
+   "operator": "AF",
+   "from": "FRMRS",
+   "to": "DZAAE"
+  },
+  {
+   "id": "AF-AAE-MRS",
+   "operator": "AF",
+   "from": "DZAAE",
+   "to": "FRMRS"
+  },
+  {
+   "id": "AF-ALC-ALG",
+   "operator": "AF",
+   "from": "ESALC",
+   "to": "DZALG"
+  },
+  {
+   "id": "AF-ALG-ALC",
+   "operator": "AF",
+   "from": "DZALG",
+   "to": "ESALC"
+  },
+  {
+   "id": "AF-ALC-ORN",
+   "operator": "AF",
+   "from": "ESALC",
+   "to": "DZORN"
+  },
+  {
+   "id": "AF-ORN-ALC",
+   "operator": "AF",
+   "from": "DZORN",
+   "to": "ESALC"
+  },
+  {
+   "id": "CL-MRS-ALG",
+   "operator": "CL",
+   "from": "FRMRS",
+   "to": "DZALG"
+  },
+  {
+   "id": "CL-ALG-MRS",
+   "operator": "CL",
+   "from": "DZALG",
+   "to": "FRMRS"
+  },
+  {
+   "id": "CL-MRS-BJA",
+   "operator": "CL",
+   "from": "FRMRS",
+   "to": "DZBJA"
+  },
+  {
+   "id": "CL-BJA-MRS",
+   "operator": "CL",
+   "from": "DZBJA",
+   "to": "FRMRS"
+  },
+  {
+   "id": "CL-MRS-SKI",
+   "operator": "CL",
+   "from": "FRMRS",
+   "to": "DZSKI"
+  },
+  {
+   "id": "CL-SKI-MRS",
+   "operator": "CL",
+   "from": "DZSKI",
+   "to": "FRMRS"
+  },
+  {
+   "id": "GNV-SET-ALG",
+   "operator": "GNV",
+   "from": "FRSET",
+   "to": "DZALG"
+  },
+  {
+   "id": "GNV-ALG-SET",
+   "operator": "GNV",
+   "from": "DZALG",
+   "to": "FRSET"
+  },
+  {
+   "id": "GNV-SET-BJA",
+   "operator": "GNV",
+   "from": "FRSET",
+   "to": "DZBJA"
+  },
+  {
+   "id": "GNV-BJA-SET",
+   "operator": "GNV",
+   "from": "DZBJA",
+   "to": "FRSET"
+  },
+  {
+   "id": "GNV-CVV-AAE",
+   "operator": "GNV",
+   "from": "ITCVV",
+   "to": "DZAAE"
+  },
+  {
+   "id": "GNV-AAE-CVV",
+   "operator": "GNV",
+   "from": "DZAAE",
+   "to": "ITCVV"
+  },
+  {
+   "id": "BAL-BCN-ALG",
+   "operator": "BAL",
+   "from": "ESBCN",
+   "to": "DZALG"
+  },
+  {
+   "id": "BAL-ALG-BCN",
+   "operator": "BAL",
+   "from": "DZALG",
+   "to": "ESBCN"
+  },
+  {
+   "id": "BAL-VLC-ALG",
+   "operator": "BAL",
+   "from": "ESVLC",
+   "to": "DZALG"
+  },
+  {
+   "id": "BAL-ALG-VLC",
+   "operator": "BAL",
+   "from": "DZALG",
+   "to": "ESVLC"
+  },
+  {
+   "id": "BAL-VLC-ORN",
+   "operator": "BAL",
+   "from": "ESVLC",
+   "to": "DZORN"
+  },
+  {
+   "id": "BAL-ORN-VLC",
+   "operator": "BAL",
+   "from": "DZORN",
+   "to": "ESVLC"
+  },
+  {
+   "id": "BAL-VLC-MOS",
+   "operator": "BAL",
+   "from": "ESVLC",
+   "to": "DZMOS"
+  },
+  {
+   "id": "BAL-MOS-VLC",
+   "operator": "BAL",
+   "from": "DZMOS",
+   "to": "ESVLC"
+  },
+  {
+   "id": "NE-MRS-ALG",
+   "operator": "NE",
+   "from": "FRMRS",
+   "to": "DZALG"
+  },
+  {
+   "id": "NE-ALG-MRS",
+   "operator": "NE",
+   "from": "DZALG",
+   "to": "FRMRS"
+  },
+  {
+   "id": "NE-ALG-ALC",
+   "operator": "NE",
+   "from": "DZALG",
+   "to": "ESALC"
+  },
+  {
+   "id": "NE-ALC-ALG",
+   "operator": "NE",
+   "from": "ESALC",
+   "to": "DZALG"
+  },
+  {
+   "id": "NE-ALC-ORN",
+   "operator": "NE",
+   "from": "ESALC",
+   "to": "DZORN"
+  },
+  {
+   "id": "NE-ORN-ALC",
+   "operator": "NE",
+   "from": "DZORN",
+   "to": "ESALC"
+  },
+  {
+   "id": "ATM-LEI-GHZ",
+   "operator": "ATM",
+   "from": "ESLEI",
+   "to": "DZGHZ"
+  },
+  {
+   "id": "ATM-GHZ-LEI",
+   "operator": "ATM",
+   "from": "DZGHZ",
+   "to": "ESLEI"
+  },
+  {
+   "id": "ATM-LEI-ORN",
+   "operator": "ATM",
+   "from": "ESLEI",
+   "to": "DZORN"
+  },
+  {
+   "id": "ATM-ORN-LEI",
+   "operator": "ATM",
+   "from": "DZORN",
+   "to": "ESLEI"
+  }
+ ],
+ "vessels": [
+  {
+   "code": "BMK3",
+   "name": "Badji Mokhtar III",
+   "operator": "AF",
+   "mmsi": "605016420"
+  },
+  {
+   "code": "TIZ",
+   "name": "Tariq Ibn Ziyad",
+   "operator": "AF",
+   "mmsi": "605246160"
+  },
+  {
+   "code": "EDJ2",
+   "name": "El Djazair II",
+   "operator": "AF",
+   "mmsi": "605026190"
+  },
+  {
+   "code": "TSL2",
+   "name": "Tassili II",
+   "operator": "AF",
+   "mmsi": "605046150"
+  },
+  {
+   "code": "MED",
+   "name": "Méditerranée",
+   "operator": "CL",
+   "mmsi": null
+  },
+  {
+   "code": "DCA",
+   "name": "Danielle Casanova",
+   "operator": "CL",
+   "mmsi": "226242000"
+  },
+  {
+   "code": "FAN",
+   "name": "GNV Fantastic",
+   "operator": "GNV",
+   "mmsi": "247094000"
+  },
+  {
+   "code": "CRI",
+   "name": "GNV Cristal",
+   "operator": "GNV",
+   "mmsi": null
+  },
+  {
+   "code": "RBA",
+   "name": "Regina Baltica",
+   "operator": "BAL",
+   "mmsi": "210976000"
+  },
+  {
+   "code": "VIS",
+   "name": "Visborg",
+   "operator": "BAL",
+   "mmsi": null
+  },
+  {
+   "code": "CRA",
+   "name": "Cracovia",
+   "operator": "NE",
+   "mmsi": "311000671"
+  },
+  {
+   "code": "ALM",
+   "name": "Almariya",
+   "operator": "ATM",
+   "mmsi": null
+  },
+  {
+   "code": "ROM",
+   "name": "Romantika",
+   "operator": "MMC",
+   "mmsi": null
+  }
+ ]
+}

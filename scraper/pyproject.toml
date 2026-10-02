@@ -1,0 +1,50 @@
+[project]
+name = "wave-scraper"
+version = "1.0.0"
+description = "WAVE live data pipeline: ferry sailings, prices, exchange rates and AIS positions for the WAVE backend"
+requires-python = ">=3.11"
+dependencies = [
+  "scrapy>=2.13",
+  "scrapy-playwright>=0.0.43",
+  "pydantic>=2.9",
+  "httpx>=0.28",
+  "pyais>=2.9",
+  "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.25", "ruff>=0.12", "mypy>=1.17", "types-PyYAML"]
+
+[project.scripts]
+wave-scraper = "wave_scraper.__main__:main"
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["wave_scraper*"]
+
+[tool.setuptools.package-data]
+wave_scraper = ["data/*.json", "data/*.yaml"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+ignore = ["S101", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+exclude = ["tests/fixtures"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

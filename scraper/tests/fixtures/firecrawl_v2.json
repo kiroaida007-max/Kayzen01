@@ -1,0 +1,6 @@
+{"success":true,"data":{"json":{"sailings":[
+ {"operator":"Nouris Elbahr Ferries","from":"Alicante","to":"Alger","departure":"Jeudi 15 octobre 2026 à 20h00","arrival":"Vendredi 16 octobre 2026 à 12h00","vessel":"Cracovia","status":"Disponible",
+  "prices":[{"label":"Passager adulte","amount":168.23,"currency":"EUR"},{"label":"Voiture","amount":210,"currency":"EUR"}]},
+ {"operator":"Nouris Elbahr Ferries","from":"Alger","to":"Alicante","departure":"Samedi 17 octobre 2026 à 21h00","arrival":"Dimanche 18 octobre 2026 à 13h00","vessel":"Cracovia",
+  "prices":[{"label":"Passager adulte","amount":25235,"currency":"DZD"}]}
+]},"metadata":{"sourceURL":"https://www.nouriselbahrferries.com/horaires","statusCode":200}}}

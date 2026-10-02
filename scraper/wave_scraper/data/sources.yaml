@@ -1,0 +1,89 @@
+# Where each company publishes timetables and fares.
+#
+# The structured extractors (JSON-LD, embedded state, XHR payloads, HTML tables) are generic, so a
+# redesign usually only means updating start_urls here. `wave-scraper check --live` reports how many
+# crossings each source yields; `wave-scraper discover` crawls the allowed domains for new
+# timetable pages. Prefer an operator's B2B/agency feed when a partnership provides one.
+#
+# start_urls       pages to fetch (timetable, route or booking-search pages)
+# allowed_domains  crawl boundary, also used by the discovery crawler
+# playwright       render with Chromium (timetables loaded by JavaScript)
+# xhr_patterns     regexes of API calls whose JSON is captured while the page renders
+# wait_for         CSS selector to wait for before reading a rendered page
+# currency         currency of prices printed without a symbol
+# discovery        link patterns (regex, matched on the URL) worth following
+# firecrawl        allow the Firecrawl fallback when nothing could be extracted
+
+defaults:
+  playwright: true
+  wait_for: body
+  firecrawl: true
+  xhr_patterns:
+    - "(?i)/api/"
+    - "(?i)(timetable|horaire|schedule|sailing|departure|availability|disponib|tarif|fare|price|precio|prezz|travesia)"
+
+operators:
+  AF:
+    name: Algérie Ferries
+    currency: DZD
+    allowed_domains: [algerieferries.dz, www.algerieferries.dz, algerieferries.com, www.algerieferries.com]
+    start_urls:
+      - https://www.algerieferries.dz/
+      - https://algerieferries.com/
+    discovery:
+      - "(?i)(horaire|programme|planning|traversee|depart|tarif|promo|reservation)"
+
+  CL:
+    name: Corsica Linea
+    currency: EUR
+    allowed_domains: [corsicalinea.com, www.corsicalinea.com]
+    start_urls:
+      - https://www.corsicalinea.com/
+      - https://www.corsicalinea.com/reserver/offres-et-promotions/algerie/tarif-famille
+    discovery:
+      - "(?i)(algerie|alger|bejaia|skikda|horaire|tarif|offre)"
+
+  BAL:
+    name: Baleària
+    currency: EUR
+    allowed_domains: [balearia.com, www.balearia.com]
+    start_urls:
+      - https://www.balearia.com/fr/routes-horaires/bateau-valence-mostaganem
+      - https://www.balearia.com/en/routes-timetables/ferry-barcelona-algiers
+    discovery:
+      - "(?i)(routes-horaires|routes-timetables|rutas-horarios).*(alger|algiers|argel|oran|mostaganem)"
+
+  GNV:
+    name: GNV
+    currency: EUR
+    allowed_domains: [gnv.it, www.gnv.it, info.gnv.it]
+    start_urls:
+      - https://www.gnv.it/fr
+    discovery:
+      - "(?i)(algerie|algeria|alger|bejaia|annaba|sete|civitavecchia|horaire|orari|tarif)"
+
+  NE:
+    name: Nouris Elbahr Ferries
+    currency: DZD
+    allowed_domains: [nouriselbahrferries.com, www.nouriselbahrferries.com]
+    start_urls:
+      - https://www.nouriselbahrferries.com/
+    discovery:
+      - "(?i)(horaire|programme|depart|tarif|reservation|alicante|marseille|oran|alger)"
+
+  ATM:
+    name: Armas Trasmed
+    currency: EUR
+    allowed_domains: [armastrasmediterranea.com, www.armastrasmediterranea.com]
+    start_urls:
+      - https://armastrasmediterranea.com/
+    discovery:
+      - "(?i)(argelia|algerie|ghazaouet|oran|almeria|horarios|rutas)"
+
+rates:
+  # Banque d'Algérie: official interbank rates (cours de change). The only legal rate for ticket sales.
+  start_urls:
+    - https://www.bank-of-algeria.dz/
+  allowed_domains: [bank-of-algeria.dz, www.bank-of-algeria.dz]
+  discovery:
+    - "(?i)(cours|change|taux|exchange|marche-interbancaire)"
