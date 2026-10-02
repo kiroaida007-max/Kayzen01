@@ -95,7 +95,7 @@ class _NavBar extends StatelessWidget {
 
   static double _width(BuildContext context, String label, bool bold) {
     final painter = TextPainter(
-      text: TextSpan(text: label, style: TextStyle(fontSize: 14, fontWeight: bold ? FontWeight.w600 : FontWeight.w400, fontFamily: DefaultTextStyle.of(context).style.fontFamily)),
+      text: TextSpan(text: label, style: DefaultTextStyle.of(context).style.copyWith(fontSize: 14, fontWeight: bold ? FontWeight.w600 : FontWeight.w400)),
       textDirection: TextDirection.ltr,
       maxLines: 1,
     )..layout();
