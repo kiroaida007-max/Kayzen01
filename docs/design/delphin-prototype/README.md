@@ -18,6 +18,9 @@ path) and reworks the experience around them.
   above the tab bar, and a mobile sign-in.
 - On a phone the app fills the screen and the screen list becomes a slide-in drawer. Layouts hold from
   320 px wide (iPhone SE, first generation) to 430 px; narrow phones get tighter spacing and type.
+- Readable on a phone: no text inside the app is smaller than 11 px (only the prototype's screen-code line
+  is 10 px), body text is a step larger than in v2, and every tap target is at least 44 px. On the
+  narrowest phones the step rail keeps the label of the current step only.
 - Dialogs open as bottom sheets on phones, their buttons kept in reach above long content. Sheets close
   with a drag down from their handle or title, a tap on the dimmed screen, or `Esc`.
 - Landscape phones get slimmer chrome and side-by-side tab labels, which nearly doubles the height left
@@ -46,6 +49,7 @@ path) and reworks the experience around them.
   fastest crossing; the comparison flags the lowest total; the calendar shows the whole trip range and
   greys out return dates before departure.
 - Statuses carry meaning: received / pending / unavailable dots in rows, coloured pills on staff records.
+- Staff search narrows the record cards as you type, ignoring accents and case.
 - Screen library: search (`/`), journey filters, a selection that follows navigation, previous / next
   (`←` `→`), and a presentation mode (`F`) that hides the side panels.
 - The inspector links each screen to its next and previous screens (“Parcours”); the scenario picker
