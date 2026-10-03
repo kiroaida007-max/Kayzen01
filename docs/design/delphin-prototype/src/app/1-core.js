@@ -45,7 +45,8 @@ const IMAGES = {
 const imageStyles = document.createElement("style");
 imageStyles.id = "images";
 imageStyles.textContent = `.hero-media{background-image:url("${IMAGES.hero}")}.brand-mark.reverse{background-image:url("${IMAGES.reverse}")}`;
-document.head.append(imageStyles);
+// Right after the main stylesheet, wherever the host put it, so these rules win the cascade.
+document.getElementById("styles").after(imageStyles);
 
 /* 2. State & persistence ================================================== */
 
