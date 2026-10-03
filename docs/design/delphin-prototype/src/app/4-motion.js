@@ -433,6 +433,7 @@ const Motion = {
     $$(".hero-media", vp).forEach((m) => (m.style.animationDelay = phase));
     this.placeNavPill(snap);
     this.bindScroll(snap.kind === "update" ? snap.scroll : 0);
+    this.bindPull();
     if (snap.kind !== "update") this.countUp();
   },
   placeNavPill(snap = {}) {
@@ -466,6 +467,67 @@ const Motion = {
     });
   },
   // Header hairline once content scrolls under it; gentle hero parallax.
+  // Staff lists: pull down from the top to refresh (touch). The list follows the finger with
+  // resistance over the indicator; past 64 px it holds while refreshing, then slides back.
+  bindPull() {
+    // The indicator of this screen, not of an outgoing one still fading out.
+    const body = $("#body"),
+      ptr = body && $(":scope > .ptr", body.parentElement);
+    if (!ptr) return;
+    const SNAP = 64;
+    let start = null;
+    const show = (y) => {
+      body.style.transform = y ? `translateY(${y}px)` : "";
+      ptr.style.setProperty("--pull", Math.min(1, y / SNAP).toFixed(3));
+      ptr.classList.toggle("ready", y >= SNAP);
+    };
+    const settle = (from) => {
+      ptr.classList.remove("ready", "loading");
+      show(0);
+      if (!this.reduced()) this.anim(body, [{ transform: `translateY(${from}px)` }, { transform: "none" }], { duration: 380, easing: EASE.soft });
+    };
+    body.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        start = e.touches.length === 1 && body.scrollTop <= 0 && !ptr.classList.contains("loading") ? { x: t.clientX, y: t.clientY, pull: 0, on: false } : null;
+      },
+      { passive: true },
+    );
+    body.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!start) return;
+        const dx = e.touches[0].clientX - start.x,
+          dy = e.touches[0].clientY - start.y;
+        if (!start.on) {
+          if (Math.hypot(dx, dy) < 6) return;
+          // Decided once: only a downward, mostly vertical drag from the top pulls; anything else scrolls.
+          if (dy <= 0 || Math.abs(dx) > dy || body.scrollTop > 0) return void (start = null);
+          start.on = true;
+        }
+        e.preventDefault();
+        show((start.pull = Math.min(110, dy * 0.5)));
+      },
+      { passive: false },
+    );
+    const end = () => {
+      if (!start?.on) return void (start = null);
+      const { pull } = start;
+      start = null;
+      if (pull < SNAP) return settle(pull);
+      ptr.classList.add("loading");
+      show(56);
+      if (!this.reduced()) this.anim(body, [{ transform: `translateY(${pull}px)` }, { transform: "translateY(56px)" }], { duration: 200, easing: EASE.out });
+      setTimeout(() => {
+        if (!body.isConnected) return;
+        staffRefresh($(".phone.staff .header-action"));
+        settle(56);
+      }, 700);
+    };
+    body.addEventListener("touchend", end, { passive: true });
+    body.addEventListener("touchcancel", end, { passive: true });
+  },
   bindScroll(initial) {
     const body = $("#body"),
       phone = $(".phone");

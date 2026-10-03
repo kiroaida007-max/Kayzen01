@@ -2810,6 +2810,37 @@ dialog .tear::after {
   color: var(--error);
 }
 
+/* Pull to refresh: the list slides down over this indicator. */
+.ptr {
+  position: relative;
+  height: 0;
+}
+.ptr i {
+  position: absolute;
+  top: 14px;
+  left: calc(50% - 18px);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-2);
+  color: var(--muted);
+  opacity: var(--pull, 0);
+  transform: scale(calc(0.6 + 0.4 * var(--pull, 0))) rotate(calc(var(--pull, 0) * 240deg));
+}
+.ptr.ready i {
+  color: var(--sea);
+}
+.ptr.loading .icon {
+  animation: spin 0.8s linear infinite;
+}
+.phone.staff .app-body {
+  z-index: 1;
+  background: var(--app-bg);
+}
+
 /* "Plus" bottom sheet */
 .sheet-layer {
   position: absolute;
@@ -3181,6 +3212,11 @@ dialog .ticket {
 @keyframes fade-out {
   to {
     opacity: 0;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 @keyframes sheet-in {
@@ -4762,7 +4798,7 @@ function renderStaff(d) {
   renderPhone({
     cls: "staff",
     header: appHeader(d.title, `<button class="header-action" aria-label="Actualiser les données" onclick="staffRefresh(this)">${icon("refresh")}</button>`),
-    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DÉMO</div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…" enterkeyhint="search" oninput="filterRecords(this.value)"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div><p class="record-status" role="status" data-key="records:status"></p>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
+    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DÉMO</div><div class="ptr" aria-hidden="true"><i>${icon("refresh")}</i></div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…" enterkeyhint="search" oninput="filterRecords(this.value)"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div><p class="record-status" role="status" data-key="records:status"></p>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
     nav: tabBar("Navigation de l’espace équipe", tabs),
   });
 }
@@ -5677,6 +5713,7 @@ const Motion = {
     $$(".hero-media", vp).forEach((m) => (m.style.animationDelay = phase));
     this.placeNavPill(snap);
     this.bindScroll(snap.kind === "update" ? snap.scroll : 0);
+    this.bindPull();
     if (snap.kind !== "update") this.countUp();
   },
   placeNavPill(snap = {}) {
@@ -5710,6 +5747,67 @@ const Motion = {
     });
   },
   // Header hairline once content scrolls under it; gentle hero parallax.
+  // Staff lists: pull down from the top to refresh (touch). The list follows the finger with
+  // resistance over the indicator; past 64 px it holds while refreshing, then slides back.
+  bindPull() {
+    // The indicator of this screen, not of an outgoing one still fading out.
+    const body = $("#body"),
+      ptr = body && $(":scope > .ptr", body.parentElement);
+    if (!ptr) return;
+    const SNAP = 64;
+    let start = null;
+    const show = (y) => {
+      body.style.transform = y ? `translateY(${y}px)` : "";
+      ptr.style.setProperty("--pull", Math.min(1, y / SNAP).toFixed(3));
+      ptr.classList.toggle("ready", y >= SNAP);
+    };
+    const settle = (from) => {
+      ptr.classList.remove("ready", "loading");
+      show(0);
+      if (!this.reduced()) this.anim(body, [{ transform: `translateY(${from}px)` }, { transform: "none" }], { duration: 380, easing: EASE.soft });
+    };
+    body.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        start = e.touches.length === 1 && body.scrollTop <= 0 && !ptr.classList.contains("loading") ? { x: t.clientX, y: t.clientY, pull: 0, on: false } : null;
+      },
+      { passive: true },
+    );
+    body.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!start) return;
+        const dx = e.touches[0].clientX - start.x,
+          dy = e.touches[0].clientY - start.y;
+        if (!start.on) {
+          if (Math.hypot(dx, dy) < 6) return;
+          // Decided once: only a downward, mostly vertical drag from the top pulls; anything else scrolls.
+          if (dy <= 0 || Math.abs(dx) > dy || body.scrollTop > 0) return void (start = null);
+          start.on = true;
+        }
+        e.preventDefault();
+        show((start.pull = Math.min(110, dy * 0.5)));
+      },
+      { passive: false },
+    );
+    const end = () => {
+      if (!start?.on) return void (start = null);
+      const { pull } = start;
+      start = null;
+      if (pull < SNAP) return settle(pull);
+      ptr.classList.add("loading");
+      show(56);
+      if (!this.reduced()) this.anim(body, [{ transform: `translateY(${pull}px)` }, { transform: "translateY(56px)" }], { duration: 200, easing: EASE.out });
+      setTimeout(() => {
+        if (!body.isConnected) return;
+        staffRefresh($(".phone.staff .header-action"));
+        settle(56);
+      }, 700);
+    };
+    body.addEventListener("touchend", end, { passive: true });
+    body.addEventListener("touchcancel", end, { passive: true });
+  },
   bindScroll(initial) {
     const body = $("#body"),
       phone = $(".phone");

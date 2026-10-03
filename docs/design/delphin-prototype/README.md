@@ -54,7 +54,8 @@ path) and reworks the experience around them.
   fastest crossing; the comparison flags the lowest total; the calendar shows the whole trip range and
   greys out return dates before departure.
 - Statuses carry meaning: received / pending / unavailable dots in rows, coloured pills on staff records.
-- Staff search narrows the record cards as you type, ignoring accents and case.
+- Staff search narrows the record cards as you type, ignoring accents and case; on a phone, pulling a
+  staff list down from the top refreshes it.
 - Screen library: search (`/`), journey filters, a selection that follows navigation, previous / next
   (`←` `→`), and a presentation mode (`F`) that hides the side panels.
 - The inspector links each screen to its next and previous screens (“Parcours”); the scenario picker
@@ -78,6 +79,7 @@ path) and reworks the experience around them.
 | Tab bar, library, scenario, language | Cross-fade; the content settles in reading order (30 ms stagger). |
 | Same screen | Moved blocks glide (FLIP, 460 ms), new blocks rise in, removed ones fade; counters roll; amounts count to their new value. |
 | Selection | Segmented-control thumb, tab-bar pill (customer and staff apps) and library indicator slide on a soft spring. |
+| Pull to refresh | Staff lists follow the finger with resistance over a refresh indicator; past 64 px they hold while refreshing, then spring back. Only a downward drag from the top pulls; any other drag scrolls. |
 | Sheets | The staff “Plus” menu, and dialogs on phones, slide up over a dimmed screen (460 ms). A drag moves the sheet with the finger and lightens the dimming; let go past a third of its height, or flick, and it closes, otherwise it springs back. |
 | Feedback | Blocked button shakes, the missing item pulses gold; the button glints once it becomes available; tap ripple on main targets. |
 | Entering a screen | Hero headline rises line by line, progress fills, the success check draws, the ticket unfolds, timeline steps arrive in order, staff metrics count up. |
