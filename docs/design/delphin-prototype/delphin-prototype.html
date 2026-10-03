@@ -2666,6 +2666,14 @@ dialog .tear::after {
   display: grid;
   gap: 10px;
 }
+.record-status {
+  margin-top: -4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.record-status:empty {
+  display: none;
+}
 .record {
   position: relative;
   display: block;
@@ -4692,7 +4700,7 @@ function renderStaff(d) {
   renderPhone({
     cls: "staff",
     header: appHeader(d.title, `<button class="header-action" aria-label="Actualiser les données" onclick="staffRefresh(this)">${icon("refresh")}</button>`),
-    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DE DÉMONSTRATION</div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
+    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DE DÉMONSTRATION</div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…" enterkeyhint="search" oninput="filterRecords(this.value)"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div><p class="record-status" role="status" data-key="records:status"></p>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
     nav: tabBar("Navigation de l’espace équipe", tabs),
   });
 }
@@ -5047,6 +5055,18 @@ function staffRefresh(button) {
   toast("Données de démonstration actualisées.", "success");
   Motion.spin($(".icon", button));
   Motion.restagger($$("#body .record"));
+}
+// Staff search narrows the record cards as you type; accents and case are ignored.
+function filterRecords(query) {
+  const list = $("#body .record-list"),
+    status = $("#body .record-status");
+  if (!list) return;
+  const q = normalize(query.trim()),
+    cards = $$(".record", list);
+  const text = (card) => normalize($$("strong, dd, .pill", card).map((e) => e.textContent).join(" "));
+  Motion.reflow(list, () => cards.forEach((card) => (card.hidden = !!q && !text(card).includes(q))));
+  const shown = cards.filter((card) => !card.hidden).length;
+  status.textContent = !q ? "" : shown ? `${shown} sur ${cards.length}` : `Aucun élément ne correspond à « ${query.trim()} ».`;
 }
 // "Plus" opens every staff section in a bottom sheet inside the device.
 function openStaffMenu() {
@@ -5738,7 +5758,24 @@ const Motion = {
       this.anim(el, [{ opacity: 0.25, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: i * 60, easing: EASE.out }),
     );
   },
-  // Bottom sheet: slides up over a fading scrim; reversed to close.
+  // A filtered list re-flows: kept items glide to their new place, returning ones fade in.
+  reflow(list, apply) {
+    const items = [...list.children],
+      before = new Map(items.filter((el) => !el.hidden).map((el) => [el, el.getBoundingClientRect().top]));
+    apply();
+    if (this.reduced()) return;
+    let k = 0;
+    for (const el of items) {
+      if (el.hidden) continue;
+      const top = before.get(el),
+        now = el.getBoundingClientRect().top;
+      if (top === undefined)
+        this.anim(el, [{ opacity: 0, transform: "translateY(8px) scale(.98)" }, { opacity: 1, transform: "none" }], { duration: 300, delay: k++ * 40, easing: EASE.out });
+      else if (Math.abs(top - now) > 0.5)
+        this.anim(el, [{ transform: `translateY(${(top - now) / this.fit}px)` }, { transform: "none" }], { duration: 360, easing: EASE.soft });
+    }
+  },
+  // Bottom sheet: slides up over a fading scrim; closes from wherever a drag left it.
   sheet(layer, open, done) {
     const panel = $(".sheet", layer),
       scrim = $(".sheet-scrim", layer);

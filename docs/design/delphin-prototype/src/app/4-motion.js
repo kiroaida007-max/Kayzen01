@@ -576,7 +576,24 @@ const Motion = {
       this.anim(el, [{ opacity: 0.25, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: i * 60, easing: EASE.out }),
     );
   },
-  // Bottom sheet: slides up over a fading scrim; reversed to close.
+  // A filtered list re-flows: kept items glide to their new place, returning ones fade in.
+  reflow(list, apply) {
+    const items = [...list.children],
+      before = new Map(items.filter((el) => !el.hidden).map((el) => [el, el.getBoundingClientRect().top]));
+    apply();
+    if (this.reduced()) return;
+    let k = 0;
+    for (const el of items) {
+      if (el.hidden) continue;
+      const top = before.get(el),
+        now = el.getBoundingClientRect().top;
+      if (top === undefined)
+        this.anim(el, [{ opacity: 0, transform: "translateY(8px) scale(.98)" }, { opacity: 1, transform: "none" }], { duration: 300, delay: k++ * 40, easing: EASE.out });
+      else if (Math.abs(top - now) > 0.5)
+        this.anim(el, [{ transform: `translateY(${(top - now) / this.fit}px)` }, { transform: "none" }], { duration: 360, easing: EASE.soft });
+    }
+  },
+  // Bottom sheet: slides up over a fading scrim; closes from wherever a drag left it.
   sheet(layer, open, done) {
     const panel = $(".sheet", layer),
       scrim = $(".sheet-scrim", layer);

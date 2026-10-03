@@ -2613,6 +2613,14 @@ dialog .tear::after {
   display: grid;
   gap: 10px;
 }
+.record-status {
+  margin-top: -4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.record-status:empty {
+  display: none;
+}
 .record {
   position: relative;
   display: block;

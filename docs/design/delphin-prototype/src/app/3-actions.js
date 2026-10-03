@@ -344,6 +344,18 @@ function staffRefresh(button) {
   Motion.spin($(".icon", button));
   Motion.restagger($$("#body .record"));
 }
+// Staff search narrows the record cards as you type; accents and case are ignored.
+function filterRecords(query) {
+  const list = $("#body .record-list"),
+    status = $("#body .record-status");
+  if (!list) return;
+  const q = normalize(query.trim()),
+    cards = $$(".record", list);
+  const text = (card) => normalize($$("strong, dd, .pill", card).map((e) => e.textContent).join(" "));
+  Motion.reflow(list, () => cards.forEach((card) => (card.hidden = !!q && !text(card).includes(q))));
+  const shown = cards.filter((card) => !card.hidden).length;
+  status.textContent = !q ? "" : shown ? `${shown} sur ${cards.length}` : `Aucun élément ne correspond à « ${query.trim()} ».`;
+}
 // "Plus" opens every staff section in a bottom sheet inside the device.
 function openStaffMenu() {
   const phone = $(".phone.staff");
