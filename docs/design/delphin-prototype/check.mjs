@@ -1,6 +1,6 @@
 // Smoke test for delphin-prototype.html: every screen renders, the booking flow
-// reaches the ticket, reduced motion leaves no long animation, and nothing logs
-// an error. Usage (from the repository root):
+// reaches the ticket, reduced motion leaves no long animation, dialogs are bottom
+// sheets on a phone, and nothing logs an error. Usage (from the repository root):
 //   npm install --no-save playwright && npx playwright install chromium
 //   node docs/design/delphin-prototype/check.mjs
 import { chromium } from "playwright";
@@ -68,7 +68,19 @@ const long = await page.evaluate(() => document.getAnimations().filter((a) => a.
 check(long === 0, `reduced motion: ${long} animation(s) still running after 300 ms`);
 await page.close();
 
+// 4. On a phone, dialogs open as bottom sheets.
+page = await open({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const sheet = await page.evaluate(async () => {
+  navTo("C31", "jump");
+  documentDemo();
+  await new Promise((r) => setTimeout(r, 600));
+  const r = document.querySelector("#modal").getBoundingClientRect();
+  return { left: r.left, width: r.width, bottom: r.bottom };
+});
+check(sheet.left === 0 && sheet.width === 390 && Math.round(sheet.bottom) === 844, `phone dialog is not a bottom sheet: ${JSON.stringify(sheet)}`);
+await page.close();
+
 await browser.close();
 check(errors.length === 0, `page errors: ${errors.join(" | ")}`);
-console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow and reduced motion OK`);
+console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion and phone dialogs OK`);
 process.exit(failures.length ? 1 : 0);

@@ -18,6 +18,8 @@ path) and reworks the experience around them.
   above the tab bar, and a mobile sign-in.
 - On a phone the app fills the screen and the screen list becomes a slide-in drawer. Layouts hold from
   320 px wide (iPhone SE, first generation) to 430 px; narrow phones get tighter spacing and type.
+- Dialogs open as bottom sheets on phones, their buttons kept in reach above long content. Sheets close
+  with a drag down from their handle or title, a tap on the dimmed screen, or `Esc`.
 - Landscape phones get slimmer chrome and side-by-side tab labels, which nearly doubles the height left
   for content.
 - On desktop every screen is shown in the device, scaled to fit the window.
@@ -64,7 +66,8 @@ path) and reworks the experience around them.
 | Back — ‹, browser Back, return to a parent | The screen slides away to the inline end, revealing the previous one (460 ms). |
 | Tab bar, library, scenario, language | Cross-fade; the content settles in reading order (30 ms stagger). |
 | Same screen | Moved blocks glide (FLIP, 460 ms), new blocks rise in, removed ones fade; counters roll; amounts count to their new value. |
-| Selection | Segmented-control thumb, tab-bar pill (customer and staff apps) and library indicator slide on a soft spring; the staff “Plus” sheet slides up over a dimmed screen. |
+| Selection | Segmented-control thumb, tab-bar pill (customer and staff apps) and library indicator slide on a soft spring. |
+| Sheets | The staff “Plus” menu, and dialogs on phones, slide up over a dimmed screen (460 ms). A drag moves the sheet with the finger and lightens the dimming; let go past a third of its height, or flick, and it closes, otherwise it springs back. |
 | Feedback | Blocked button shakes, the missing item pulses gold; the button glints once it becomes available; tap ripple on main targets. |
 | Entering a screen | Hero headline rises line by line, progress fills, the success check draws, the ticket unfolds, timeline steps arrive in order, staff metrics count up. |
 | Reduced motion | Same states and focus handling, no movement — short fades only. |
@@ -98,7 +101,7 @@ mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 - Cost per interaction in desktop Chromium, layout included: about 6 ms for an in-place update and 8 ms
   for a navigation, 10 ms in the staff app (v2: 5 ms and 6 ms).
 
-After editing the file, run the smoke test (every screen, the booking flow, reduced motion):
+After editing the file, run the smoke test (every screen, the booking flow, reduced motion, phone dialogs):
 
 ```bash
 npm install --no-save playwright && npx playwright install chromium
