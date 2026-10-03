@@ -759,10 +759,10 @@ kbd {
 .route-chip:active {
   transform: scale(0.98);
 }
-.route-chip.forward:hover .icon {
+.route-chip.to-next:hover .icon {
   transform: translateX(3px);
 }
-.route-chip.back:hover .icon {
+.route-chip.to-back:hover .icon {
   transform: translateX(-3px);
 }
 .route-none {
@@ -5665,7 +5665,7 @@ function routeLinks(d) {
   const next = staffView ? DATA.links.find((l) => l.from === d.id && l.label === "Controlled staff action")?.to : DATA.flows[d.id];
   const chip = (id, intent, label) =>
     id && id !== d.id && byId[id]
-      ? `<button class="route-chip ${intent}" onclick="${esc("navTo(" + json(id) + ",'" + intent + "')")}"><small>${label}</small><span><b>${id}</b>${esc(byId[id].title)}</span>${icon(intent === "back" ? "arrowLeft" : "arrowRight")}</button>`
+      ? `<button class="route-chip ${intent === "back" ? "to-back" : "to-next"}" onclick="${esc("navTo(" + json(id) + ",'" + intent + "')")}"><small>${label}</small><span><b>${id}</b>${esc(byId[id].title)}</span>${icon(intent === "back" ? "arrowLeft" : "arrowRight")}</button>`
       : "";
   const links = chip(next, "forward", staffView ? "Après l’action contrôlée" : "Bouton principal · par défaut") + chip(DATA.back[d.id], "back", "Retour");
   return links || '<p class="route-none">Pas de suite définie pour cet écran.</p>';
