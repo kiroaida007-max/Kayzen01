@@ -404,6 +404,33 @@ kbd {
   scrollbar-width: thin;
   scrollbar-color: var(--line-2) transparent;
 }
+/* Phones only: the way into presentation mode (desktop has the stage button and F). */
+.present-toggle {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-align: left;
+  color: var(--navy);
+}
+.present-toggle .icon {
+  flex: none;
+  color: var(--sea);
+}
+.present-toggle strong {
+  display: block;
+  font-size: 13.5px;
+}
+.present-toggle small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
 .library-head {
   position: sticky;
   top: 0;
@@ -2924,6 +2951,8 @@ dialog .tear::after {
   display: flex;
   align-items: center;
   gap: 10px;
+  /* Centred with left: 50%, it would otherwise shrink to the half of the screen right of its anchor. */
+  width: max-content;
   max-width: min(92vw, 420px);
   padding: 11px 16px 11px 11px;
   overflow: hidden;
@@ -3526,6 +3555,16 @@ dialog .ticket {
   }
   .focus-mode .workspace {
     display: block;
+  }
+  /* Presentation mode on a phone: the prototype's top bar goes, the app takes the whole screen. */
+  .focus-mode {
+    --topbar-h: 0px;
+  }
+  .focus-mode .topbar {
+    display: none;
+  }
+  .present-toggle {
+    display: flex;
   }
   #viewport {
     display: block;

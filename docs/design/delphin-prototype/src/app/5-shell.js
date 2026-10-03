@@ -196,9 +196,11 @@ function closeModal() {
 }
 
 /* Focus mode, mobile drawer & stage fit ------------------------------------ */
-function toggleFocusMode() {
-  const on = document.body.classList.toggle("focus-mode");
-  $("#focusButton").setAttribute("aria-pressed", String(on));
+function toggleFocusMode(force) {
+  const on = document.body.classList.toggle("focus-mode", force);
+  for (const b of $$("#focusButton, #presentButton")) b.setAttribute("aria-pressed", String(on));
+  // On a phone the top bar goes too: say how to bring it back.
+  if (compactQuery.matches) on ? toast("Mode présentation · touchez l’écran avec deux doigts pour revenir aux outils.") : hideToast();
   setTimeout(() => {
     measureLibrary();
     placeLibraryIndicator(false);
@@ -328,6 +330,36 @@ addEventListener("resize", () => {
     if ($("#toast").classList.contains("show")) placeToast();
   });
 });
+// A two-finger tap toggles presentation mode: on a phone, the way back to the tools.
+let twoFingers = null;
+document.addEventListener(
+  "touchstart",
+  (e) => (twoFingers = e.touches.length === 2 ? { t: e.timeStamp, at: new Map([...e.touches].map((p) => [p.identifier, [p.clientX, p.clientY]])) } : null),
+  { passive: true },
+);
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    const moved = (p) => {
+      const o = twoFingers?.at.get(p.identifier);
+      return o && Math.hypot(p.clientX - o[0], p.clientY - o[1]) > 12;
+    };
+    if (twoFingers && [...e.changedTouches].some(moved)) twoFingers = null; // a pinch or a scroll
+  },
+  { passive: true },
+);
+document.addEventListener(
+  "touchend",
+  (e) => {
+    if (!twoFingers || e.touches.length) return;
+    const quick = e.timeStamp - twoFingers.t < 450;
+    twoFingers = null;
+    if (quick) toggleFocusMode();
+  },
+  { passive: true },
+);
+document.addEventListener("touchcancel", () => (twoFingers = null), { passive: true });
+
 // Browser back/forward: a step back through the app history slides back.
 window.addEventListener("hashchange", () => {
   const id = location.hash.slice(1);
@@ -343,3 +375,5 @@ window.addEventListener("hashchange", () => {
 
 if (byId[location.hash.slice(1)]) state.id = location.hash.slice(1);
 render();
+// Opened from a phone's home screen, or with ?app in the address: start in presentation mode.
+if (new URLSearchParams(location.search).has("app") || matchMedia("(display-mode: standalone)").matches || navigator.standalone) toggleFocusMode(true);

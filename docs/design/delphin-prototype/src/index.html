@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#082C46">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Delphin">
+<link rel="apple-touch-icon" href="data:image/png;base64,/* build: assets/delphin-icon.png */">
 <title>Delphin · Prototype interactif</title>
 <!-- Self-contained: fonts, images and demo data are embedded. Open directly in a browser. -->
 <style id="fonts">/* build: fonts/fonts.css */</style>
@@ -27,6 +31,7 @@
 <div class="workspace">
   <aside class="library" id="library" aria-label="Écrans du prototype">
     <div class="library-head">
+      <button class="present-toggle" id="presentButton" aria-pressed="false" onclick="closeMenu();toggleFocusMode()"><svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg><span><strong>Mode présentation</strong><small>L’app seule, en plein écran</small></span></button>
       <label class="library-search"><svg class="icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg><input id="librarySearch" type="search" placeholder="Rechercher un écran" aria-label="Rechercher un écran" autocomplete="off" oninput="filterLibrary()" onkeydown="librarySearchKey(event)"><kbd aria-hidden="true">/</kbd></label>
       <div class="chips" id="libraryChips" role="group" aria-label="Filtrer par étape du parcours"></div>
     </div>

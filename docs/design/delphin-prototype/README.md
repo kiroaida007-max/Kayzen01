@@ -25,6 +25,10 @@ path) and reworks the experience around them.
   with a drag down from their handle or title, a tap on the dimmed screen, or `Esc`.
 - Landscape phones get slimmer chrome and side-by-side tab labels, which nearly doubles the height left
   for content.
+- Presentation mode on a phone: “Mode présentation” in the screen list (☰) hides the prototype's top bar,
+  so only the app shows; a two-finger tap brings the tools back. Add `?app` to the address to open in it
+  directly. Added to a phone's home screen (from a web address), the prototype opens full screen, in this
+  mode, under its own icon.
 - On desktop every screen is shown in the device, scaled to fit the window.
 
 **Fixes**
@@ -38,6 +42,7 @@ path) and reworks the experience around them.
 - The device fits the stage instead of being cut off on laptop-height windows.
 - The browser's Back button steps back through the app history.
 - Pressing − at a stepper's minimum no longer invalidates the current quote.
+- Messages (toasts) use the phone's width instead of wrapping at half of it.
 
 **UX**
 

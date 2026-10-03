@@ -8,6 +8,7 @@ src/index.html is the page; build markers in it are replaced by:
   styles.css        the stylesheet
   data.json         the demo data, with the images in assets/ added under DATA.assets
   app/*.js          the script, in file order
+  assets/delphin-icon.png   the home-screen icon, as base64
 """
 import base64, json, pathlib, re, sys
 
@@ -41,6 +42,7 @@ def build():
         "styles.css": read("styles.css"),
         "data.json": "const DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";",
         "app/*.js": "".join(p.read_text(encoding="utf-8") for p in sorted((SRC / "app").glob("*.js"))),
+        "assets/delphin-icon.png": b64("assets/delphin-icon.png"),
     }
     html = read("index.html")
     for marker, text in parts.items():
