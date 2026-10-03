@@ -27,8 +27,8 @@ for (const { id, title } of screens) {
   const shown = await page.evaluate((id) => {
     state = JSON.parse(JSON.stringify(seed));
     navTo(id, "jump");
-    // Customer screens title the phone header, staff screens their workspace; A01 is the sign-in.
-    const heading = document.querySelector("#screenHeading, .staff-body h1");
+    // Every screen titles its phone header; A01 is the staff sign-in.
+    const heading = document.querySelector(".app-header #screenHeading");
     return { id: state.id, heading: heading?.textContent, login: !!document.querySelector(".staff-login") };
   }, id);
   check(shown.id === id, `${id}: navigation ended on ${shown.id}`);

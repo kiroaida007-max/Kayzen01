@@ -1,14 +1,26 @@
 # Delphin — clickable prototype (v3)
 
 One self-contained HTML file: open [`delphin-prototype.html`](delphin-prototype.html) in any current
-browser (double-click works — no server, no network). It holds the 66 customer screens and 24 staff
-screens of the Delphin booking design, with demo data only: nothing is bought, sent or stored outside
-the browser.
+browser (double-click works — no server, no network). All 90 screens of the Delphin booking design are
+phone-app screens — 66 in the customer app, 24 in the staff app (Espace équipe) — with demo data only:
+nothing is bought, sent or stored outside the browser.
 
 v3 keeps every flow and business rule of v2 (the file as received is the previous commit of this
 path) and reworks the experience around them.
 
 ## What changed
+
+**Mobile**
+
+- Every screen is an app screen. The 24 staff screens, a wide desktop dashboard in v2, are now the
+  *Espace équipe* phone app: navy header, tab bar (Opérations, Dossiers, Paiements, Incidents, Plus), a
+  “Plus” bottom sheet for all 14 sections, tables shown as tappable record cards, the main action pinned
+  above the tab bar, and a mobile sign-in.
+- On a phone the app fills the screen and the screen list becomes a slide-in drawer. Layouts hold from
+  320 px wide (iPhone SE, first generation) to 430 px; narrow phones get tighter spacing and type.
+- Landscape phones get slimmer chrome and side-by-side tab labels, which nearly doubles the height left
+  for content.
+- On desktop every screen is shown in the device, scaled to fit the window.
 
 **Fixes**
 
@@ -31,12 +43,11 @@ path) and reworks the experience around them.
 - Ports are listed under their heading with the current one tagged; results flag the best price or the
   fastest crossing; the comparison flags the lowest total; the calendar shows the whole trip range and
   greys out return dates before departure.
-- Statuses carry meaning: received / pending / unavailable dots in rows, coloured pills in staff tables.
+- Statuses carry meaning: received / pending / unavailable dots in rows, coloured pills on staff records.
 - Screen library: search (`/`), journey filters, a selection that follows navigation, previous / next
   (`←` `→`), and a presentation mode (`F`) that hides the side panels.
 - The inspector links each screen to its next and previous screens (“Parcours”); the scenario picker
   stays in sync with the screen shown.
-- Mobile: slide-in screen list with backdrop, compact top bar; staff tables scroll sideways.
 
 **Code**
 
@@ -53,7 +64,7 @@ path) and reworks the experience around them.
 | Back — ‹, browser Back, return to a parent | The screen slides away to the inline end, revealing the previous one (460 ms). |
 | Tab bar, library, scenario, language | Cross-fade; the content settles in reading order (30 ms stagger). |
 | Same screen | Moved blocks glide (FLIP, 460 ms), new blocks rise in, removed ones fade; counters roll; amounts count to their new value. |
-| Selection | Segmented-control thumb, tab-bar pill, staff-nav and library indicators slide on a soft spring. |
+| Selection | Segmented-control thumb, tab-bar pill (customer and staff apps) and library indicator slide on a soft spring; the staff “Plus” sheet slides up over a dimmed screen. |
 | Feedback | Blocked button shakes, the missing item pulses gold; the button glints once it becomes available; tap ripple on main targets. |
 | Entering a screen | Hero headline rises line by line, progress fills, the success check draws, the ticket unfolds, timeline steps arrive in order, staff metrics count up. |
 | Reduced motion | Same states and focus handling, no movement — short fades only. |
@@ -73,17 +84,19 @@ the focus ring and the motion tokens above.
 ## Keyboard
 
 `←` `→` previous / next screen · `/` search screens · `↑` `↓` move through the list · `F` presentation
-mode · `Esc` close the dialog or the screen list.
+mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 
 ## Verification
 
 - Same behaviour as v2: nine scripted journeys (about 140 steps — booking through to the ticket and
   back, round trip, travellers, ports, filters, identity checks, payment outcomes, operator guide,
   dialogs, staff sign-in and dual approval) leave v2 and v3 in identical app state.
-- All 90 screens render without errors, on desktop and at phone width, in French and in Arabic (RTL).
+- All 90 screens render without errors, on desktop and on phones, in French and in Arabic (RTL).
+- At eight phone sizes (320×640 to 430×932 portrait, plus two landscape sizes) no screen has an element
+  past the edge of the phone, clipped text or a page that scrolls sideways.
 - With reduced motion requested, nothing longer than a short fade runs.
-- Cost per interaction in Chromium, layout included: about 7 ms for an in-place update and 11 ms for a
-  navigation (v2: 6 ms and 9.5 ms).
+- Cost per interaction in desktop Chromium, layout included: about 6 ms for an in-place update and 8 ms
+  for a navigation, 10 ms in the staff app (v2: 5 ms and 6 ms).
 
 After editing the file, run the smoke test (every screen, the booking flow, reduced motion):
 

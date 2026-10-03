@@ -780,11 +780,6 @@ kbd {
   display: flex;
   justify-content: center;
 }
-#viewport.desktop {
-  display: block;
-  width: 100%;
-  min-width: 0;
-}
 .device {
   position: relative;
   width: 390px;
@@ -1118,7 +1113,7 @@ kbd {
   position: relative;
   flex: none;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
   padding: 5px 4px 24px;
   background: #fff;
   border-top: 1px solid rgb(216 225 229 / 70%);
@@ -1146,12 +1141,15 @@ kbd {
   color: var(--navy);
   font-weight: 600;
 }
+.bottomnav {
+  --pill-w: 58px;
+}
 .nav-pill {
   position: absolute;
   z-index: 0;
   top: 6px;
-  left: calc(4px + 0.5 * (100% - 8px) / 4 - 29px);
-  width: 58px;
+  left: calc(4px + 0.5 * (100% - 8px) / 4 - var(--pill-w) / 2);
+  width: var(--pill-w);
   height: 30px;
   border-radius: 15px;
   background: var(--foam);
@@ -1335,6 +1333,22 @@ kbd {
 .field input:focus-visible {
   box-shadow: none;
 }
+.field textarea {
+  display: block;
+  width: 100%;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--navy);
+  resize: none;
+  field-sizing: content;
+}
+.field textarea:focus-visible {
+  outline: none;
+}
 .field strong {
   display: block;
   min-height: 25px;
@@ -1454,7 +1468,7 @@ kbd {
 }
 .row span {
   flex: 1;
-  min-width: 0;
+  min-width: 38%;
 }
 .row strong {
   max-width: 57%;
@@ -2426,163 +2440,90 @@ dialog .tear::after {
   }
 }
 
-/* 6. Staff workspace ======================================================= */
-.staff-app {
+/* 6. Staff app (Espace équipe) ============================================ */
+.phone.staff .statusbar,
+.phone.staff .app-header,
+.phone.staff .screen-id,
+.phone.staff-login .statusbar {
+  background: var(--navy);
+  color: #fff;
+}
+.phone.staff .app-header h1 {
+  color: #fff;
+}
+.phone.staff .back,
+.phone.staff .header-action {
+  color: var(--gold-2);
+}
+.phone.staff .back:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.phone.staff .screen-id {
+  color: rgb(255 255 255 / 55%);
+}
+.header-action {
   display: grid;
-  grid-template-columns: 184px minmax(0, 1fr);
-  min-height: 750px;
-  overflow: hidden;
+  place-items: center;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #f4f7f8;
-  box-shadow: var(--shadow-3);
+  border-radius: 50%;
+  color: var(--sea);
+  transition:
+    background-color 0.2s,
+    transform 0.15s var(--ease-out);
+}
+.phone.staff .header-action {
+  border-color: rgb(255 255 255 / 22%);
+}
+.header-action:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.header-action:active {
+  transform: scale(0.9);
+}
+.header-action .icon {
+  width: 18px;
+  height: 18px;
 }
 .brand-mark {
   display: block;
   aspect-ratio: 2400 / 585;
   background: center / contain no-repeat;
 }
-.staff-nav {
+.role-line {
   display: flex;
-  flex-direction: column;
-  padding: 24px 12px;
-  background: linear-gradient(180deg, #0b3352 0%, var(--navy) 45%);
-  color: #fff;
-}
-.staff-nav .brand-mark {
-  width: 128px;
-  margin: 0 12px;
-}
-.staff-nav p {
-  margin: 12px 12px 22px;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  color: var(--gold);
-}
-.staff-nav nav {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.staff-nav nav button {
-  position: relative;
-  z-index: 1;
-  min-height: 42px;
+  align-items: center;
+  gap: 10px;
   padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 11.5px;
-  color: rgb(255 255 255 / 76%);
-  transition:
-    color 0.3s,
-    background-color 0.2s;
-}
-.staff-nav nav button:hover {
-  color: #fff;
-  background: rgb(255 255 255 / 6%);
-}
-.staff-nav nav button.active {
-  color: #fff;
-  font-weight: 600;
-  background: transparent;
-}
-.staff-pill {
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  border-radius: 8px;
-  background: var(--sea);
-  box-shadow:
-    inset 3px 0 0 var(--gold),
-    0 8px 16px -10px rgb(0 0 0 / 55%);
-  pointer-events: none;
-}
-.staff-nav footer {
-  margin-top: auto;
-  padding: 24px 12px 0;
-  font-size: 10px;
-  color: var(--gold);
-}
-.staff-app > main {
-  min-width: 0;
-  container-type: inline-size;
-}
-.staff-app > main > header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 20px;
-  background: #fff;
-  border-bottom: 1px solid var(--line);
-}
-.staff-search {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: 8px;
-  max-width: 440px;
-  height: 38px;
-  padding: 0 12px;
-  border: 1px solid transparent;
-  border-radius: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
   background: var(--foam-2);
-  color: var(--muted);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.25s,
-    background-color 0.2s;
 }
-.staff-search:focus-within {
-  border-color: var(--sea);
-  background: #fff;
-  box-shadow: var(--focus);
-}
-.staff-search .icon {
-  width: 17px;
-  height: 17px;
-}
-.staff-search input {
-  height: 100%;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font-size: 12px;
-}
-.staff-search input:focus-visible {
-  box-shadow: none;
-}
-.role-chip {
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: var(--foam);
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
+.role-line .icon {
   color: var(--sea);
 }
-.staff-body {
-  padding: 26px 24px;
-}
-.staff-body h1 {
-  margin-bottom: 8px;
-  font-size: 25px;
-  letter-spacing: -0.01em;
+.role-line strong {
+  display: block;
+  font-size: 13px;
   color: var(--navy);
+}
+.role-line small {
+  font-size: 10.5px;
 }
 .metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin: 22px 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.metrics > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 .metrics > div {
   position: relative;
   overflow: hidden;
-  min-height: 92px;
-  padding: 16px 16px 16px 18px;
+  min-height: 78px;
+  padding: 12px 12px 12px 15px;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
@@ -2599,140 +2540,24 @@ dialog .tear::after {
 }
 .metrics span {
   display: block;
-  font-size: 11px;
+  font-size: 10.5px;
+  line-height: 1.35;
   color: var(--muted);
 }
 .metrics strong {
   display: block;
-  margin-top: 9px;
-  font-size: 23px;
+  margin-top: 6px;
+  font-size: 18px;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
   color: var(--navy);
-}
-.staff-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 18px;
-  margin-bottom: 22px;
-}
-.panel {
-  min-width: 0;
-  min-height: 320px;
-  overflow: auto;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: var(--shadow-1);
-}
-.panel header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.panel h2 {
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: var(--navy);
-}
-.panel header h2 {
-  margin: 0;
-}
-.panel .secondary {
-  min-height: 34px;
-  padding: 6px 12px;
-  font-size: 11px;
-}
-.refresh .icon {
-  width: 15px;
-  height: 15px;
-}
-.panel table {
-  width: 100%;
-  min-width: 480px;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 11px;
-}
-.panel th {
-  padding: 10px;
-  background: var(--foam);
-  font-weight: 600;
-  text-align: left;
-  color: var(--sea);
-}
-.panel th:first-child {
-  border-radius: 8px 0 0 8px;
-}
-.panel th:last-child {
-  border-radius: 0 8px 8px 0;
-}
-.panel td {
-  padding: 13px 10px;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-  transition: background-color 0.15s;
-}
-.panel tbody tr:hover td {
-  background: var(--foam-2);
-}
-.panel tbody tr:focus-visible {
-  outline: 2px solid var(--sea);
-  outline-offset: -2px;
-}
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 9px 3px 8px;
-  border-radius: 999px;
-  background: var(--foam);
-  font-size: 10.5px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--sea);
-}
-.pill::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.pill[data-tone="ok"] {
-  background: var(--success-bg);
-  color: var(--success);
-}
-.pill[data-tone="wait"] {
-  background: var(--warn-bg);
-  color: var(--warn);
-}
-.pill[data-tone="off"] {
-  background: var(--error-bg);
-  color: var(--error);
-}
-.review label {
-  display: block;
-  margin: 12px 0;
-}
-.review input {
-  min-height: 46px;
-  border-color: transparent;
-  background: var(--foam-2);
-  font-size: 11.5px;
-}
-.review input:focus-visible {
-  background: #fff;
-}
-.review .primary {
-  margin-top: 22px;
-  font-size: 12px;
 }
 .chart {
-  margin: 4px 0 20px;
+  padding: 14px 14px 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
 }
 .chart > span {
   font-size: 9px;
@@ -2743,20 +2568,23 @@ dialog .tear::after {
 .chart > div {
   display: flex;
   align-items: flex-end;
-  gap: 22px;
-  height: 122px;
-  margin-top: 12px;
-  padding: 0 10px;
+  gap: 10px;
+  height: 116px;
+  margin-top: 10px;
   border-bottom: 1px solid var(--line);
 }
 .chart figure {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
 }
 .chart i {
   position: relative;
   display: block;
-  max-width: 34px;
+  width: 100%;
+  max-width: 30px;
   border-radius: 6px 6px 2px 2px;
   background: linear-gradient(180deg, var(--sea-2), var(--sea));
   transform-origin: bottom;
@@ -2791,73 +2619,220 @@ dialog .tear::after {
   font-size: 9px;
   color: var(--muted);
 }
-.shortcuts {
+.record-list {
+  display: grid;
+  gap: 10px;
+}
+.record {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 12px 34px 12px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.3s,
+    transform 0.15s var(--ease-out);
+}
+.record:active {
+  transform: scale(0.985);
+}
+.record-head {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.record-head small {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.record-head strong {
+  display: block;
+  font-size: 14px;
+  color: var(--navy);
+}
+.record dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  margin: 10px 0 0;
+}
+.record dt {
+  font-size: 10px;
+  color: var(--muted);
+}
+.record dd {
+  margin: 1px 0 0;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+.record .row-chevron {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin: -9px 0 0;
+}
+.pill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  max-width: 55%;
+  padding: 3px 9px 3px 8px;
+  border-radius: 999px;
+  background: var(--foam);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--sea);
+}
+.pill::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.pill[data-tone="ok"] {
+  background: var(--success-bg);
+  color: var(--success);
+}
+.pill[data-tone="wait"] {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.pill[data-tone="off"] {
+  background: var(--error-bg);
+  color: var(--error);
 }
 
-.staff-login {
-  display: grid;
-  grid-template-columns: 40% 1fr;
-  min-height: 750px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #f4f7f8;
-  box-shadow: var(--shadow-3);
+/* "Plus" bottom sheet */
+.sheet-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
-.staff-login aside {
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgb(6 28 44 / 42%);
+}
+.sheet {
+  position: relative;
+  max-height: 80%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 10px 16px max(28px, env(safe-area-inset-bottom));
+  border-radius: 22px 22px 0 0;
+  background: #fff;
+  box-shadow: 0 -20px 40px -20px rgb(8 44 70 / 45%);
+}
+.sheet-handle {
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin: 0 auto 12px;
+  border-radius: 3px;
+  background: var(--line-2);
+}
+.sheet h2 {
+  font-size: 17px;
+  color: var(--navy);
+}
+.sheet .eyebrow {
+  margin: 14px 0 8px;
+}
+.sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.sheet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 74px;
+  padding: 12px 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--ink);
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    transform 0.15s var(--ease-out);
+}
+.sheet-item .icon {
+  width: 22px;
+  height: 22px;
+  color: var(--sea);
+}
+.sheet-item:hover {
+  border-color: var(--line-2);
+  background: var(--foam-2);
+}
+.sheet-item:active {
+  transform: scale(0.95);
+}
+.sheet-item.active {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
+}
+.sheet-item.active .icon {
+  color: var(--gold-2);
+}
+
+/* Staff sign-in (A01) */
+.app-body.login-body {
+  gap: 0;
+  padding: 0 0 22px;
+}
+.login-hero {
   position: relative;
   overflow: hidden;
-  padding: 40px;
+  flex-shrink: 0;
+  padding: 22px 22px 74px;
   background:
     radial-gradient(120% 80% at 0% 0%, #14496d 0%, transparent 55%),
     radial-gradient(90% 70% at 100% 100%, rgb(27 96 122 / 70%), transparent 60%),
     var(--navy);
   color: #fff;
 }
-.staff-login aside > * {
+.login-hero .brand-mark {
+  width: 124px;
+}
+.login-hero h1 {
+  margin: 30px 0 6px;
+  font: 600 36px/1.05 var(--display);
+}
+.login-hero p {
   position: relative;
-  animation: rise 0.8s var(--ease-out) both;
-}
-.staff-login aside > :nth-child(2) {
-  animation-delay: 0.1s;
-}
-.staff-login aside > :nth-child(3) {
-  animation-delay: 0.18s;
-}
-.staff-login aside > :nth-child(4) {
-  animation-delay: 0.26s;
-}
-.staff-login aside .brand-mark {
-  width: 170px;
-}
-.staff-login aside h1 {
-  margin: 120px 0 20px;
-  font: 600 44px/1.05 var(--display);
-}
-.staff-login aside h2 {
-  font: 600 27px/1.3 var(--display);
+  z-index: 1;
+  font: 600 21px/1.3 var(--display);
   color: var(--gold);
 }
-.staff-login aside p {
-  max-width: 280px;
-  margin-top: 120px;
-  font-size: 13px;
-  color: rgb(255 255 255 / 82%);
-}
-.staff-login aside .login-waves {
+.login-waves {
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 150px;
+  height: 110px;
   fill: none;
   stroke-width: 1.2;
-  animation: none;
 }
 .login-waves path {
   stroke: rgb(213 174 102 / 38%);
@@ -2871,49 +2846,47 @@ dialog .tear::after {
   stroke: rgb(255 255 255 / 10%);
   animation-duration: 15s;
 }
-.staff-login main {
-  display: grid;
-  place-items: center;
-  padding: 60px 45px;
-}
 .login-card {
-  width: min(100%, 440px);
-  padding: 30px;
+  position: relative;
+  display: grid;
+  gap: 12px;
+  margin: -44px 16px 0;
+  padding: 18px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: #fff;
   box-shadow: var(--shadow-3);
-  animation: rise 0.8s var(--ease-out) 0.15s both;
 }
 .login-card h2 {
-  margin: 12px 0 24px;
-  font-size: 24px;
+  margin-top: -6px;
+  font-size: 20px;
   color: var(--navy);
 }
-.login-card label {
-  display: block;
-  margin: 18px 0;
-  font-size: 12px;
-  color: var(--muted);
-}
-.login-card input {
-  margin-top: 7px;
-  font-size: 13px;
-}
 .login-card input[readonly] {
-  background: var(--foam-2);
   color: var(--muted);
 }
-.login-card .primary {
-  margin-top: 26px;
+.login-card .muted {
+  font-size: 11px;
 }
-.login-card .primary.is-busy {
+/* No tab bar under the sign-in action: leave room for the home indicator. */
+.staff-login .actionbar {
+  padding-bottom: max(26px, env(safe-area-inset-bottom));
+}
+.login-note {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.staff-login .primary.is-busy {
   background: var(--success);
   color: #fff;
 }
-.login-card .muted {
-  margin-top: 18px;
-  font-size: 11px;
+@media (hover: hover) {
+  .record:hover {
+    border-color: var(--line-2);
+    box-shadow: var(--shadow-2);
+  }
 }
 
 /* 7. Overlays ============================================================== */
@@ -3326,21 +3299,20 @@ dialog .ticket {
 .app-body.stagger > :nth-child(n + 9) {
   animation-delay: 240ms;
 }
-.staff-body.enter > * {
+.app-body.enter .metrics > div {
   animation: rise 0.6s var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 70ms);
+  animation-delay: calc(var(--j, 0) * 70ms + 80ms);
 }
-.staff-body.enter .metrics > div {
-  animation: rise 0.6s var(--ease-out) both;
-  animation-delay: calc(var(--j, 0) * 70ms + 140ms);
+.app-body.enter .record {
+  animation: rise 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--j, 0) * 60ms + 220ms);
 }
-.staff-body.enter tbody tr {
-  animation: fade-up 0.5s var(--ease-out) both;
-  animation-delay: calc(var(--j, 0) * 55ms + 280ms);
-}
-.staff-body.enter .chart i {
+.app-body.enter .chart i {
   animation: grow-y 0.9s var(--ease-out) both;
-  animation-delay: calc(var(--j, 0) * 70ms + 260ms);
+  animation-delay: calc(var(--j, 0) * 70ms + 200ms);
+}
+.app-body.enter .login-card {
+  animation: rise 0.8s var(--ease-out) 0.12s both;
 }
 /* State changes inside a screen ("just-…" classes come from Motion.marks). */
 .choice.just-selected input {
@@ -3408,30 +3380,14 @@ dialog .ticket {
 .booting .stage-title {
   animation: fade-in 0.7s var(--ease-out) 0.3s both;
 }
-.booting #viewport.mobile .device {
+.booting .device {
   animation: device-in 1.1s var(--ease-out) 0.12s both;
-}
-.booting #viewport.desktop > * {
-  animation: rise 0.9s var(--ease-out) 0.12s both;
 }
 .booting .inspector > * {
   animation: fade-up 0.7s var(--ease-out) 0.35s both;
 }
 
 /* 9. Responsive ============================================================ */
-@container (max-width: 760px) {
-  .staff-grid {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 1350px) {
-  .metrics strong {
-    font-size: 19px;
-  }
-  .staff-body {
-    padding: 20px 16px;
-  }
-}
 @media (max-width: 1260px) {
   .workspace {
     grid-template-columns: 236px 1fr;
@@ -3446,14 +3402,19 @@ dialog .ticket {
     padding: 18px 20px 32px;
   }
 }
-@media (max-width: 760px) {
+/* Phones (any width up to 760px) and short landscape screens: the app fills the
+   screen; the screen list becomes a drawer. Same query as compactQuery in the script. */
+@media (max-width: 760px), (max-height: 500px) {
+  :root {
+    --topbar-h: 56px;
+  }
   .topbar {
     gap: 10px;
-    height: 64px;
+    height: var(--topbar-h);
     padding: 0 10px;
   }
   .topbar .brand {
-    width: 100px;
+    width: 96px;
   }
   .topbar .demo {
     padding: 5px 9px 5px 8px;
@@ -3466,7 +3427,7 @@ dialog .ticket {
     display: inline;
   }
   .mode-switch button {
-    min-height: 34px;
+    min-height: 32px;
     padding: 0 10px;
     font-size: 12px;
   }
@@ -3478,12 +3439,12 @@ dialog .ticket {
   }
   .workspace {
     display: block;
-    height: calc(100dvh - 64px);
+    height: calc(100dvh - var(--topbar-h));
   }
   .library {
     position: fixed;
     z-index: 30;
-    top: 64px;
+    top: var(--topbar-h);
     bottom: 0;
     left: 0;
     width: min(86vw, 320px);
@@ -3503,7 +3464,7 @@ dialog .ticket {
     display: block;
     position: fixed;
     z-index: 29;
-    inset: 64px 0 0;
+    inset: var(--topbar-h) 0 0;
     background: rgb(6 28 44 / 38%);
     opacity: 0;
     pointer-events: none;
@@ -3531,8 +3492,8 @@ dialog .ticket {
   }
   .device {
     width: 100%;
-    max-width: 440px;
-    height: calc(100dvh - 64px);
+    max-width: 480px;
+    height: calc(100dvh - var(--topbar-h));
     margin: 0 auto;
     transform: none;
   }
@@ -3549,77 +3510,124 @@ dialog .ticket {
     box-shadow: none;
   }
   .app-header {
-    padding-top: 8px;
-  }
-  .app-body {
-    padding: 16px 20px 24px;
+    padding-top: 6px;
   }
   .bottomnav {
     padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
-  #viewport.desktop {
-    padding: 0;
+}
+/* Landscape phones: every pixel of height counts — slimmer chrome, side-by-side tab labels. */
+@media (max-height: 500px) {
+  :root {
+    --topbar-h: 44px;
   }
-  .staff-app,
-  .staff-login {
-    display: block;
-    min-height: calc(100dvh - 64px);
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+  .device {
+    max-width: 600px;
+    border-inline: 1px solid var(--line);
   }
-  .staff-nav {
-    display: block;
-    padding: 14px 16px;
+  .mode-switch button {
+    min-height: 28px;
   }
-  .staff-nav .brand-mark {
-    width: 100px;
-    margin: 0;
-  }
-  .staff-nav p,
-  .staff-nav footer {
+  .screen-id {
     display: none;
   }
-  .staff-nav nav {
+  .app-header {
+    min-height: 44px;
+    padding-block: 2px;
+  }
+  .step-rail {
+    padding-block: 5px 7px;
+  }
+  .app-body {
+    padding-block: 10px 14px;
+  }
+  .actionbar {
+    padding-block: 6px;
+  }
+  .actionbar .primary {
+    min-height: 40px;
+    padding-block: 8px;
+  }
+  .action-total {
+    margin-bottom: 4px;
+  }
+  .bottomnav {
+    padding-block: 3px max(3px, env(safe-area-inset-bottom));
+  }
+  .bottomnav button {
     flex-direction: row;
+    justify-content: center;
     gap: 6px;
-    margin-top: 10px;
-    overflow: auto;
-    scrollbar-width: none;
+    min-height: 36px;
+    padding-top: 0;
   }
-  .staff-nav nav button {
-    white-space: nowrap;
+  .bottomnav {
+    --pill-w: 112px;
   }
-  .staff-body h1 {
-    font-size: 23px;
+  .nav-pill {
+    top: 3px;
+    height: 36px;
   }
-  .metrics {
-    gap: 8px;
+  .login-hero {
+    padding-block: 14px 56px;
   }
-  .metrics > div {
-    padding: 12px 10px 12px 13px;
+  .login-hero h1 {
+    margin-top: 14px;
   }
-  .metrics strong {
+}
+/* Wider phones and small tablets in portrait: frame the app column. */
+@media (min-width: 481px) and (max-width: 760px) {
+  .device {
+    border-inline: 1px solid var(--line);
+  }
+}
+/* Narrow phones (≤ 400px): tighter top bar and spacing. */
+@media (max-width: 400px) {
+  .topbar .demo {
+    display: none;
+  }
+  .app-body {
+    padding: 14px 16px 20px;
+  }
+  .actionbar {
+    padding: 10px 16px;
+  }
+  .step-rail {
+    padding-inline: 16px;
+  }
+  .screen-id {
+    padding-inline: 18px;
+  }
+}
+/* Very narrow phones (≤ 340px, e.g. iPhone SE 1st gen): compact type and controls. */
+@media (max-width: 340px) {
+  .topbar .brand {
+    width: 84px;
+  }
+  .mode-switch button {
+    padding: 0 8px;
+  }
+  .app-header h1 {
     font-size: 17px;
   }
-  .staff-app > main > header {
-    padding: 10px 14px;
+  .hero h2 {
+    font-size: 25px;
   }
-  .role-chip {
-    display: none;
+  .step-rail span {
+    font-size: 8.5px;
+    gap: 3px;
   }
-  .staff-login aside {
-    padding: 24px 24px 70px;
+  .two {
+    gap: 8px;
   }
-  .staff-login aside h1 {
-    margin: 24px 0 12px;
-    font-size: 32px;
+  .comparison > div {
+    gap: 6px;
   }
-  .staff-login aside p {
-    margin: 20px 0 0;
+  .sheet-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .staff-login main {
-    padding: 24px 16px;
+  .record dl {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -4095,6 +4103,14 @@ const ICON_PATHS = {
   ship: '<path d="M3 18c1.5 1.2 3 1.2 4.5 0s3-1.2 4.5 0 3 1.2 4.5 0 3-1.2 4.5 0"/><path d="m5 15.5-1-4h16l-1.5 4M7 11.5V8h8l2 3.5M10.5 8V5.5"/>',
   external: '<path d="M14 5h5v5M19 5l-8 8"/><path d="M17 13.5V18a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18V8.5A1.5 1.5 0 0 1 6 7h4.5"/>',
   refresh: '<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>',
+  gauge: '<path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 3.5-4.5"/><circle cx="12" cy="16" r="1.2"/>',
+  folder: '<path d="M3.5 7.5A1.5 1.5 0 0 1 5 6h4l2 2h8a1.5 1.5 0 0 1 1.5 1.5V17a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 17Z"/>',
+  card: '<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/>',
+  grid: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/>',
+  quote: '<path d="M7 3.5h7l4 4V20H7Z"/><path d="M14 3.5V8h4M10 12h5M10 15.5h5"/>',
+  book: '<path d="M5 4.5h10.5a2 2 0 0 1 2 2V20H7a2 2 0 0 1-2-2Z"/><path d="M5 18a2 2 0 0 1 2-2h10.5"/>',
+  users: '<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5.2a3.5 3.5 0 0 1 0 6.6M18.5 14a6.5 6.5 0 0 1 3 5.5v.5"/>',
+  flag: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
 };
 function icon(name, cls = "") {
   return `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name] || ""}</svg>`;
@@ -4392,6 +4408,26 @@ function policyPanel() {
 
 /* 7. Screens ============================================================== */
 
+// Every screen renders into the same device: status bar, header, a sliding
+// screen area and an optional tab bar. Motion relies on this structure.
+function renderPhone({ cls = "", rtl = false, header = "", screen, nav = "" }) {
+  $("#viewport").innerHTML = `<div class="device"><article class="phone${cls ? " " + cls : ""}"${rtl ? ' dir="rtl" lang="ar"' : ' lang="fr"'}>
+<div class="statusbar" aria-hidden="true"><span class="sb-time">9:41</span><span class="island"></span><span class="sb-icons">${STATUS_ICONS}</span></div>
+${header}<div class="screen-stack"><section class="screen">${screen}</section></div>
+${nav}<i class="home-indicator" aria-hidden="true"></i>
+</article></div>`;
+}
+function appHeader(title, action = "", rtl = false) {
+  return `<header class="app-header"><button class="back" aria-label="Retour" onclick="back()">${icon(rtl ? "chevronRight" : "chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1>${action}</header>`;
+}
+function tabBar(label, tabs) {
+  return `<nav class="bottomnav" style="--n:${tabs.length}" aria-label="${esc(label)}">${tabs
+    .map(
+      (t) =>
+        `<button class="${t.active ? "active" : ""}"${t.active ? ' aria-current="page"' : ""} onclick="${esc(t.onclick)}">${icon(t.icon, "nav-icon")}<span>${esc(t.label)}</span></button>`,
+    )
+    .join("")}<i class="nav-pill" aria-hidden="true"></i></nav>`;
+}
 function rail(id) {
   const active = stageOf(id);
   if (active < 0) return "";
@@ -4400,6 +4436,8 @@ function rail(id) {
       `<span class="${i === active ? "current" : i < active ? "done" : ""}"${i === active ? ' aria-current="step"' : ""}><b>${i < active ? icon("check") : i + 1}</b>${s[0]}</span>`,
   ).join("")}</div>`;
 }
+
+/* Customer app ------------------------------------------------------------ */
 function renderArabic() {
   const t = state.tripMode;
   return `${heroBlock("رحلتك البحرية، بكل وضوح", "")}<div class="seg" role="group" data-key="seg:ar">${[
@@ -4439,31 +4477,57 @@ function renderCustomer(d) {
   const totals = ["C23", "C24", "C25", "C26", "C27", "C59"].includes(d.id)
     ? `<div class="action-total"><span>Total du groupe · démo</span><strong data-value>${money(quoteTotal())}</strong></div>`
     : "";
-  const nav = APP_NAV.map(
-    ([n, to, ic, ar], j) =>
-      `<button class="${n === d.nav ? "active" : ""}"${n === d.nav ? ' aria-current="page"' : ""} onclick="navTo('${to}','tab')">${icon(ic, "nav-icon")}<span>${esc(arabic ? ar : n)}</span></button>`,
-  ).join("");
-  $("#viewport").innerHTML = `<div class="device"><article class="phone ${arabic ? "rtl" : ""}" ${arabic ? 'dir="rtl" lang="ar"' : 'lang="fr"'}>
-<div class="statusbar" aria-hidden="true"><span class="sb-time">9:41</span><span class="island"></span><span class="sb-icons">${STATUS_ICONS}</span></div>
-<header class="app-header"><button class="back" aria-label="Retour" onclick="back()">${icon(arabic ? "chevronRight" : "chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1><button class="language" onclick="toggleLang()" aria-label="Exemple arabe sur l’accueil">${state.lang === "FR" ? "AR" : "FR"}</button></header>
-<div class="screen-stack"><section class="screen"><div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabic ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabic ? "البحث عن الرحلات" : esc(d.cta)}</button></div></section></div>
-<nav class="bottomnav" aria-label="Navigation de l’application">${nav}<i class="nav-pill" aria-hidden="true"></i></nav><i class="home-indicator" aria-hidden="true"></i>
-</article></div>`;
+  renderPhone({
+    cls: arabic ? "rtl" : "",
+    rtl: arabic,
+    header: appHeader(
+      title,
+      `<button class="language" onclick="toggleLang()" aria-label="Exemple arabe sur l’accueil">${state.lang === "FR" ? "AR" : "FR"}</button>`,
+      arabic,
+    ),
+    screen: `<div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabic ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabic ? "البحث عن الرحلات" : esc(d.cta)}</button></div>`,
+    nav: tabBar(
+      "Navigation de l’application",
+      APP_NAV.map(([n, to, ic, ar]) => ({ label: arabic ? ar : n, icon: ic, onclick: `navTo('${to}','tab')`, active: n === d.nav })),
+    ),
+  });
   updatePrimary();
 }
 
-const STAFF_NAV = [
-  ["A02", "Vue opérations"],
-  ["A03", "Devis assisté"],
-  ["A05", "Dossiers"],
-  ["A07", "Paiements"],
-  ["A09", "Remboursements"],
-  ["A12", "Compagnies"],
-  ["A15", "Catalogue"],
-  ["A16", "Équipe & audit"],
-  ["A18", "Confidentialité"],
-  ["A20", "Incidents"],
+/* Staff app (Espace équipe) ----------------------------------------------- */
+const STAFF_SECTIONS = [
+  [
+    "Opérations",
+    [
+      ["A02", "Vue opérations", "gauge"],
+      ["A03", "Devis assisté", "quote"],
+      ["A05", "Dossiers", "folder"],
+      ["A07", "Paiements", "card"],
+      ["A09", "Remboursements", "reset"],
+    ],
+  ],
+  [
+    "Plateforme",
+    [
+      ["A12", "Compagnies", "ship"],
+      ["A15", "Catalogue", "book"],
+      ["A16", "Équipe & audit", "users"],
+      ["A18", "Confidentialité", "lock"],
+      ["A20", "Incidents", "alert"],
+    ],
+  ],
+  ["Lancement Algérie", staff.slice(20).map((s) => [s.id, s.title, "flag"])],
 ];
+const STAFF_TABS = [
+  ["A02", "Opérations", "gauge"],
+  ["A05", "Dossiers", "folder"],
+  ["A07", "Paiements", "card"],
+  ["A20", "Incidents", "alert"],
+];
+// Screens opened from another section's shortcuts belong to that section.
+const STAFF_PARENT = { A04: "A03", A06: "A05", A08: "A05", A10: "A05", A11: "A05", A19: "A05", A13: "A15", A14: "A15", A17: "A16" };
+const staffSection = (id) => STAFF_PARENT[id] || id;
+
 function staffTone(v) {
   if (/^(Actif|Active|Approuvé|Confirmée|Reçue|Devis préparé)/.test(v)) return "ok";
   if (/(inconnu|Délai dépassé|Bloqué|Suspendu)/i.test(v)) return "off";
@@ -4471,36 +4535,52 @@ function staffTone(v) {
   return "info";
 }
 function renderStaff(d) {
-  const a = d.data;
-  if (d.id === "A01") {
-    $("#viewport").innerHTML = `<section class="staff-login"><aside><span class="brand-mark reverse" role="img" aria-label="Delphin"></span><h1>Espace équipe</h1><h2>Des dossiers clairs.<br>Des accès maîtrisés.</h2><p>Connexion réservée aux membres autorisés. MFA et accès par organisation.</p><svg class="login-waves" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-40 70 C 30 48 110 92 200 70 S 360 48 440 70"/><path d="M-40 88 C 40 68 120 108 210 88 S 360 68 440 88"/><path d="M-40 104 C 50 88 130 120 220 104 S 360 90 440 104"/></svg></aside><main><div class="login-card"><span class="eyebrow">ÉTAPE 2 / 2</span><h2>Connexion sécurisée</h2><label>Identité professionnelle<input value="S•••@exemple.com · vérifiée" readonly></label><label>Organisation / rôle<input value="Agence démo · Support" readonly></label><label>Code authentificateur<input id="staffCode" inputmode="numeric" autocomplete="off" placeholder="Code de démonstration : 123456" onkeydown="if(event.key==='Enter')staffSignIn()"></label>${btn("Vérifier et ouvrir la session", "staffSignIn()", "primary")}<p class="muted">Aucun compte partagé · accès de démonstration</p></div></main></section>`;
-    return;
-  }
+  if (d.id === "A01") return renderStaffSignIn();
+  const a = d.data,
+    section = staffSection(d.id);
   const metrics = a[4].map(([lab, val], j) => `<div style="--j:${j}"><span>${esc(lab)}</span><strong data-count>${esc(val)}</strong></div>`).join("");
-  const statusCols = a[5].map((h, j) => (/^(État|Statut|Résultat|Décision)$/.test(h) ? j : -1)).filter((j) => j >= 0);
-  const cell = (c, j) => (statusCols.includes(j) ? `<td><span class="pill" data-tone="${staffTone(c)}">${esc(c)}</span></td>` : `<td>${esc(c)}</td>`);
-  const table = `<table><thead><tr>${a[5].map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${a[6]
-    .map((r, j) => `<tr tabindex="0" style="--j:${j}" onclick="staffAction('${d.id}')" onkeydown="if(event.key==='Enter')staffAction('${d.id}')">${r.map(cell).join("")}</tr>`)
-    .join("")}</tbody></table>`;
+  // Table rows become cards: first column as title, status as a pill, the rest as pairs.
+  const statusCol = a[5].findIndex((h) => /^(État|Statut|Résultat|Décision)$/.test(h));
+  const records = a[6]
+    .map((r, j) => {
+      const pill = statusCol > 0 ? `<span class="pill" data-tone="${staffTone(r[statusCol])}">${esc(r[statusCol])}</span>` : "";
+      const pairs = r
+        .map((c, k) => (k > 0 && k !== statusCol ? `<div><dt>${esc(a[5][k])}</dt><dd>${esc(c)}</dd></div>` : ""))
+        .join("");
+      return `<button class="record" style="--j:${j}" onclick="staffAction('${d.id}')"><span class="record-head"><span><small>${esc(a[5][0])}</small><strong>${esc(r[0])}</strong></span>${pill}</span><dl>${pairs}</dl>${icon("chevronRight", "row-chevron")}</button>`;
+    })
+    .join("");
   const chart = ["A02", "A12", "A20"].includes(d.id)
-    ? `<div class="chart"><span>Dossiers / erreurs · exemple sur 6 heures</span><div>${[24, 32, 21, 45, 38, 29]
+    ? `<div class="chart" data-key="chart"><span>Dossiers / erreurs · exemple sur 6 heures</span><div>${[24, 32, 21, 45, 38, 29]
         .map((v, i) => `<figure style="--j:${i}"><i style="height:${v * 2}px" data-v="${v}"></i><figcaption>${9 + i}:00</figcaption></figure>`)
         .join("")}</div></div>`
     : "";
   const extras = d.id === "A05" ? ["A06", "A07", "A08", "A09", "A10", "A11", "A19"] : d.id === "A15" ? ["A13", "A14"] : d.id === "A16" ? ["A17"] : [];
-  const nav = [...STAFF_NAV, ...staff.slice(20).map((s) => [s.id, s.title])];
-  $("#viewport").innerHTML = `<section class="staff-app"><aside class="staff-nav"><span class="brand-mark reverse" role="img" aria-label="Delphin"></span><p>ESPACE ÉQUIPE</p><nav aria-label="Espace équipe">${nav
-    .map(
-      ([id, label]) =>
-        `<button class="${id === d.id ? "active" : ""}"${id === d.id ? ' aria-current="page"' : ""} onclick="${esc("navTo(" + json(id) + ",'tab')")}">${esc(label)}</button>`,
-    )
-    .join(
-      "",
-    )}<i class="staff-pill" aria-hidden="true"></i></nav><footer>Agence démo<br>MFA · session vérifiée</footer></aside><main><header><label class="staff-search">${icon("search")}<input aria-label="Rechercher un dossier" placeholder="Rechercher un dossier, une référence…"></label><span class="role-chip">${esc(d.role)}</span></header><div class="staff-body"><h1 tabindex="-1" style="--i:0">${esc(d.title)}</h1><p class="eyebrow" style="--i:1">${d.id} · DONNÉES DE DÉMONSTRATION</p><div class="metrics" style="--i:2">${metrics}</div><div class="staff-grid" style="--i:3"><section class="panel"><header><h2>Dossiers & éléments à revoir</h2><button class="secondary refresh" onclick="staffRefresh(this)">${icon("refresh")}Actualiser</button></header>${chart}${table}<div class="shortcuts">${extras
-    .map((id) => btn(byId[id].title, `navTo('${id}','forward')`))
-    .join("")}</div></section><section class="panel review"><h2>Revue & action</h2>${a[7]
-    .map((f) => `<label><input aria-label="Détail de revue" value="${esc(f)}"></label>`)
-    .join("")}${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</section></div><div style="--i:4">${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</div></div></main></section>`;
+  const shortcuts = extras.length
+    ? `<h3 class="eyebrow" data-key="label:shortcuts">ACCÈS RAPIDES</h3>${extras.map((id) => btnRow(byId[id].title, id, `navTo('${id}','forward')`)).join("")}`
+    : "";
+  const review = a[7]
+    .map((f) => {
+      const at = f.indexOf(" : "),
+        [label, value] = at > 0 ? [f.slice(0, at), f.slice(at + 3)] : ["À vérifier", f];
+      const control = value.length > 30 ? `<textarea aria-label="Détail de revue" rows="2">${esc(value)}</textarea>` : `<input aria-label="Détail de revue" value="${esc(value)}">`;
+      return `<label class="field"${dk("field", f)}><span class="field-label">${esc(label)}</span>${control}</label>`;
+    })
+    .join("");
+  const tabs = STAFF_TABS.map(([id, label, ic]) => ({ label, icon: ic, onclick: `navTo('${id}','tab')`, active: section === id }));
+  tabs.push({ label: "Plus", icon: "grid", onclick: "openStaffMenu()", active: !STAFF_TABS.some(([id]) => id === section) });
+  renderPhone({
+    cls: "staff",
+    header: appHeader(d.title, `<button class="header-action" aria-label="Actualiser les données" onclick="staffRefresh(this)">${icon("refresh")}</button>`),
+    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DE DÉMONSTRATION</div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
+    nav: tabBar("Navigation de l’espace équipe", tabs),
+  });
+}
+function renderStaffSignIn() {
+  renderPhone({
+    cls: "staff-login",
+    screen: `<main id="body" class="app-body login-body"><div class="login-hero" data-key="hero"><span class="brand-mark reverse" role="img" aria-label="Delphin"></span><h1 id="screenHeading" tabindex="-1">Espace équipe</h1><p>Des dossiers clairs.<br>Des accès maîtrisés.</p><svg class="login-waves" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M-40 70 C 30 48 110 92 200 70 S 360 48 440 70"/><path d="M-40 88 C 40 68 120 108 210 88 S 360 68 440 88"/><path d="M-40 104 C 50 88 130 120 220 104 S 360 90 440 104"/></svg></div><div class="login-card" data-key="card"><span class="eyebrow">ÉTAPE 2 / 2</span><h2>Connexion sécurisée</h2><label class="field has-icon">${icon("user", "field-icon")}<span class="field-label">Identité professionnelle</span><input value="S•••@exemple.com · vérifiée" readonly></label><label class="field has-icon">${icon("users", "field-icon")}<span class="field-label">Organisation / rôle</span><input value="Agence démo · Support" readonly></label><label class="field has-icon">${icon("lock", "field-icon")}<span class="field-label">Code authentificateur</span><input id="staffCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Code de démonstration : 123456" onkeydown="if(event.key==='Enter')staffSignIn()"></label><p class="muted">Connexion réservée aux membres autorisés. MFA et accès par organisation.</p></div></main><div class="actionbar">${btn("Vérifier et ouvrir la session", "staffSignIn()", "primary")}<p class="login-note">Aucun compte partagé · accès de démonstration</p></div>`,
+  });
 }
 
 /* 8. Actions ============================================================== */
@@ -4831,7 +4911,7 @@ function staffAction(id) {
 }
 function staffSignIn() {
   const input = $("#staffCode"),
-    button = $(".login-card .primary");
+    button = $(".staff-login .actionbar .primary");
   if (input.value !== "123456") {
     Motion.shake(input);
     toast("Utilisez le code de démonstration 123456.", "warn");
@@ -4846,7 +4926,40 @@ function staffSignIn() {
 function staffRefresh(button) {
   toast("Données de démonstration actualisées.", "success");
   Motion.spin($(".icon", button));
-  Motion.restagger($$(".staff-body tbody tr"));
+  Motion.restagger($$("#body .record"));
+}
+// "Plus" opens every staff section in a bottom sheet inside the device.
+function openStaffMenu() {
+  const phone = $(".phone.staff");
+  if (!phone || $(".sheet-layer", phone)) return;
+  const section = staffSection(state.id);
+  phone.insertAdjacentHTML(
+    "beforeend",
+    `<div class="sheet-layer"><div class="sheet-scrim" onclick="closeStaffMenu()"></div><section class="sheet" role="dialog" aria-modal="true" aria-label="Toutes les sections de l’espace équipe"><i class="sheet-handle" aria-hidden="true"></i><h2>Espace équipe</h2>${STAFF_SECTIONS.map(
+      ([group, items]) =>
+        `<h3 class="eyebrow">${esc(group.toUpperCase())}</h3><div class="sheet-grid">${items
+          .map(
+            ([id, label, ic]) =>
+              `<button class="sheet-item${id === section ? " active" : ""}"${id === section ? ' aria-current="page"' : ""} onclick="${esc(`closeStaffMenu(true);navTo('${id}','tab')`)}">${icon(ic)}<span>${esc(label)}</span></button>`,
+          )
+          .join("")}</div>`,
+    ).join("")}</section></div>`,
+  );
+  const layer = $(".sheet-layer", phone);
+  // Modal: everything behind the sheet is out of reach until it closes.
+  for (const el of $$(".app-header, .screen-stack, .bottomnav", phone)) el.inert = true;
+  Motion.sheet(layer, true);
+  ($(".sheet-item.active", layer) || $(".sheet-item", layer)).focus({ preventScroll: true });
+}
+function closeStaffMenu(immediate) {
+  const layer = $(".phone .sheet-layer");
+  if (!layer) return;
+  for (const el of $$(".phone .app-header, .phone .screen-stack, .phone .bottomnav")) el.inert = false;
+  if (immediate) return layer.remove();
+  Motion.sheet(layer, false, () => {
+    layer.remove();
+    $(".bottomnav button:last-of-type")?.focus({ preventScroll: true });
+  });
 }
 
 /* 9. Navigation & rendering =============================================== */
@@ -4879,8 +4992,6 @@ function back() {
 function render() {
   const d = byId[state.id] || screens[0];
   const snap = Motion.capture(d);
-  $("#viewport").classList.toggle("desktop", d.id.startsWith("A"));
-  $("#viewport").classList.toggle("mobile", d.id.startsWith("C"));
   if (d.id.startsWith("A")) renderStaff(d);
   else renderCustomer(d);
   syncShell(d, snap.kind);
@@ -5036,16 +5147,14 @@ const Motion = {
     const kind =
       this.shown === null ? "boot" : same ? (["update", "lang", "edge"].includes(intent) ? intent : intent ? "refresh" : "update") : intent || "jump";
     const vp = $("#viewport"),
-      body = $("#body"),
-      nav = $(".staff-nav nav", vp);
+      body = $("#body");
     const snap = { kind, to: d.id, reduced: this.reduced(), scroll: body?.scrollTop || 0, focus: focusPath() };
-    snap.fromApp = this.pressedInside(".phone, .staff-app, .staff-login, #modal");
-    snap.title = $("#screenHeading", vp);
+    snap.fromApp = this.pressedInside(".phone, #modal");
+    snap.title = $(".app-header #screenHeading", vp);
+    snap.nav = $(".bottomnav", vp)?.getAttribute("aria-label");
     snap.navIndex = $$(".bottomnav > button", vp).findIndex((b) => b.classList.contains("active"));
     snap.stage = this.shown ? stageOf(this.shown) : -1;
     snap.total = $(".action-total strong", vp)?.textContent;
-    snap.wasStaffApp = !!$(".staff-app", vp);
-    if (nav) snap.staffNav = { index: $$(":scope > button", nav).findIndex((b) => b.classList.contains("active")), top: nav.scrollTop, left: nav.scrollLeft };
     if (kind === "update") {
       snap.items = this.measure();
       snap.segs = $$(".seg, .operator-tabs", body || vp).map((g) => {
@@ -5095,7 +5204,6 @@ const Motion = {
   },
   boot() {
     $("#body")?.classList.add("enter");
-    $(".staff-body")?.classList.add("enter");
     setTimeout(() => {
       document.body.classList.remove("booting");
       this.ready = true;
@@ -5120,20 +5228,8 @@ const Motion = {
         });
     } else if (snap.kind === "refresh") {
       if (!snap.reduced) body?.classList.add("stagger");
-    } else if (snap.wasStaffApp && $(".staff-app", vp)) {
-      // Staff → staff: the sidebar stays put (its pill slides), content enters below.
-    } else {
-      // Area change (customer ↔ staff): lift the new view in.
-      const view = vp.firstElementChild;
-      this.anim(
-        view,
-        snap.reduced ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: "translateY(16px) scale(.985)" }, { opacity: 1, transform: "none" }],
-        { duration: snap.reduced ? 180 : 560, easing: EASE.out },
-      );
-      $(".stage").scrollTo({ top: 0 });
     }
-    if (!snap.reduced) $(".staff-body", vp)?.classList.add("enter");
-    if (snap.fromApp) $("#screenHeading, .staff-body h1", vp)?.focus({ preventScroll: true });
+    if (snap.fromApp) $("#screenHeading", vp)?.focus({ preventScroll: true });
   },
   // Re-use the outgoing screen as a frozen, inert layer for the transition.
   ghost(snap, layer) {
@@ -5185,6 +5281,8 @@ const Motion = {
       next = $(".screen:not(.ghost)", stack),
       ghost = this.ghost(snap, "over");
     if (!next) return;
+    // Before the ghost's scroll position forces layout, so style is computed once.
+    if (!snap.reduced) $("#body")?.classList.add("stagger");
     if (ghost) {
       stack.append(ghost);
       const oldBody = $(".app-body", ghost);
@@ -5193,12 +5291,11 @@ const Motion = {
     }
     if (snap.reduced) return;
     this.anim(next, [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: 60, easing: EASE.out });
-    $("#body")?.classList.add("stagger");
   },
   swapTitle(snap, dir) {
     const h1 = $("#screenHeading"),
       old = snap.title;
-    if (!h1 || !old || old === h1 || old.textContent === h1.textContent) return;
+    if (!h1 || !old || old === h1 || old.textContent === h1.textContent || !h1.closest(".app-header")) return;
     const s = (dir === "back" ? -1 : dir === "forward" ? 1 : 0) * ($(".phone")?.dir === "rtl" ? -1 : 1);
     old.removeAttribute("id");
     old.removeAttribute("tabindex");
@@ -5374,18 +5471,13 @@ const Motion = {
     // Looping decoration keeps its phase across re-renders instead of restarting.
     const phase = -((performance.now() / 1000) % 52) + "s";
     $$(".hero-media", vp).forEach((m) => (m.style.animationDelay = phase));
-    if ($(".phone", vp)) {
-      this.placeNavPill(snap);
-      this.bindScroll(snap.kind === "update" ? snap.scroll : 0);
-    }
-    if ($(".staff-app", vp)) {
-      this.placeStaffPill(snap);
-      if (snap.kind !== "update") this.countUp();
-    }
+    this.placeNavPill(snap);
+    this.bindScroll(snap.kind === "update" ? snap.scroll : 0);
+    if (snap.kind !== "update") this.countUp();
   },
   placeNavPill(snap = {}) {
     const nav = $(".bottomnav"),
-      pill = $(".nav-pill", nav);
+      pill = nav && $(".nav-pill", nav);
     if (!pill) return;
     const btns = $$(":scope > button", nav),
       n = btns.length,
@@ -5394,10 +5486,10 @@ const Motion = {
     if (i < 0) return;
     // Centre of column k inside the nav's 4px side padding (mirrored in RTL); no layout reads.
     const rtl = !!nav.closest('[dir="rtl"]'),
-      at = (k) => `calc(4px + ${(rtl ? n - 1 - k : k) + 0.5} * (100% - 8px) / ${n} - 29px)`;
+      at = (k) => `calc(4px + ${(rtl ? n - 1 - k : k) + 0.5} * (100% - 8px) / ${n} - var(--pill-w) / 2)`;
     pill.style.left = at(i);
     const from = snap.navIndex;
-    if (snap.kind === "update" || from == null || from < 0 || from === i || snap.reduced) return;
+    if (snap.kind === "update" || from == null || from < 0 || from === i || snap.reduced || snap.nav !== nav.getAttribute("aria-label")) return;
     this.anim(
       pill,
       [
@@ -5412,29 +5504,6 @@ const Motion = {
       delay: 140,
       easing: EASE.out,
     });
-  },
-  placeStaffPill(snap = {}) {
-    const nav = $(".staff-nav nav"),
-      pill = $(".staff-pill", nav);
-    if (!pill) return;
-    if (snap.staffNav) {
-      nav.scrollTop = snap.staffNav.top;
-      nav.scrollLeft = snap.staffNav.left;
-    }
-    const btns = $$(":scope > button", nav),
-      i = btns.findIndex((b) => b.classList.contains("active"));
-    pill.hidden = i < 0;
-    if (i < 0) return;
-    const box = (b) => ({ x: b.offsetLeft, y: b.offsetTop, w: b.offsetWidth, h: b.offsetHeight }),
-      to = box(btns[i]);
-    const frame = (b) => ({ transform: `translate(${b.x}px,${b.y}px)`, width: b.w + "px", height: b.h + "px" });
-    Object.assign(pill.style, frame(to));
-    const from = snap.staffNav?.index;
-    if (snap.kind !== "update" && from != null && from >= 0 && from !== i && !snap.reduced)
-      this.anim(pill, [frame(box(btns[from])), frame(to)], { duration: 480, easing: EASE.soft });
-    const a = btns[i];
-    if (a.offsetLeft < nav.scrollLeft || a.offsetLeft + a.offsetWidth > nav.scrollLeft + nav.clientWidth)
-      nav.scrollTo({ left: a.offsetLeft - 16, behavior: snap.reduced ? "auto" : "smooth" });
   },
   // Header hairline once content scrolls under it; gentle hero parallax.
   bindScroll(initial) {
@@ -5547,6 +5616,17 @@ const Motion = {
       this.anim(el, [{ opacity: 0.25, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay: i * 60, easing: EASE.out }),
     );
   },
+  // Bottom sheet: slides up over a fading scrim; reversed to close.
+  sheet(layer, open, done) {
+    const panel = $(".sheet", layer),
+      scrim = $(".sheet-scrim", layer);
+    if (this.reduced()) return done?.();
+    const slide = [{ transform: "translateY(100%)" }, { transform: "none" }],
+      fade = [{ opacity: 0 }, { opacity: 1 }];
+    const opts = { duration: open ? 460 : 260, easing: open ? EASE.push : EASE.in, fill: open ? "backwards" : "forwards", direction: open ? "normal" : "reverse" };
+    this.anim(scrim, fade, opts);
+    this.anim(panel, slide, opts, done);
+  },
   // Fade the inspector notes that changed with the screen.
   inspector(before) {
     if (this.reduced()) return;
@@ -5557,6 +5637,9 @@ const Motion = {
 };
 
 /* 11. Shell =============================================================== */
+
+// Phone widths and short landscape screens show the app full-screen (same query as the CSS).
+const compactQuery = matchMedia("(max-width: 760px), (max-height: 500px)");
 
 /* Screen library: search, journey filters, sliding selection ------------- */
 const LIBRARY_FILTERS = [
@@ -5706,19 +5789,15 @@ function toast(msg, tone = "info") {
 function hideToast() {
   $("#toast").classList.remove("show");
 }
-// On the desktop stage the toast sits inside the device, just above its action bar.
+// The toast sits inside the device, just above its action bar.
 function placeToast() {
   const t = $("#toast"),
-    host = $("#viewport .phone") || $("#viewport .staff-app, #viewport .staff-login");
-  if (!host || innerWidth <= 760) {
-    t.style.left = t.style.bottom = t.style.maxWidth = "";
-    return;
-  }
-  const r = host.getBoundingClientRect(),
-    phone = host.classList.contains("phone");
+    phone = $("#viewport .phone");
+  if (!phone) return;
+  const r = phone.getBoundingClientRect();
   t.style.left = r.left + r.width / 2 + "px";
-  t.style.bottom = Math.max(16, innerHeight - Math.min(r.bottom, innerHeight) + (phone ? 138 * Motion.fit : 28)) + "px";
-  t.style.maxWidth = phone ? r.width - 32 + "px" : "";
+  t.style.bottom = Math.max(16, innerHeight - Math.min(r.bottom, innerHeight) + 138 * Motion.fit) + "px";
+  t.style.maxWidth = r.width - 32 + "px";
 }
 
 /* Dialog ----------------------------------------------------------------- */
@@ -5775,7 +5854,7 @@ function closeMenu() {
 function fitPhone() {
   const stage = $(".stage");
   let fit = 1;
-  if (innerWidth > 760) {
+  if (!compactQuery.matches) {
     const avail = stage.clientHeight - $(".stage-title").offsetHeight - 80;
     fit = Math.min(1, Math.max(0.68, avail / 844));
   }
@@ -5847,12 +5926,15 @@ document.addEventListener(
   { passive: true },
 );
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeMenu();
+  if (e.key === "Escape") {
+    closeMenu();
+    closeStaffMenu();
+  }
   if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || $("#modal").open) return;
   if (e.target.closest?.("input, textarea, select, [contenteditable]")) return;
   if (e.key === "/") {
     e.preventDefault();
-    if (innerWidth <= 760) toggleMenu(true);
+    if (compactQuery.matches) toggleMenu(true);
     $("#librarySearch").focus();
     $("#librarySearch").select();
   } else if (e.key === "f" || e.key === "F") {
@@ -5872,7 +5954,6 @@ addEventListener("resize", () => {
     measureLibrary();
     placeLibraryIndicator(false);
     Motion.placeNavPill();
-    Motion.placeStaffPill();
     if ($("#toast").classList.contains("show")) placeToast();
   });
 });
