@@ -113,3 +113,4 @@ operator sites.
 * [Scaling to 100k concurrent users](docs/scaling-100k.md) — capacity plan, measurements, load tests
 * [Security](docs/security.md) — personal data, payments, abuse protection
 * [Domain research](docs/research/ferry-booking-algeria.md) — operators, routes, rules, prices, sources
+* [Delphin prototype](docs/design/delphin-prototype/README.md) — clickable design prototype (90 screens), motion and UX spec
