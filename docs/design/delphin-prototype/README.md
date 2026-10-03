@@ -20,6 +20,17 @@ path) and reworks the experience around them.
   slider, and every arrow and chevron, which turn to point along the reading direction.
 - Translations are for the prototype: have a native Arabic copywriter review them before release.
 
+**Dark theme**
+
+- Light, dark or automatic, which follows the phone or computer setting. The switch sits in the top bar
+  and, on a phone, at the top of the screen list (☰); `T` flips between light and dark. The choice is
+  remembered.
+- Both apps are covered, every screen with its dialogs, sheets and messages: a night-sea palette where
+  the gold stays the colour of the main action, and the white logo in the top bar. All text on the 90
+  screens meets WCAG AA contrast in both themes (4.5:1, 3:1 for large text), in French and in Arabic.
+- The new theme grows as a circle from the switch that was pressed (in browsers with view transitions;
+  elsewhere it changes at once).
+
 **Mobile**
 
 - Every screen is an app screen. The 24 staff screens, a wide desktop dashboard in v2, are now the
@@ -95,6 +106,7 @@ path) and reworks the experience around them.
 | Sheets | The staff “Plus” menu, and dialogs on phones, slide up over a dimmed screen (460 ms). A drag moves the sheet with the finger and lightens the dimming; let go past a third of its height, or flick, and it closes, otherwise it springs back. |
 | Feedback | Blocked button shakes, the missing item pulses gold; the button glints once it becomes available; tap ripple on main targets. |
 | Entering a screen | Hero headline rises line by line, progress fills, the success check draws, the ticket unfolds, timeline steps arrive in order, staff metrics count up. |
+| Theme | The new theme grows as a circle from the switch (620 ms); every colour changes at once inside it. |
 | Reduced motion | Same states and focus handling, no movement — short fades only. |
 
 Transitions can be interrupted at any point: a new action settles the running one first. Easing tokens
@@ -107,12 +119,14 @@ springs sampled into CSS `linear()` — `--ease-soft` (≈4 % overshoot) and `--
 Section 1 of the stylesheet: brand colours (navy `#082C46`, gold `#D5AE66`, ivory `#F7F4EC`, sea
 `#1B607A`, foam `#E6EEF0`, ink `#142D3C`, muted `#5C707C`, line `#D8E1E5`, error `#A2383D`, success
 `#256949`), type (Inter for UI, Cormorant Garamond for display, Noto Sans Arabic), three elevations,
-the focus ring and the motion tokens above.
+the focus ring and the motion tokens above. Components use role tokens — `--surface`, `--raised`,
+`--heading`, `--selected` and a few more — which section 1b re-maps for the dark theme, so the light
+theme is unchanged.
 
 ## Keyboard
 
 `←` `→` previous / next screen · `/` search screens · `↑` `↓` move through the list · `F` presentation
-mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
+mode · `T` light / dark theme · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 
 ## Verification
 
@@ -126,6 +140,9 @@ mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 - At eight phone sizes (320×640 to 430×932 portrait, plus two landscape sizes) no screen has an element
   past the edge of the phone, clipped text or a page that scrolls sideways.
 - With reduced motion requested, nothing longer than a short fade runs.
+- Dark theme: no screen keeps a white surface, the device setting and the switch give identical colours,
+  and the choice survives a reload. The light theme is pixel-identical to the previous version on all 90
+  screens.
 - Cost per interaction in desktop Chromium, layout included: about 6 ms for an in-place update and 8 ms
   for a navigation, 10 ms in the staff app (v2: 5 ms and 6 ms).
 
@@ -147,7 +164,7 @@ python3 docs/design/delphin-prototype/build.py           # write delphin-prototy
 python3 docs/design/delphin-prototype/build.py --check   # fails if the built file is out of date
 ```
 
-Then run the smoke test (every screen, the booking flow, reduced motion, phone dialogs, Arabic):
+Then run the smoke test (every screen, the booking flow, reduced motion, phone dialogs, Arabic, dark theme):
 
 ```bash
 npm install --no-save playwright && npx playwright install chromium

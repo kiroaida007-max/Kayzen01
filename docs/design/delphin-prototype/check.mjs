@@ -1,6 +1,7 @@
 // Smoke test for delphin-prototype.html: every screen renders, the booking flow
 // reaches the ticket, reduced motion leaves no long animation, dialogs are bottom
-// sheets on a phone, the customer app is fully Arabic in Arabic, and nothing logs an error. Usage (from the repository root):
+// sheets on a phone, the customer app is fully Arabic in Arabic, the dark theme covers
+// every screen, and nothing logs an error. Usage (from the repository root):
 //   npm install --no-save playwright && npx playwright install chromium
 //   node docs/design/delphin-prototype/check.mjs
 import { chromium } from "playwright";
@@ -96,7 +97,40 @@ check(!arabic.wrong.length, `Arabic: not right to left on ${arabic.wrong.join(",
 check(!arabic.missing.length, `Arabic: no translation for ${arabic.missing.slice(0, 5).join(" | ")}`);
 await page.close();
 
+// 6. Dark theme: the device setting and the switch give the same colours, no screen
+// keeps a white surface, and the choice survives a reload.
+page = await open({ colorScheme: "dark" });
+const tokens = await page.evaluate(() => {
+  const rule = [...document.styleSheets].flatMap((s) => [...s.cssRules]).find((r) => r.selectorText === ':root[data-theme="dark"]');
+  return [...rule.style].filter((p) => p.startsWith("--"));
+});
+const read = (names) => names.map((n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim());
+const viaDevice = await page.evaluate(read, tokens);
+const white = await page.evaluate(() => {
+  const found = new Set();
+  for (const id of order) {
+    state = JSON.parse(JSON.stringify(seed));
+    navTo(id, "jump");
+    for (const el of document.querySelectorAll("#viewport .phone *"))
+      if (getComputedStyle(el).backgroundColor === "rgb(255, 255, 255)" && el.getClientRects().length) found.add(`${id} ${el.tagName.toLowerCase()}.${[...el.classList].join(".")}`);
+  }
+  return [...found];
+});
+check(!white.length, `dark theme: white surfaces on ${white.slice(0, 5).join(", ")}`);
+await page.close();
+page = await open({ colorScheme: "light" });
+await page.click('.topbar .theme-switch [data-choice="dark"]');
+await page.waitForTimeout(800);
+const viaSwitch = await page.evaluate(read, tokens);
+const differ = tokens.filter((n, i) => viaDevice[i] !== viaSwitch[i]);
+check(tokens.length > 30 && !differ.length, `dark theme: the device and the switch disagree on ${differ.join(", ") || "(no tokens found)"}`);
+await page.reload();
+await page.waitForTimeout(500);
+const kept = await page.evaluate(() => [document.documentElement.dataset.theme, document.querySelector(".topbar .theme-switch").dataset.choice]);
+check(kept[0] === "dark" && kept[1] === "dark", `dark theme: not kept after a reload (${kept})`);
+await page.close();
+
 await browser.close();
 check(errors.length === 0, `page errors: ${errors.join(" | ")}`);
-console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion, phone dialogs and Arabic OK`);
+console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion, phone dialogs, Arabic and dark theme OK`);
 process.exit(failures.length ? 1 : 0);

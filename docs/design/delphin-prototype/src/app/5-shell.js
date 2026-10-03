@@ -231,9 +231,89 @@ function fitPhone() {
   document.documentElement.style.setProperty("--fit", fit.toFixed(4));
 }
 
+/* Theme: automatic (the device, or the page hosting the prototype), light or dark */
+const THEMES = [
+  ["auto", "Auto", "Thème automatique, comme l’appareil", '<circle cx="12" cy="12" r="8.25"/><path d="M12 3.75a8.25 8.25 0 0 1 0 16.5z" fill="currentColor" stroke="none"/>'],
+  ["light", "Clair", "Thème clair (T)", '<circle cx="12" cy="12" r="3.75"/><path d="M12 3v1.8M12 19.2V21M5.64 5.64l1.27 1.27M17.09 17.09l1.27 1.27M3 12h1.8M19.2 12H21M5.64 18.36l1.27-1.27M17.09 6.91l1.27-1.27"/>'],
+  ["dark", "Sombre", "Thème sombre (T)", '<path d="M19.5 14.6A7.5 7.5 0 0 1 9.4 4.5a7.9 7.9 0 1 0 10.1 10.1Z"/>'],
+];
+const darkQuery = matchMedia("(prefers-color-scheme: dark)");
+let themeChoice = "auto";
+try {
+  const t = localStorage.getItem("delphin-theme");
+  if (t === "light" || t === "dark") themeChoice = t;
+} catch (e) {}
+const currentTheme = () => getComputedStyle(document.documentElement).getPropertyValue("--theme").trim();
+const themeFor = (choice) => (choice !== "auto" ? choice : ["light", "dark"].includes(PAGE_THEME) ? PAGE_THEME : darkQuery.matches ? "dark" : "light");
+
+function buildThemeSwitches() {
+  for (const g of $$(".theme-switch"))
+    g.innerHTML =
+      `<i class="theme-thumb" aria-hidden="true"></i>` +
+      THEMES.map(
+        ([k, label, title, paths]) =>
+          `<button data-choice="${k}" title="${title}" onclick="setTheme('${k}', this)"><svg class="icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg><span>${label}</span></button>`,
+      ).join("");
+}
+function syncTheme() {
+  for (const g of $$(".theme-switch")) {
+    g.dataset.choice = themeChoice;
+    for (const b of $$("button", g)) b.setAttribute("aria-pressed", String(b.dataset.choice === themeChoice));
+  }
+  $("#brandLogo").src = currentTheme() === "dark" ? IMAGES.reverse : IMAGES.logo;
+}
+function setTheme(choice, from) {
+  if (choice === themeChoice) return;
+  themeChoice = choice;
+  try {
+    choice === "auto" ? localStorage.removeItem("delphin-theme") : localStorage.setItem("delphin-theme", choice);
+  } catch (e) {}
+  const root = document.documentElement,
+    changes = themeFor(choice) !== currentTheme();
+  const apply = () => {
+    // Every colour flips at once: no per-element fades while the theme changes.
+    root.classList.add("theme-switching");
+    if (choice !== "auto") root.dataset.theme = choice;
+    else if (PAGE_THEME) root.dataset.theme = PAGE_THEME;
+    else delete root.dataset.theme;
+    syncTheme();
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("theme-switching")));
+  };
+  if (!changes || !document.startViewTransition || Motion.reduced()) return apply();
+  // The new theme grows as a circle from the switch that was pressed.
+  const r = from?.getBoundingClientRect(),
+    x = r?.width ? r.left + r.width / 2 : innerWidth / 2,
+    y = r?.width ? r.top + r.height / 2 : 0,
+    radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  document
+    .startViewTransition(apply)
+    .ready.then(() =>
+      root.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 620, easing: "cubic-bezier(0.22, 1, 0.36, 1)", pseudoElement: "::view-transition-new(root)" },
+      ),
+    )
+    .catch(() => {});
+}
+function toggleTheme() {
+  setTheme(currentTheme() === "dark" ? "light" : "dark", $(`.topbar .theme-switch [data-choice="${currentTheme() === "dark" ? "light" : "dark"}"]`));
+}
+darkQuery.addEventListener("change", syncTheme);
+// A hosting page may change data-theme: "Auto" follows it, a picked theme stays.
+new MutationObserver(() => {
+  const t = document.documentElement.dataset.theme ?? null;
+  if (themeChoice === "auto") PAGE_THEME = t;
+  else if (t !== themeChoice) {
+    PAGE_THEME = t;
+    document.documentElement.dataset.theme = themeChoice;
+  }
+  syncTheme();
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
 /* 12. Boot ================================================================ */
 
-$("#brandLogo").src = IMAGES.logo;
+buildThemeSwitches();
+syncTheme();
 buildLibrary();
 measureLibrary();
 document.fonts?.ready.then(() => {
@@ -316,6 +396,8 @@ document.addEventListener("keydown", (e) => {
     $("#librarySearch").select();
   } else if (e.key === "f" || e.key === "F") {
     toggleFocusMode();
+  } else if (e.key === "t" || e.key === "T") {
+    toggleTheme();
   } else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
     e.preventDefault();
     stepScreen(e.key === "ArrowRight" ? 1 : -1);
