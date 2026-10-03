@@ -140,7 +140,8 @@ function syncShell(d, kind) {
 function toast(msg, tone = "info") {
   const t = $("#toast"),
     again = t.classList.contains("show");
-  t.textContent = msg;
+  t.textContent = arabicOn() ? tr(msg) : msg;
+  t.dir = arabicOn() ? "rtl" : "ltr";
   t.dataset.tone = tone;
   placeToast();
   t.classList.add("show");
@@ -177,6 +178,9 @@ function modal(title, body, actions = []) {
     .join("");
   $("#modalActions").dataset.count = actions.length;
   window.modalFns = actions.map((a) => a.fn);
+  m.dir = arabicOn() ? "rtl" : "ltr";
+  m.lang = arabicOn() ? "ar" : "fr";
+  if (arabicOn()) translateTree(m);
   m.showModal();
 }
 function modalAction(i) {

@@ -10,6 +10,16 @@ path) and reworks the experience around them.
 
 ## What changed
 
+**Arabic**
+
+- The whole customer app reads in Arabic (the AR button in the header): every screen, dialog, message
+  and hint, 1,093 strings in Modern Standard Arabic with Algerian usage (month names such as جوان and
+  أوت, prices in دج). Live values (dates, prices, traveller counts, timers) go through patterns with
+  Arabic number agreement. The staff app stays in French.
+- The layout mirrors right to left: rows, fields, the step rail, the timeline, progress bars, the budget
+  slider, and every arrow and chevron, which turn to point along the reading direction.
+- Translations are for the prototype: have a native Arabic copywriter review them before release.
+
 **Mobile**
 
 - Every screen is an app screen. The 24 staff screens, a wide desktop dashboard in v2, are now the
@@ -39,6 +49,8 @@ path) and reworks the experience around them.
   back to the top or drop keyboard focus.
 - The option subtotal and group total (C24) and the filter counter (C12) update as soon as a choice changes.
 - "1 enfants" reads "1 enfant"; the Arabic home's trip toggle shows the current mode.
+- Components position by start and end (logical properties), so the same rules serve both reading
+  directions instead of per-language overrides.
 - The device fits the stage instead of being cut off on laptop-height windows.
 - The browser's Back button steps back through the app history.
 - Pressing − at a stepper's minimum no longer invalidates the current quote.
@@ -107,7 +119,10 @@ mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 - Same behaviour as v2: nine scripted journeys (about 140 steps — booking through to the ticket and
   back, round trip, travellers, ports, filters, identity checks, payment outcomes, operator guide,
   dialogs, staff sign-in and dual approval) leave v2 and v3 in identical app state.
-- All 90 screens render without errors, on desktop and on phones, in French and in Arabic (RTL).
+- All 90 screens render without errors, on desktop and on phones. In Arabic, the 66 customer screens,
+  with every control pressed once (dialogs, messages, hints included), show no untranslated text and,
+  at the eight phone sizes below, no overflow; French screens are pixel-identical before and after the
+  right-to-left work.
 - At eight phone sizes (320×640 to 430×932 portrait, plus two landscape sizes) no screen has an element
   past the edge of the phone, clipped text or a page that scrolls sideways.
 - With reduced motion requested, nothing longer than a short fade runs.
@@ -124,6 +139,7 @@ mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 | `src/styles.css` | The stylesheet, in numbered sections (tokens first, responsive and motion last) |
 | `src/app/1-core.js` … `5-shell.js` | The script, in load order: data and state, screens, actions, motion, shell |
 | `src/data.json` | Screens, flows, operators, ports and research sources (demo data) |
+| `src/i18n/ar.json` | Arabic for every French string the customer app shows, keyed by the French text |
 | `src/assets/`, `src/fonts/` | Images and font subsets (licences in `src/fonts/README.md`) |
 
 ```bash
@@ -131,7 +147,7 @@ python3 docs/design/delphin-prototype/build.py           # write delphin-prototy
 python3 docs/design/delphin-prototype/build.py --check   # fails if the built file is out of date
 ```
 
-Then run the smoke test (every screen, the booking flow, reduced motion, phone dialogs):
+Then run the smoke test (every screen, the booking flow, reduced motion, phone dialogs, Arabic):
 
 ```bash
 npm install --no-save playwright && npx playwright install chromium

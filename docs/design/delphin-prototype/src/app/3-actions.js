@@ -279,10 +279,8 @@ function scenario(id, intent = "jump") {
 function toggleLang() {
   state.lang = state.lang === "FR" ? "AR" : "FR";
   save();
-  // Only the home screen has an Arabic example; elsewhere, say where it is.
-  Motion.intent = state.id === "C01" ? "lang" : "update";
+  Motion.intent = "lang";
   render();
-  if (state.id !== "C01" && state.lang === "AR") toast("L’exemple arabe est sur l’écran d’accueil (C01).");
 }
 function resetDemo() {
   state = clone(seed);
@@ -436,7 +434,8 @@ function updatePrimary() {
     // aria-disabled keeps the button focusable: pressing it explains what is missing.
     b.setAttribute("aria-disabled", String(!!reason));
     if (state.id === "C12") {
-      const label = "Afficher " + filteredCount() + " traversée" + (filteredCount() === 1 ? "" : "s");
+      const fr = "Afficher " + filteredCount() + " traversée" + (filteredCount() === 1 ? "" : "s"),
+        label = arabicOn() ? tr(fr) : fr;
       if (b.textContent !== label) {
         b.textContent = label;
         if (!first) Motion.bump(b);
@@ -444,9 +443,10 @@ function updatePrimary() {
     }
     if (!first && wasBlocked && !reason) Motion.sheen(b);
   }
-  const hint = $("#gateHint");
-  if (hint && hint.textContent !== reason) {
-    hint.textContent = reason;
+  const hint = $("#gateHint"),
+    text = arabicOn() ? tr(reason) : reason;
+  if (hint && hint.textContent !== text) {
+    hint.textContent = text;
     if (reason) Motion.reveal(hint);
   }
   syncFieldStates(reason);

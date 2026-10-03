@@ -92,7 +92,7 @@ button {
   color: inherit;
   border: 0;
   background: none;
-  text-align: left;
+  text-align: start;
   -webkit-tap-highlight-color: transparent;
 }
 :focus-visible {
@@ -1249,7 +1249,7 @@ kbd {
 .hero-tag {
   position: absolute;
   top: 9px;
-  right: 10px;
+  inset-inline-end: 10px;
   padding: 3px 6px;
   border-radius: 6px;
   background: rgb(8 44 70 / 42%);
@@ -1391,12 +1391,12 @@ kbd {
   color: var(--navy);
 }
 .field.has-icon {
-  padding-left: 44px;
+  padding-inline-start: 44px;
 }
 .field-icon {
   position: absolute;
   top: 50%;
-  left: 13px;
+  inset-inline-start: 13px;
   width: 20px;
   height: 20px;
   margin-top: -10px;
@@ -1406,7 +1406,7 @@ kbd {
 .field-chevron {
   position: absolute;
   top: 50%;
-  right: 12px;
+  inset-inline-end: 12px;
   width: 18px;
   height: 18px;
   margin-top: -9px;
@@ -1415,8 +1415,8 @@ kbd {
 }
 .field.clickable {
   width: 100%;
-  padding-right: 38px;
-  text-align: left;
+  padding-inline-end: 38px;
+  text-align: start;
 }
 .field.clickable:hover .field-chevron {
   transform: translateY(2px);
@@ -1441,7 +1441,7 @@ kbd {
   content: "";
   position: absolute;
   top: 50%;
-  right: 12px;
+  inset-inline-end: 12px;
   width: 20px;
   height: 20px;
   margin-top: -10px;
@@ -1455,17 +1455,6 @@ kbd {
   letter-spacing: 0.5em;
   font-variant-numeric: tabular-nums;
 }
-.rtl .field.has-icon {
-  padding-left: 12px;
-  padding-right: 44px;
-}
-.rtl .field-icon {
-  left: auto;
-  right: 13px;
-}
-.rtl .field.clickable {
-  text-align: right;
-}
 .two {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1476,7 +1465,7 @@ kbd {
 }
 .tools .secondary {
   justify-content: flex-start;
-  text-align: left;
+  text-align: start;
 }
 
 .row {
@@ -1487,7 +1476,8 @@ kbd {
   gap: 14px;
   width: 100%;
   min-height: 48px;
-  padding: 11px 10px 11px 12px;
+  padding: 11px 10px;
+  padding-inline-start: 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #fff;
@@ -1507,13 +1497,13 @@ kbd {
   max-width: 57%;
   font-size: 13px;
   font-weight: 500;
-  text-align: right;
+  text-align: end;
   color: var(--sea);
 }
 .row-chevron {
   width: 18px;
   height: 18px;
-  margin-left: -6px;
+  margin-inline-start: -6px;
   color: var(--sea);
   transition: transform 0.3s var(--ease-out);
 }
@@ -1530,7 +1520,7 @@ kbd {
   display: inline-block;
   width: 7px;
   height: 7px;
-  margin-right: 6px;
+  margin-inline-end: 6px;
   border-radius: 50%;
   vertical-align: 1px;
   background: var(--muted);
@@ -1551,11 +1541,16 @@ kbd {
 .row strong[data-tone="off"]::before {
   background: var(--line-2);
 }
-.rtl .row strong {
-  text-align: left;
+[dir="rtl"] .icon.flip {
+  scale: -1 1;
 }
-.rtl .row-chevron {
-  margin: 0 -6px 0 0;
+[dir="rtl"] .row.is-editing,
+[dir="rtl"] .choice.port.is-current {
+  box-shadow: inset -3px 0 0 var(--sea);
+}
+.rtl .rail-progress {
+  background: linear-gradient(270deg, var(--sea), var(--navy));
+  transform-origin: right;
 }
 
 .choice {
@@ -1649,7 +1644,7 @@ kbd {
   width: 100%;
   align-items: center;
   min-height: 60px;
-  text-align: left;
+  text-align: start;
 }
 .choice.port > div {
   flex: 1;
@@ -1812,7 +1807,7 @@ kbd {
 .summary::after {
   content: "";
   position: absolute;
-  right: -8px;
+  inset-inline-end: -8px;
   bottom: -12px;
   width: 132px;
   height: 50px;
@@ -1847,7 +1842,7 @@ kbd {
   border: 1px solid var(--line);
   border-radius: 14px;
   background: #fff;
-  text-align: left;
+  text-align: start;
   transition:
     border-color 0.25s,
     box-shadow 0.35s var(--ease-out),
@@ -1868,7 +1863,7 @@ kbd {
   height: 16px;
 }
 .operator .tag {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .fare > strong {
   display: block;
@@ -2104,6 +2099,14 @@ kbd {
   transform: translateX(-100%);
   animation: sheen-loop 1.9s var(--ease-in-out) infinite;
 }
+/* Right to left: the bar fills from the right and its sheen runs the other way. */
+.rtl .progress .bar span {
+  transform-origin: right;
+}
+.rtl .progress .bar span::after {
+  transform: translateX(100%);
+  animation-name: sheen-loop-rtl;
+}
 .progress small {
   font-size: 11.5px;
 }
@@ -2135,6 +2138,10 @@ kbd {
   height: 6px;
   border-radius: 6px;
   background: linear-gradient(90deg, var(--sea) var(--fill, 50%), var(--foam) var(--fill, 50%));
+}
+/* Right to left the minimum sits on the right, so the fill starts there. */
+.rtl .slider input::-webkit-slider-runnable-track {
+  background: linear-gradient(270deg, var(--sea) var(--fill, 50%), var(--foam) var(--fill, 50%));
 }
 .slider input::-moz-range-track {
   height: 6px;
@@ -2235,26 +2242,28 @@ kbd {
 
 .timeline {
   margin: 0;
-  padding: 0 0 0 26px;
+  padding: 0;
+  padding-inline-start: 26px;
   list-style: none;
 }
 .timeline li {
   position: relative;
-  padding: 0 0 24px 20px;
-  border-left: 2px solid var(--line);
+  padding: 0 0 24px;
+  padding-inline-start: 20px;
+  border-inline-start: 2px solid var(--line);
 }
 .timeline li:last-child {
   padding-bottom: 6px;
-  border-left-color: transparent;
+  border-inline-start-color: transparent;
 }
 .timeline li.done:has(+ li.done) {
-  border-left-color: var(--success);
+  border-inline-start-color: var(--success);
 }
 .timeline li::before {
   content: "";
   position: absolute;
   top: 1px;
-  left: -10px;
+  inset-inline-start: -10px;
   width: 18px;
   height: 18px;
   border: 2px solid var(--line-2);
@@ -2355,7 +2364,7 @@ dialog .tear::after {
   border: 1px solid var(--line);
   border-radius: 14px;
   background: #fff;
-  text-align: left;
+  text-align: start;
   transition:
     border-color 0.25s,
     box-shadow 0.35s var(--ease-out),
@@ -2445,7 +2454,7 @@ dialog .tear::after {
 .source-icon {
   position: absolute;
   top: 12px;
-  right: 12px;
+  inset-inline-end: 12px;
   width: 16px;
   height: 16px;
   color: var(--sea);
@@ -2457,9 +2466,6 @@ dialog .tear::after {
   }
   .row:hover .row-chevron {
     transform: translateX(2px);
-  }
-  .rtl .row:hover .row-chevron {
-    transform: translateX(-2px);
   }
   .fare:hover,
   .operator-card:hover {
@@ -3037,6 +3043,9 @@ dialog .tear::after {
   transform: scaleX(0);
   transform-origin: left;
 }
+#toast[dir="rtl"]::after {
+  transform-origin: right;
+}
 #toast.show::after {
   animation: countdown-a 3.4s linear both;
 }
@@ -3232,6 +3241,11 @@ dialog .ticket {
 @keyframes sheen-loop {
   to {
     transform: translateX(100%);
+  }
+}
+@keyframes sheen-loop-rtl {
+  to {
+    transform: translateX(-100%);
   }
 }
 @keyframes sheen {

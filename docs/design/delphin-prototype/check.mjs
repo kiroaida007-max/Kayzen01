@@ -1,6 +1,6 @@
 // Smoke test for delphin-prototype.html: every screen renders, the booking flow
 // reaches the ticket, reduced motion leaves no long animation, dialogs are bottom
-// sheets on a phone, and nothing logs an error. Usage (from the repository root):
+// sheets on a phone, the customer app is fully Arabic in Arabic, and nothing logs an error. Usage (from the repository root):
 //   npm install --no-save playwright && npx playwright install chromium
 //   node docs/design/delphin-prototype/check.mjs
 import { chromium } from "playwright";
@@ -80,7 +80,23 @@ const sheet = await page.evaluate(async () => {
 check(sheet.left === 0 && sheet.width === 390 && Math.round(sheet.bottom) === 844, `phone dialog is not a bottom sheet: ${JSON.stringify(sheet)}`);
 await page.close();
 
+// 5. Arabic: every customer screen reads right to left with no untranslated text.
+page = await open({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const arabic = await page.evaluate(() => {
+  const wrong = [];
+  for (const id of order.filter((x) => x.startsWith("C"))) {
+    state = JSON.parse(JSON.stringify(seed));
+    state.lang = "AR";
+    navTo(id, "jump");
+    if (document.querySelector(".phone").dir !== "rtl") wrong.push(id);
+  }
+  return { wrong, missing: [...(window.arMissing || [])] };
+});
+check(!arabic.wrong.length, `Arabic: not right to left on ${arabic.wrong.join(", ")}`);
+check(!arabic.missing.length, `Arabic: no translation for ${arabic.missing.slice(0, 5).join(" | ")}`);
+await page.close();
+
 await browser.close();
 check(errors.length === 0, `page errors: ${errors.join(" | ")}`);
-console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion and phone dialogs OK`);
+console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion, phone dialogs and Arabic OK`);
 process.exit(failures.length ? 1 : 0);

@@ -37,7 +37,10 @@ const ICON_PATHS = {
   users: '<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5.2a3.5 3.5 0 0 1 0 6.6M18.5 14a6.5 6.5 0 0 1 3 5.5v.5"/>',
   flag: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
 };
+// Arrows and chevrons point along the reading direction: right to left, they mirror.
+const DIRECTIONAL = new Set(["arrowRight", "arrowLeft", "chevronRight", "chevronLeft"]);
 function icon(name, cls = "") {
+  if (DIRECTIONAL.has(name)) cls += " flip";
   return `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICON_PATHS[name] || ""}</svg>`;
 }
 const STATUS_ICONS =
@@ -202,7 +205,7 @@ function component(a, i) {
     const legend = ret
       ? `<div class="cal-legend"><span><i class="dot start"></i>Aller · ${esc(dateText(dep))}</span><span><i class="dot end"></i>Retour · ${esc(dateText(ret))}</span></div>`
       : "";
-    return `<div class="calendar${ret ? " has-range" : ""}"${dk("calendar", "août")}><header><strong>Août 2027 · calendrier de démo</strong></header>${legend}<div class="calgrid">${["L", "M", "M", "J", "V", "S", "D"].map((x) => `<span class="weekday">${x}</span>`).join("")}${"<span></span>".repeat(6)}${days}</div></div>`;
+    return `<div class="calendar${ret ? " has-range" : ""}"${dk("calendar", "août")}><header><strong>Août 2027 · calendrier de démo</strong></header>${legend}<div class="calgrid">${(arabicOn() ? ["ن", "ث", "ر", "خ", "ج", "س", "ح"] : ["L", "M", "M", "J", "V", "S", "D"]).map((x) => `<span class="weekday">${x}</span>`).join("")}${"<span></span>".repeat(6)}${days}</div></div>`;
   }
   if (k === "progress")
     return `<div class="progress"${dk("progress", a[1])}><strong>${esc(a[1])}</strong><div class="bar" role="progressbar" aria-label="${esc(a[1])}" aria-valuenow="${a[2] * 100}" aria-valuemin="0" aria-valuemax="100"><span style="width:${a[2] * 100}%"></span></div><small>Simulation · utilisez le bouton ci-dessous.</small></div>`;
@@ -343,7 +346,7 @@ ${nav}<i class="home-indicator" aria-hidden="true"></i>
 </article></div>`;
 }
 function appHeader(title, action = "", rtl = false) {
-  return `<header class="app-header"><button class="back" aria-label="Retour" onclick="back()">${icon(rtl ? "chevronRight" : "chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1>${action}</header>`;
+  return `<header class="app-header"><button class="back" aria-label="Retour" onclick="back()">${icon("chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1>${action}</header>`;
 }
 function tabBar(label, tabs) {
   return `<nav class="bottomnav" style="--n:${tabs.length}" aria-label="${esc(label)}">${tabs
@@ -372,7 +375,98 @@ function renderArabic() {
     .map(([l, j]) => `<button class="${t === j ? "active" : ""}" aria-pressed="${t === j}" onclick="setTab(${j})">${l}</button>`)
     .join(
       "",
-    )}</div><button class="field clickable has-icon" data-key="field:ar-from" onclick="state.portContext='origin';go('C02')">${icon("location", "field-icon")}<span class="field-label">من</span><strong>${esc(state.origin)}</strong></button><button class="field clickable has-icon" data-key="field:ar-to" onclick="state.portContext='dest';go('C02')">${icon("location", "field-icon")}<span class="field-label">إلى</span><strong>${esc(state.dest)}</strong></button><button class="row" data-key="row:ar-date" onclick="go('C03')"><span>تاريخ المغادرة</span><strong dir="ltr">${esc(dateText(state.departureISO))}</strong>${icon("chevronLeft", "row-chevron")}</button><button class="row" data-key="row:ar-party" onclick="go('C04')"><span>المسافرون</span><strong>بالغان وطفل واحد</strong>${icon("chevronLeft", "row-chevron")}</button><button class="row" data-key="row:ar-vehicle" onclick="go('C05')"><span>المركبة والإقامة</span><strong>سيارة ومقصورة خاصة</strong>${icon("chevronLeft", "row-chevron")}</button>${noticeBlock("سعر واضح", "السعر الإجمالي يشمل المسافرين والمركبة والمقصورة.")}`;
+    )}</div><button class="field clickable has-icon" data-key="field:ar-from" onclick="state.portContext='origin';go('C02')">${icon("location", "field-icon")}<span class="field-label">من</span><strong>${esc(state.origin)}</strong></button><button class="field clickable has-icon" data-key="field:ar-to" onclick="state.portContext='dest';go('C02')">${icon("location", "field-icon")}<span class="field-label">إلى</span><strong>${esc(state.dest)}</strong></button><button class="row" data-key="row:ar-date" onclick="go('C03')"><span>تاريخ المغادرة</span><strong>${esc(dateText(state.departureISO))}</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-party" onclick="go('C04')"><span>المسافرون</span><strong>بالغان وطفل واحد</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-vehicle" onclick="go('C05')"><span>المركبة والإقامة</span><strong>سيارة ومقصورة خاصة</strong>${icon("chevronRight", "row-chevron")}</button>${noticeBlock("سعر واضح", "السعر الإجمالي يشمل المسافرين والمركبة والمقصورة.")}`;
+}
+
+/* Arabic (customer app) ----------------------------------------------------- */
+// Screens render in French; in Arabic one pass maps their text to the AR dictionary
+// (src/i18n/ar.json). Patterns cover what carries live values: dates, prices, counts.
+const arabicOn = () => state.lang === "AR" && !state.id.startsWith("A");
+const AR_MONTHS = {
+  janvier: "جانفي", février: "فيفري", mars: "مارس", avril: "أفريل", mai: "ماي", juin: "جوان",
+  juillet: "جويلية", août: "أوت", septembre: "سبتمبر", octobre: "أكتوبر", novembre: "نوفمبر", décembre: "ديسمبر",
+};
+const MONTH = "(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)";
+const arMonth = (m) => AR_MONTHS[m.toLowerCase()];
+// Counted nouns: [1, 2–10 (and 0), 11+].
+const AR_NOUNS = {
+  adulte: ["بالغ", "بالغين", "بالغًا"], enfant: ["طفل", "أطفال", "طفلًا"], bébé: ["رضيع", "رضّع", "رضيعًا"],
+  voyageur: ["مسافر", "مسافرين", "مسافرًا"], traversée: ["رحلة", "رحلات", "رحلة"], place: ["مكان", "أماكن", "مكانًا"],
+  siège: ["مقعد", "مقاعد", "مقعدًا"], cabine: ["مقصورة", "مقصورات", "مقصورة"], véhicule: ["مركبة", "مركبات", "مركبة"],
+  filtre: ["عامل تصفية", "عوامل تصفية", "عامل تصفية"], heure: ["ساعة", "ساعات", "ساعة"], seconde: ["ثانية", "ثوانٍ", "ثانية"],
+};
+const arCount = (n, noun) => {
+  const [one, few, many] = AR_NOUNS[noun];
+  return `${n} ${+n === 1 ? one : +n <= 10 ? few : many}`;
+};
+const nounOf = (w) => w.replace(/s$/, "");
+const AR_ROLE = { Voyageur: "المسافر", Adulte: "البالغ", Enfant: "الطفل", Bébé: "الرضيع" };
+const AR_PATTERNS = [
+  [/^([+\-−]?\s?[\d   ]*\d)\s?DZD$/, (m, n) => `${n} دج`],
+  [new RegExp(`^(\\d{1,2}) ${MONTH}(?: (\\d{4}))?(?: (\\d{1,2}:\\d{2}))?$`, "i"), (m, d, mo, y, t) => [d, arMonth(mo), y, t].filter(Boolean).join(" ")],
+  [new RegExp(`^${MONTH} (\\d{4})$`, "i"), (m, mo, y) => `${arMonth(mo)} ${y}`],
+  [/^(\d{1,2}:\d{2}) \(\+1 j\)$/, (m, t) => `${t} (+1 يوم)`],
+  [/^Arrivée (\d{1,2}:\d{2})( \(\+1 j\))?$/, (m, t, p) => `الوصول ${t}${p ? " (+1 يوم)" : ""}`],
+  [/^(\d+) h$/, (m, n) => `${n} سا`],
+  [/^(\d+) heures?$/, (m, n) => arCount(n, "heure")],
+  [/^(\d+,\d+) m(?: \/ (\d+,\d+) m)?$/, (m, a, b) => (b ? `${a} م / ${b} م` : `${a} م`)],
+  [/^\d+ (?:adultes?|enfants?|bébés?)(?:, \d+ (?:adultes?|enfants?|bébés?))*$/, (m) => m.split(", ").map((p) => { const [n, w] = p.split(" "); return arCount(n, nounOf(w)); }).join("، ")],
+  [/^(\d+) (voyageurs?|véhicules?|places)$/, (m, n, w) => arCount(n, nounOf(w))],
+  [/^(\d+) filtres? actifs?$/, (m, n) => `${arCount(n, "filtre")} ${+n === 1 ? "مفعّل" : "مفعّلة"}`],
+  [/^Afficher (\d+) traversées?$/, (m, n) => `عرض ${arCount(n, "traversée")}`],
+  [/^(Voyageur|Adulte|Enfant|Bébé) (\d+)(?: \/ (\d+))?$/, (m, w, a, b) => `${AR_ROLE[w]} ${a}${b ? ` / ${b}` : ""}`],
+  [/^conducteur : (Adulte|Enfant) (\d+)$/, (m, w, n) => `السائق: ${AR_ROLE[w]} ${n}`],
+  [/^Accepter (.+)$/, (m, x) => `قبول ${tr(x)}`],
+  [/^estimation (.+)$/, (m, x) => `تقدير ${tr(x)}`],
+  [/^Montant approuvé : (.+)$/, (m, x) => `المبلغ المعتمد: ${tr(x)}`],
+  [/^Dans (\d+) (?:s|secondes)$/, (m, n) => `خلال ${arCount(n, "seconde")}`],
+  [/^Valide jusqu’à (\d{1,2}:\d{2})$/, (m, t) => `صالح حتى ${t}`],
+  [/^Entre (\d{1,2}:\d{2}) et (\d{1,2}:\d{2})$/, (m, a, b) => `بين ${a} و${b}`],
+  [new RegExp(`^Rechercher le (\\d{1,2}) ${MONTH}$`, "i"), (m, d, mo) => `البحث يوم ${d} ${arMonth(mo)}`],
+  [/^(Référence|Dossier|Ouvrir) (\S+-\d+)$/, (m, w, id) => `${{ Référence: "المرجع", Dossier: "الملف", Ouvrir: "فتح" }[w]} ${id}`],
+  [/^Privée (\d+) pl\.$/, (m, n) => `خاصة · ${arCount(n, "place")}`],
+  [/^(\d+) sièges pour le groupe$/, (m, n) => `${arCount(n, "siège")} للمجموعة`],
+  [/^(\d+) cabines? pour vos (\d+) voyageurs$/, (m, a, b) => `${arCount(a, "cabine")} لـ${arCount(b, "voyageur")}`],
+  [/^Filtres \((\d+)\)$/, (m, n) => `التصفية (${n})`],
+  [/^il y a (\d+) min$/, (m, n) => `منذ ${n} د`],
+  [/^(?:vérifié|Vérifiées) le (\d{2}\/\d{2}\/\d{4})$/, (m, d) => `تم التحقق في ${d}`],
+  [/^(.+) est consultable et modifiable dans cette simulation\.$/, (m, x) => `${tr(x)} قابل للعرض والتعديل في هذه المحاكاة.`],
+  // Codes and ids stay as they are.
+  [/^(?:[A-Z]+-)*[A-Z]+-?\d+$|^[ACSV]\d{1,2}$/, (m) => m],
+];
+function tr(text) {
+  const key = text.replace(/\s+/g, " ").trim();
+  if (!/[A-Za-zÀ-ÿ]/.test(key)) return text; // numbers, symbols or already Arabic
+  let out = AR[key];
+  if (out === undefined)
+    for (const [re, f] of AR_PATTERNS) {
+      const m = key.match(re);
+      if (m) {
+        out = f(...m);
+        break;
+      }
+    }
+  // UI joins: "A · B", "Alger → Marseille" (the arrow turns to follow the reading direction).
+  if (out === undefined && / · | → /.test(key))
+    out = key
+      .split(/( · | → )/)
+      .map((p) => (p === " → " ? " ← " : p === " · " ? p : tr(p)))
+      .join("");
+  if (out === undefined) {
+    (window.arMissing ||= new Set()).add(key);
+    return text;
+  }
+  return text.match(/^\s*/)[0] + out + text.match(/\s*$/)[0];
+}
+// Translate a rendered tree in place: text, labels and placeholders.
+function translateTree(root) {
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n; (n = walker.nextNode()); ) if (/[A-Za-zÀ-ÿ]/.test(n.nodeValue)) n.nodeValue = tr(n.nodeValue);
+  for (const el of root.querySelectorAll("[placeholder], [aria-label], [title]"))
+    for (const a of ["placeholder", "aria-label", "title"]) if (el.hasAttribute(a)) el.setAttribute(a, tr(el.getAttribute(a)));
+  // Prefilled values (example data, dimensions); e-mail addresses and codes stay as typed.
+  for (const el of root.querySelectorAll("input[value]:not([type=email])")) el.value = tr(el.value);
 }
 
 const APP_NAV = [
@@ -382,10 +476,12 @@ const APP_NAV = [
   ["Compte", "C41", "user", "حسابي"],
 ];
 function renderCustomer(d) {
-  const arabic = state.lang === "AR" && d.id === "C01";
-  let title = arabic ? "رحلتك البحرية" : d.title;
+  // Arabic covers the whole customer app; the home screen has its own Arabic layout.
+  const arabic = state.lang === "AR",
+    arabicHome = arabic && d.id === "C01";
+  let title = arabicHome ? "رحلتك البحرية" : d.title;
   if (d.id === "C22") title = "Voyageur " + (state.traveler + 1) + " / " + totalTravelers();
-  let body = arabic ? renderArabic() : d.id === "C51" ? operatorsPanel() : d.id === "C52" ? policyPanel() : d.elements.map(component).join("");
+  let body = arabicHome ? renderArabic() : d.id === "C51" ? operatorsPanel() : d.id === "C52" ? policyPanel() : d.elements.map(component).join("");
   if (d.id === "C11") body += resultsPanel();
   if (d.id === "C03")
     body =
@@ -395,7 +491,7 @@ function renderCustomer(d) {
         : "") +
       body;
   if (d.id === "C01" && state.tripMode === 1)
-    body += btnRow(arabic ? "تاريخ العودة" : "Retour", dateText(state.returnISO), "state.dateContext='returnISO';go('C03')");
+    body += btnRow(arabicHome ? "تاريخ العودة" : "Retour", dateText(state.returnISO), "state.dateContext='returnISO';go('C03')");
   if (d.id === "C25" && state.priceDelta)
     body += btnRow("Ajustement accepté", money(state.priceDelta), "toast('Variation de tarif acceptée dans le scénario C16.')", false);
   if (d.id === "C25" && (!state.quoteExpiry || Date.now() > state.quoteExpiry)) body += btn("Revalider le devis", "rowAction('Revalider le devis')");
@@ -407,16 +503,19 @@ function renderCustomer(d) {
     rtl: arabic,
     header: appHeader(
       title,
-      `<button class="language" onclick="toggleLang()" aria-label="Exemple arabe sur l’accueil">${state.lang === "FR" ? "AR" : "FR"}</button>`,
+      arabic
+        ? `<button class="language" onclick="toggleLang()" aria-label="عرض التطبيق بالفرنسية" lang="fr">FR</button>`
+        : `<button class="language" onclick="toggleLang()" aria-label="Afficher l’app en arabe" lang="ar">AR</button>`,
       arabic,
     ),
-    screen: `<div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabic ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabic ? "البحث عن الرحلات" : esc(d.cta)}</button></div>`,
+    screen: `<div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabicHome ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabicHome ? "البحث عن الرحلات" : esc(d.cta)}</button></div>`,
     nav: tabBar(
       "Navigation de l’application",
       APP_NAV.map(([n, to, ic, ar]) => ({ label: arabic ? ar : n, icon: ic, onclick: `navTo('${to}','tab')`, active: n === d.nav })),
     ),
   });
   updatePrimary();
+  if (arabic) translateTree($("#viewport .phone"));
 }
 
 /* Staff app (Espace équipe) ----------------------------------------------- */

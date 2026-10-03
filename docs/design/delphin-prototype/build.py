@@ -6,7 +6,8 @@
 src/index.html is the page; build markers in it are replaced by:
   fonts/fonts.css   with each font file inlined as a data URL
   styles.css        the stylesheet
-  data.json         the demo data, with the images in assets/ added under DATA.assets
+  data.json         the demo data, with the images in assets/ added under DATA.assets,
+                    then i18n/ar.json as AR (French UI text -> Arabic)
   app/*.js          the script, in file order
   assets/delphin-icon.png   the home-screen icon, as base64
 """
@@ -40,7 +41,8 @@ def build():
     parts = {
         "fonts/fonts.css": fonts,
         "styles.css": read("styles.css"),
-        "data.json": "const DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";",
+        "data.json": "const DATA=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";"
+        + "const AR=" + json.dumps(json.loads(read("i18n/ar.json")), ensure_ascii=False, separators=(",", ":")) + ";",
         "app/*.js": "".join(p.read_text(encoding="utf-8") for p in sorted((SRC / "app").glob("*.js"))),
         "assets/delphin-icon.png": b64("assets/delphin-icon.png"),
     }
