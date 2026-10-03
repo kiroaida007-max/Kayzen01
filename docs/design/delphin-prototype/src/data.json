@@ -3500,7 +3500,7 @@
     "title": "Accès équipe",
     "role": "Administrateur autorisé",
     "primary_action": "Vérifier et ouvrir la session",
-    "guardrail": "No shared accounts. Display tenant, role and session expiry.",
+    "guardrail": "Aucun compte partagé. Afficher le tenant, le rôle et l’expiration de la session.",
     "data": [
      "A01",
      "Accès équipe",
@@ -3548,7 +3548,7 @@
       "Organisation attribuée"
      ],
      "Vérifier et ouvrir la session",
-     "No shared accounts. Display tenant, role and session expiry."
+     "Aucun compte partagé. Afficher le tenant, le rôle et l’expiration de la session."
     ],
     "pdf_page": 32
    },
@@ -3557,7 +3557,7 @@
     "title": "Vue des opérations",
     "role": "Responsable opérations",
     "primary_action": "Ouvrir les urgences",
-    "guardrail": "Aging, queue owner and customer impact come before vanity metrics.",
+    "guardrail": "L’ancienneté, le responsable de la file et l’impact client passent avant les indicateurs de façade.",
     "data": [
      "A02",
      "Vue des opérations",
@@ -3609,7 +3609,7 @@
       "Périmètre : mon organisation"
      ],
      "Ouvrir les urgences",
-     "Aging, queue owner and customer impact come before vanity metrics."
+     "L’ancienneté, le responsable de la file et l’impact client passent avant les indicateurs de façade."
     ],
     "pdf_page": 33
    },
@@ -3618,7 +3618,7 @@
     "title": "Devis assisté",
     "role": "Agent vente",
     "primary_action": "Vérifier la disponibilité",
-    "guardrail": "Customer consent is required before changed price acceptance or purchase.",
+    "guardrail": "Le consentement du client est requis avant d’accepter un prix modifié ou d’acheter.",
     "data": [
      "A03",
      "Devis assisté",
@@ -3666,7 +3666,7 @@
       "Cabine privée · 4 places"
      ],
      "Vérifier la disponibilité",
-     "Customer consent is required before changed price acceptance or purchase."
+     "Le consentement du client est requis avant d’accepter un prix modifié ou d’acheter."
     ],
     "pdf_page": 34
    },
@@ -3675,7 +3675,7 @@
     "title": "Réservation assistée",
     "role": "Agent vente",
     "primary_action": "Préparer le lien client",
-    "guardrail": "Staff never collect full card numbers or banking authentication codes.",
+    "guardrail": "L’équipe ne recueille jamais de numéro de carte complet ni de code d’authentification bancaire.",
     "data": [
      "A04",
      "Réservation assistée",
@@ -3728,7 +3728,7 @@
       "Consentements horodatés"
      ],
      "Préparer le lien client",
-     "Staff never collect full card numbers or banking authentication codes."
+     "L’équipe ne recueille jamais de numéro de carte complet ni de code d’authentification bancaire."
     ],
     "pdf_page": 35
    },
@@ -3737,7 +3737,7 @@
     "title": "Investigation dossier",
     "role": "Support habilité",
     "primary_action": "Consulter la trace sécurisée",
-    "guardrail": "Reveal sensitive data only by role, purpose and auditable action.",
+    "guardrail": "Ne révéler les données sensibles que selon le rôle, le motif et par une action tracée.",
     "data": [
      "A05",
      "Investigation dossier",
@@ -3789,7 +3789,7 @@
       "Données sensibles masquées"
      ],
      "Consulter la trace sécurisée",
-     "Reveal sensitive data only by role, purpose and auditable action."
+     "Ne révéler les données sensibles que selon le rôle, le motif et par une action tracée."
     ],
     "pdf_page": 36
    },
@@ -3798,7 +3798,7 @@
     "title": "Résultats inconnus",
     "role": "Responsable opérations",
     "primary_action": "Vérifier chez la compagnie",
-    "guardrail": "Unknown is not failed. Lookup before any controlled retry.",
+    "guardrail": "Inconnu ne veut pas dire échoué. Vérifier auprès de la compagnie avant toute nouvelle tentative contrôlée.",
     "data": [
      "A06",
      "Résultats inconnus",
@@ -3850,7 +3850,7 @@
       "Aucune nouvelle charge"
      ],
      "Vérifier chez la compagnie",
-     "Unknown is not failed. Lookup before any controlled retry."
+     "Inconnu ne veut pas dire échoué. Vérifier auprès de la compagnie avant toute nouvelle tentative contrôlée."
     ],
     "pdf_page": 37
    },
@@ -3859,7 +3859,7 @@
     "title": "Rapprochement paiements",
     "role": "Finance habilitée",
     "primary_action": "Ouvrir un écart",
-    "guardrail": "Bank evidence is authoritative; browser redirects are not payment proof.",
+    "guardrail": "La preuve bancaire fait foi ; une redirection du navigateur ne prouve pas un paiement.",
     "data": [
      "A07",
      "Rapprochement paiements",
@@ -3911,7 +3911,7 @@
       "Exporter sans données de carte"
      ],
      "Ouvrir un écart",
-     "Bank evidence is authoritative; browser redirects are not payment proof."
+     "La preuve bancaire fait foi ; une redirection du navigateur ne prouve pas un paiement."
     ],
     "pdf_page": 38
    },
@@ -3920,7 +3920,7 @@
     "title": "Rapprochement compagnie",
     "role": "Responsable opérations",
     "primary_action": "Vérifier la correspondance",
-    "guardrail": "Reconcile reservation and ticket issuance separately.",
+    "guardrail": "Rapprocher séparément la réservation et l’émission du billet.",
     "data": [
      "A08",
      "Rapprochement compagnie",
@@ -3972,7 +3972,7 @@
       "Rapprocher les références exactes"
      ],
      "Vérifier la correspondance",
-     "Reconcile reservation and ticket issuance separately."
+     "Rapprocher séparément la réservation et l’émission du billet."
     ],
     "pdf_page": 39
    },
@@ -3981,7 +3981,7 @@
     "title": "Validation des remboursements",
     "role": "Valideur finance",
     "primary_action": "Transmettre pour approbation",
-    "guardrail": "Creator cannot approve their own refund. Verified return of funds closes the case.",
+    "guardrail": "Le créateur d’un remboursement ne peut pas l’approuver. Le dossier se clôt sur un retour des fonds vérifié.",
     "data": [
      "A09",
      "Validation des remboursements",
@@ -4033,7 +4033,7 @@
       "Motif et plafond contrôlés"
      ],
      "Transmettre pour approbation",
-     "Creator cannot approve their own refund. Verified return of funds closes the case."
+     "Le créateur d’un remboursement ne peut pas l’approuver. Le dossier se clôt sur un retour des fonds vérifié."
     ],
     "pdf_page": 40
    },
@@ -4042,7 +4042,7 @@
     "title": "Modifications & annulations",
     "role": "Agent service",
     "primary_action": "Envoyer le devis au client",
-    "guardrail": "Separate quote, acceptance, payment difference and supplier application.",
+    "guardrail": "Séparer devis, acceptation, différence de paiement et application chez la compagnie.",
     "data": [
      "A10",
      "Modifications & annulations",
@@ -4094,7 +4094,7 @@
       "Ancien billet encore référencé"
      ],
      "Envoyer le devis au client",
-     "Separate quote, acceptance, payment difference and supplier application."
+     "Séparer devis, acceptation, différence de paiement et application chez la compagnie."
     ],
     "pdf_page": 41
    },
@@ -4103,7 +4103,7 @@
     "title": "Perturbations des voyages",
     "role": "Responsable opérations",
     "primary_action": "Prévisualiser la communication",
-    "guardrail": "No bulk cancellation without verified scope and explicit approval.",
+    "guardrail": "Aucune annulation en masse sans périmètre vérifié ni approbation explicite.",
     "data": [
      "A11",
      "Perturbations des voyages",
@@ -4149,7 +4149,7 @@
       "Message validé avant diffusion"
      ],
      "Prévisualiser la communication",
-     "No bulk cancellation without verified scope and explicit approval."
+     "Aucune annulation en masse sans périmètre vérifié ni approbation explicite."
     ],
     "pdf_page": 42
    },
@@ -4158,7 +4158,7 @@
     "title": "Santé des connexions",
     "role": "Responsable intégrations",
     "primary_action": "Consulter la connexion",
-    "guardrail": "Manual capabilities must remain visible; catalogue is not live seat inventory.",
+    "guardrail": "Les fonctions manuelles restent visibles ; le catalogue n’est pas un stock de places en temps réel.",
     "data": [
      "A12",
      "Santé des connexions",
@@ -4206,11 +4206,11 @@
      ],
      [
       "Quota : contractuel",
-      "Timeout : par fonction",
+      "Délai d’attente : par fonction",
       "Reprise progressive contrôlée"
      ],
      "Consulter la connexion",
-     "Manual capabilities must remain visible; catalogue is not live seat inventory."
+     "Les fonctions manuelles restent visibles ; le catalogue n’est pas un stock de places en temps réel."
     ],
     "pdf_page": 43
    },
@@ -4219,7 +4219,7 @@
     "title": "Registre des sources",
     "role": "Responsable données",
     "primary_action": "Ajouter une source à revoir",
-    "guardrail": "No CAPTCHA bypass, stolen session or undocumented private endpoint.",
+    "guardrail": "Aucun contournement de CAPTCHA, aucune session dérobée, aucun point d’accès privé non documenté.",
     "data": [
      "A13",
      "Registre des sources",
@@ -4271,7 +4271,7 @@
       "Fréquence & conservation"
      ],
      "Ajouter une source à revoir",
-     "No CAPTCHA bypass, stolen session or undocumented private endpoint."
+     "Aucun contournement de CAPTCHA, aucune session dérobée, aucun point d’accès privé non documenté."
     ],
     "pdf_page": 44
    },
@@ -4280,7 +4280,7 @@
     "title": "Révision des données importées",
     "role": "Réviseur catalogue",
     "primary_action": "Enregistrer la décision",
-    "guardrail": "Quarantine suspicious changes; previews never silently replace booked facts.",
+    "guardrail": "Mettre en quarantaine les changements suspects ; un aperçu ne remplace jamais en silence les données d’une réservation.",
     "data": [
      "A14",
      "Révision des données importées",
@@ -4332,7 +4332,7 @@
       "Deuxième contrôle si impact élevé"
      ],
      "Enregistrer la décision",
-     "Quarantine suspicious changes; previews never silently replace booked facts."
+     "Mettre en quarantaine les changements suspects ; un aperçu ne remplace jamais en silence les données d’une réservation."
     ],
     "pdf_page": 45
    },
@@ -4341,7 +4341,7 @@
     "title": "Catalogue & règles",
     "role": "Éditeur habilité",
     "primary_action": "Prévisualiser la version",
-    "guardrail": "Configuration rules require source evidence, approval and effective dates.",
+    "guardrail": "Chaque règle de configuration exige une source prouvée, une approbation et une date d’effet.",
     "data": [
      "A15",
      "Catalogue & règles",
@@ -4390,10 +4390,10 @@
      [
       "Port / route / période",
       "Source vérifiable",
-      "Date d’effet & rollback"
+      "Date d’effet & retour arrière"
      ],
      "Prévisualiser la version",
-     "Configuration rules require source evidence, approval and effective dates."
+     "Chaque règle de configuration exige une source prouvée, une approbation et une date d’effet."
     ],
     "pdf_page": 46
    },
@@ -4402,7 +4402,7 @@
     "title": "Équipe & organisations",
     "role": "Administrateur tenant",
     "primary_action": "Préparer une invitation",
-    "guardrail": "Revoke sessions on role change. Never allow cross-tenant data access.",
+    "guardrail": "Révoquer les sessions à chaque changement de rôle. Jamais d’accès aux données d’un autre tenant.",
     "data": [
      "A16",
      "Équipe & organisations",
@@ -4454,7 +4454,7 @@
       "Date de fin facultative"
      ],
      "Préparer une invitation",
-     "Revoke sessions on role change. Never allow cross-tenant data access."
+     "Révoquer les sessions à chaque changement de rôle. Jamais d’accès aux données d’un autre tenant."
     ],
     "pdf_page": 47
    },
@@ -4463,7 +4463,7 @@
     "title": "Journal d’accès & audit",
     "role": "Auditeur habilité",
     "primary_action": "Ouvrir les détails d’audit",
-    "guardrail": "Audit access itself is audited. Never log secrets or full payment data.",
+    "guardrail": "L’accès à l’audit est lui-même audité. Ne jamais journaliser de secrets ni de données de paiement complètes.",
     "data": [
      "A17",
      "Journal d’accès & audit",
@@ -4515,7 +4515,7 @@
       "Données personnelles masquées"
      ],
      "Ouvrir les détails d’audit",
-     "Audit access itself is audited. Never log secrets or full payment data."
+     "L’accès à l’audit est lui-même audité. Ne jamais journaliser de secrets ni de données de paiement complètes."
     ],
     "pdf_page": 48
    },
@@ -4524,7 +4524,7 @@
     "title": "Demandes de confidentialité",
     "role": "Responsable confidentialité",
     "primary_action": "Préparer la réponse",
-    "guardrail": "Show what will be erased, retained and why; verify the correct requester.",
+    "guardrail": "Montrer ce qui sera effacé, ce qui sera conservé et pourquoi ; vérifier l’identité du demandeur.",
     "data": [
      "A18",
      "Demandes de confidentialité",
@@ -4576,7 +4576,7 @@
       "Réponse à faire valider"
      ],
      "Préparer la réponse",
-     "Show what will be erased, retained and why; verify the correct requester."
+     "Montrer ce qui sera effacé, ce qui sera conservé et pourquoi ; vérifier l’identité du demandeur."
     ],
     "pdf_page": 49
    },
@@ -4585,7 +4585,7 @@
     "title": "Documents & notifications",
     "role": "Agent opérations",
     "primary_action": "Relancer l’envoi sélectionné",
-    "guardrail": "Retry retrieval or notification only; do not create another supplier ticket.",
+    "guardrail": "Relancer seulement la récupération ou la notification ; ne pas émettre un nouveau billet chez la compagnie.",
     "data": [
      "A19",
      "Documents & notifications",
@@ -4637,7 +4637,7 @@
       "Aperçu sans données sensibles"
      ],
      "Relancer l’envoi sélectionné",
-     "Retry retrieval or notification only; do not create another supplier ticket."
+     "Relancer seulement la récupération ou la notification ; ne pas émettre un nouveau billet chez la compagnie."
     ],
     "pdf_page": 50
    },
@@ -4646,7 +4646,7 @@
     "title": "Incidents & contrôles",
     "role": "Responsable incident",
     "primary_action": "Préparer un changement contrôlé",
-    "guardrail": "Reason, scope, dual approval and rollback precede execution.",
+    "guardrail": "Motif, périmètre, double approbation et plan de retour arrière avant toute exécution.",
     "data": [
      "A20",
      "Incidents & contrôles",
@@ -4698,7 +4698,7 @@
       "Dernière mise à jour : 14:10"
      ],
      "Préparer un changement contrôlé",
-     "Reason, scope, dual approval and rollback precede execution."
+     "Motif, périmètre, double approbation et plan de retour arrière avant toute exécution."
     ],
     "pdf_page": 51
    },
@@ -4860,7 +4860,7 @@
        "DLP-DEMO-27",
        "Confirmé",
        "Inconnu",
-       "Lookup"
+       "Vérifier"
       ],
       [
        "DLP-DEMO-38",
