@@ -1,0 +1,43 @@
+/* Embedded by build.py as data URLs. Subsets: see README.md in this folder. */
+@font-face {
+  font-family: Inter;
+  font-weight: 400;
+  src: url(inter-400.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  font-weight: 500;
+  src: url(inter-500.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  font-weight: 600;
+  src: url(inter-600.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Inter;
+  font-weight: 700;
+  src: url(inter-700.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Display;
+  font-weight: 600;
+  src: url(cormorant-garamond-600.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Arabic;
+  font-weight: 400;
+  src: url(noto-sans-arabic-400.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Arabic;
+  font-weight: 700;
+  src: url(noto-sans-arabic-700.woff2) format("woff2");
+  font-display: swap;
+}

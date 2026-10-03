@@ -57,6 +57,8 @@ path) and reworks the experience around them.
   → pricing → components → screens → actions → navigation → motion → shell → boot), replacing the three
   stacked override layers of v2.
 - Images are parsed once: a render now writes ≈8 KB of markup instead of ≈310 KB.
+- The file is 1.4 MB instead of 4.8 MB: fonts are subset to the characters in use and compressed (WOFF2),
+  and the Figma frame export, which the prototype never reads, stays out of the build.
 
 ## Motion
 
@@ -101,7 +103,24 @@ mode · `Esc` close the dialog, the staff “Plus” sheet or the screen list.
 - Cost per interaction in desktop Chromium, layout included: about 6 ms for an in-place update and 8 ms
   for a navigation, 10 ms in the staff app (v2: 5 ms and 6 ms).
 
-After editing the file, run the smoke test (every screen, the booking flow, reduced motion, phone dialogs):
+## Source and build
+
+`delphin-prototype.html` is generated: edit the files in `src/`, then rebuild.
+
+| Path | Holds |
+|---|---|
+| `src/index.html` | The page: top bar, screen list, stage, inspector, dialog |
+| `src/styles.css` | The stylesheet, in numbered sections (tokens first, responsive and motion last) |
+| `src/app/1-core.js` … `5-shell.js` | The script, in load order: data and state, screens, actions, motion, shell |
+| `src/data.json` | Screens, flows, operators, ports and research sources (demo data) |
+| `src/assets/`, `src/fonts/` | Images and font subsets (licences in `src/fonts/README.md`) |
+
+```bash
+python3 docs/design/delphin-prototype/build.py           # write delphin-prototype.html (no dependencies)
+python3 docs/design/delphin-prototype/build.py --check   # fails if the built file is out of date
+```
+
+Then run the smoke test (every screen, the booking flow, reduced motion, phone dialogs):
 
 ```bash
 npm install --no-save playwright && npx playwright install chromium
