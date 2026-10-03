@@ -26,8 +26,8 @@ path) and reworks the experience around them.
 - Landscape phones get slimmer chrome and side-by-side tab labels, which nearly doubles the height left
   for content.
 - Presentation mode on a phone: “Mode présentation” in the screen list (☰) hides the prototype's top bar,
-  so only the app shows; a two-finger tap brings the tools back. Add `?app` to the address to open in it
-  directly. Added to a phone's home screen (from a web address), the prototype opens full screen, in this
+  so only the app shows; a two-finger tap brings the tools back. Add `?app` or `#app` to the address to open
+  in it directly. Added to a phone's home screen (from a web address), the prototype opens full screen, in this
   mode, under its own icon.
 - On desktop every screen is shown in the device, scaled to fit the window.
 

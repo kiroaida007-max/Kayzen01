@@ -6273,8 +6273,9 @@ window.addEventListener("hashchange", () => {
 
 if (byId[location.hash.slice(1)]) state.id = location.hash.slice(1);
 render();
-// Opened from a phone's home screen, or with ?app in the address: start in presentation mode.
-if (new URLSearchParams(location.search).has("app") || matchMedia("(display-mode: standalone)").matches || navigator.standalone) toggleFocusMode(true);
+// Opened from a phone's home screen, or with ?app or #app in the address: start in presentation mode.
+if (new URLSearchParams(location.search).has("app") || location.hash === "#app" || matchMedia("(display-mode: standalone)").matches || navigator.standalone)
+  toggleFocusMode(true);
 </script>
 </body>
 </html>
