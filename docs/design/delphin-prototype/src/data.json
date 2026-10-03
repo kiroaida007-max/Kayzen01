@@ -1338,7 +1338,7 @@
      [
       "tools",
       "J’ai déjà un compte",
-      "Se connecter"
+      "Confidentialité"
      ]
     ],
     "cta": "Vérifier mon adresse",
@@ -2178,7 +2178,7 @@
       [
        [
         "Demande reçue",
-        "02 octobre · 10:10",
+        "2 octobre · 10:10",
         true
        ],
        [
@@ -56750,7 +56750,7 @@
   },
   "C21": {
    "J’ai déjà un compte": "C18",
-   "Se connecter": "C18"
+   "Confidentialité": "C45"
   },
   "C25": {
    "Vendeur contractuel": "C46",
@@ -56792,9 +56792,7 @@
    "Demander de l’aide": "C44",
    "Annulation par la compagnie": "C65"
   },
-  "C41": {
-   "Coordonnées personnelles": "C41"
-  },
+  "C41": {},
   "C42": {
    "Changement d’horaire": "C40"
   },
@@ -56811,7 +56809,8 @@
    "Confidentialité": "C45",
    "Accessibilité": "C09",
    "Contact officiel": "C44",
-   "Sources publiques & mises à jour": "C52"
+   "Sources publiques & mises à jour": "C52",
+   "Règles de la compagnie": "C52"
   },
   "C47": {
    "Billet enregistré": "C34"
@@ -56861,7 +56860,9 @@
   "C36": {},
   "C37": {},
   "C39": {},
-  "C44": {},
+  "C44": {
+   "Suivi de la demande": "C32"
+  },
   "C51": {
    "Algérie Ferries / ENTMV": "C52",
    "CORSICA linea": "C52",
@@ -56882,7 +56883,9 @@
   "C55": {
    "TPD & documents": "C56"
   },
-  "C56": {},
+  "C56": {
+   "Bagages personnels": "C52"
+  },
   "C57": {},
   "C58": {},
   "C59": {

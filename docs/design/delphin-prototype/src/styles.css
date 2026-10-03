@@ -706,9 +706,9 @@ kbd {
     transform 0.15s var(--ease-out);
 }
 .chip span {
-  font-size: 10.5px;
+  font-size: 11px;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
-  opacity: 0.75;
 }
 .chip:hover {
   border-color: var(--line-2);
@@ -1582,6 +1582,9 @@ kbd {
 .field textarea:focus-visible {
   outline: none;
 }
+.field textarea.message {
+  min-height: 66px;
+}
 .field strong {
   display: block;
   min-height: 25px;
@@ -1667,6 +1670,16 @@ kbd {
   justify-content: flex-start;
   text-align: start;
 }
+.tool-status {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line-2);
+  border-radius: 9px;
+  font-size: 13px;
+  color: var(--muted);
+}
 
 .row {
   position: relative;
@@ -1707,9 +1720,13 @@ kbd {
   color: var(--sea);
   transition: transform 0.3s var(--ease-out);
 }
-.row:active {
+.row:not(.is-static):active {
   transform: scale(0.985);
   background: var(--foam-2);
+}
+.row.is-static strong {
+  font-weight: 600;
+  color: var(--heading);
 }
 .row.is-editing {
   border-color: var(--sea);
@@ -2088,10 +2105,8 @@ kbd {
   font-variant-numeric: tabular-nums;
   color: var(--heading);
 }
-.fare footer b.is-label {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0;
+.fare footer.is-action {
+  justify-content: flex-end;
 }
 .fare footer span {
   display: inline-flex;
@@ -2629,7 +2644,8 @@ dialog .tear::after {
 .source-card {
   position: relative;
   display: block;
-  padding: 12px 38px 12px 12px;
+  padding: 12px;
+  padding-inline-end: 38px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--surface);
@@ -2660,12 +2676,15 @@ dialog .tear::after {
   color: var(--sea);
 }
 @media (hover: hover) {
-  .row:hover {
+  button.row:hover {
     border-color: var(--line-2);
     box-shadow: var(--shadow-2);
   }
-  .row:hover .row-chevron {
+  .row:hover .row-chevron:not(.row-copy) {
     transform: translateX(2px);
+  }
+  [dir="rtl"] .row:hover .row-chevron:not(.row-copy) {
+    transform: translateX(-2px);
   }
   .fare:hover,
   .operator-card:hover {
@@ -3192,7 +3211,8 @@ dialog .tear::after {
   /* Centred with left: 50%, it would otherwise shrink to the half of the screen right of its anchor. */
   width: max-content;
   max-width: min(92vw, 420px);
-  padding: 11px 16px 11px 11px;
+  padding: 11px;
+  padding-inline-end: 16px;
   overflow: hidden;
   border-radius: 14px;
   background: var(--toast);
@@ -3296,6 +3316,15 @@ dialog h2 {
 dialog p {
   margin: 10px 0;
   font-size: 14px;
+}
+dialog .sheet-lead {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--heading);
+}
+dialog .source-card {
+  margin-top: 10px;
 }
 dialog label {
   display: block;

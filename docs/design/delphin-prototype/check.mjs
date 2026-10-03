@@ -1,7 +1,7 @@
 // Smoke test for delphin-prototype.html: every screen renders, the booking flow
 // reaches the ticket, reduced motion leaves no long animation, dialogs are bottom
 // sheets on a phone, the customer app is fully Arabic in Arabic, the dark theme covers
-// every screen, and nothing logs an error. Usage (from the repository root):
+// every screen, every row responds, and nothing logs an error. Usage (from the repository root):
 //   npm install --no-save playwright && npx playwright install chromium
 //   node docs/design/delphin-prototype/check.mjs
 import { chromium } from "playwright";
@@ -33,8 +33,10 @@ for (const { id, title } of screens) {
     return { id: state.id, heading: heading?.textContent, login: !!document.querySelector(".staff-login") };
   }, id);
   check(shown.id === id, `${id}: navigation ended on ${shown.id}`);
+  // French typography adds a no-break space before ":" or "?" (« Comment vous aider ? »).
+  const plain = (t) => String(t).replace(/\s+/g, " ").replace(/ ([:;!?])/g, "$1");
   if (id === "A01") check(shown.login, "A01: sign-in screen not shown");
-  else if (id !== "C22") check(shown.heading === title, `${id}: heading "${shown.heading}", expected "${title}"`);
+  else if (id !== "C22") check(plain(shown.heading) === plain(title), `${id}: heading "${shown.heading}", expected "${title}"`);
 }
 
 // 2. The booking flow reaches the ticket through the primary button alone.
@@ -130,7 +132,38 @@ const kept = await page.evaluate(() => [document.documentElement.dataset.theme, 
 check(kept[0] === "dark" && kept[1] === "dark", `dark theme: not kept after a reload (${kept})`);
 await page.close();
 
+// 7. Every pressable row responds: a screen, a dialog, a message or a change on the screen.
+// A row already selected (a date being edited) may leave the screen as it is.
+page = await open({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
+const idle = await page.evaluate(async () => {
+  const dead = [];
+  for (const id of order.filter((x) => x.startsWith("C"))) {
+    const show = () => {
+      if (document.querySelector("#modal").open) document.querySelector("#modal").close();
+      hideToast();
+      document.querySelector("#toast").textContent = "";
+      state = JSON.parse(JSON.stringify(seed));
+      if (["C16", "C25", "C59"].includes(id)) startQuote();
+      navTo(id, "jump");
+      Motion.settle();
+      return [...document.querySelectorAll("#body button.row:not(.is-editing)")];
+    };
+    for (let i = 0; i < show().length; i++) {
+      const row = show()[i],
+        before = document.querySelector("#viewport").innerHTML;
+      row.click();
+      await new Promise((r) => setTimeout(r, 0)); // copying a reference answers asynchronously
+      Motion.settle();
+      const same = state.id === id && document.querySelector("#viewport").innerHTML === before;
+      if (same && !document.querySelector("#modal").open && !document.querySelector("#toast").textContent) dead.push(`${id} ${row.textContent.trim()}`);
+    }
+  }
+  return dead;
+});
+check(!idle.length, `rows that do nothing: ${idle.join(" | ")}`);
+await page.close();
+
 await browser.close();
 check(errors.length === 0, `page errors: ${errors.join(" | ")}`);
-console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion, phone dialogs, Arabic and dark theme OK`);
+console.log(failures.length ? `✗ ${failures.length} failure(s)\n- ${failures.join("\n- ")}` : `✓ ${screens.length} screens, booking flow, reduced motion, phone dialogs, Arabic, dark theme and rows OK`);
 process.exit(failures.length ? 1 : 0);

@@ -171,6 +171,15 @@ function groupText() {
     .map((k) => state.counts[k] + " " + (state.counts[k] === 1 ? k.slice(0, -1) : k).toLowerCase())
     .join(", ");
 }
+// "18 août": the date without its year.
+function shortDate(iso) {
+  return dateText(iso).replace(/ \d{4}$/, "");
+}
+// "3 voyageurs · voiture · Cabine privée · 4 places": the configuration a quote covers.
+function partyLine() {
+  const n = totalTravelers();
+  return `${n} voyageur${n > 1 ? "s" : ""} · ${state.vehicle ? "voiture" : "sans véhicule"} · ${state.cabin}`;
+}
 function stageOf(id) {
   return STAGES.findIndex((s) => s[1].includes(id));
 }
@@ -224,6 +233,9 @@ function fareVisible(index) {
 function filteredCount() {
   return [0, 1].filter(fareVisible).length;
 }
+function filterCountText(n = activeFilterCount()) {
+  return n + (n > 1 ? " filtres actifs" : " filtre actif");
+}
 function activeFilterCount() {
   return (
     (state.filter.budget < 100000 ? 1 : 0) +
@@ -267,6 +279,12 @@ function fieldValue(label, value) {
   if (label === "Aller · Alger → Marseille") return dateText(state.departureISO) + " · " + state.origin + " → " + state.dest;
   if (label === "Retour · Marseille → Alger") return dateText(state.returnISO) + " · " + state.dest + " → " + state.origin;
   if (state.id === "C63" && label === "Port de départ") return state.origin + " · terminal à confirmer";
+  if (state.id === "C63" && label === "Mode de voyage") return state.vehicle ? "Avec véhicule" : "Sans véhicule";
+  if (state.id === "C53" && label === "Destination / retour") return state.dest + " / " + state.origin;
+  if (state.id === "C31" && label === "Voiture & cabine")
+    return (state.vehicle ? (state.fields["C23|Longueur / hauteur"] || "4,60 m").split(" / ")[0] : "Sans véhicule") + " · " + state.cabin;
+  if (label === "Réduire les filtres") return filterCountText();
+  if (label === "Copie locale du billet") return state.saved ? "Enregistrée sur cet appareil" : "Non enregistrée";
   return state.fields[fieldKey(label)] ?? value;
 }
 function setField(label, value) {

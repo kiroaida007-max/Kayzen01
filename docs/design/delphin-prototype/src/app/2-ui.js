@@ -36,6 +36,7 @@ const ICON_PATHS = {
   book: '<path d="M5 4.5h10.5a2 2 0 0 1 2 2V20H7a2 2 0 0 1-2-2Z"/><path d="M5 18a2 2 0 0 1 2-2h10.5"/>',
   users: '<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5.2a3.5 3.5 0 0 1 0 6.6M18.5 14a6.5 6.5 0 0 1 3 5.5v.5"/>',
   flag: '<path d="M5 21V4h11l-2 4 2 4H5"/>',
+  copy: '<rect x="8.5" y="8.5" width="11" height="11" rx="2.2"/><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>',
 };
 // Arrows and chevrons point along the reading direction: right to left, they mirror.
 const DIRECTIONAL = new Set(["arrowRight", "arrowLeft", "chevronRight", "chevronLeft"]);
@@ -63,14 +64,30 @@ function statusTone(v) {
 function btnField(label, value, fn, ic) {
   return `<button class="field clickable${ic ? " has-icon" : ""}"${dk("field", label)} onclick="${esc(fn)}">${ic ? icon(ic, "field-icon") : ""}<span class="field-label">${esc(label)}</span><strong data-value>${esc(value)}</strong>${icon("chevronDown", "field-chevron")}</button>`;
 }
-function btnRow(label, value, fn, arrow = true, cls = "") {
-  const tone = statusTone(value);
-  return `<button class="row${cls ? " " + cls : ""}"${dk("row", label)} onclick="${esc(fn)}"><span>${esc(label)}</span><strong data-value${tone ? ` data-tone="${tone}"` : ""}>${esc(value)}</strong>${arrow ? icon("chevronRight", "row-chevron") : ""}</button>`;
+// arrow: true for a chevron, "copy" for a copy icon. shown: the label on screen, when the key differs.
+function btnRow(label, value, fn, arrow = true, cls = "", shown = label) {
+  const tone = statusTone(value),
+    end = arrow === "copy" ? icon("copy", "row-chevron row-copy") : arrow ? icon("chevronRight", "row-chevron") : "";
+  return `<button class="row${cls ? " " + cls : ""}"${dk("row", label)} onclick="${esc(fn)}"><span>${esc(shown)}</span><strong data-value${tone ? ` data-tone="${tone}"` : ""}>${esc(value)}</strong>${end}</button>`;
 }
+// A row that only states a value (an amount, a status, a timer): same look, nothing to press.
+function infoRow(label, value, shown = label) {
+  const tone = statusTone(value);
+  return `<div class="row is-static"${dk("row", label)}><span>${esc(shown)}</span><strong data-value${tone ? ` data-tone="${tone}"` : ""}>${esc(value)}</strong></div>`;
+}
+// Fields whose example text is a prompt rather than an answer: they start empty.
+const PROMPT_FIELDS = new Set(["Votre message", "Correction souhaitée"]);
 function field(label, value, ic) {
+  if (PROMPT_FIELDS.has(label)) {
+    const typed = state.fields[fieldKey(label)] ?? "",
+      attrs = `aria-label="${esc(label)}" placeholder="${esc(value)}" autocomplete="off" oninput="${esc("setField(" + json(label) + ",this.value)")}"`;
+    return `<label class="field${ic ? " has-icon" : ""}"${dk("field", label)}>${ic ? icon(ic, "field-icon") : ""}<span class="field-label">${esc(label)}</span>${
+      label === "Votre message" ? `<textarea class="message" rows="3" ${attrs}>${esc(typed)}</textarea>` : `<input type="text" ${attrs} value="${esc(typed)}">`
+    }</label>`;
+  }
   const type = /Naissance|Expiration|date de naissance/.test(label)
     ? "date"
-    : /Adresse e-mail|Confirmer.*e-mail|Adresse de notification/.test(label)
+    : /Adresse e-mail|Confirmer l’adresse|Adresse de notification/.test(label)
       ? "email"
       : /mot de passe/i.test(label)
         ? "password"
@@ -95,13 +112,115 @@ function budgetFill(v) {
   return ((v - 30000) / (200000 - 30000)) * 100;
 }
 
+/* Rows ------------------------------------------------------------------- */
+// A row opens a screen (DATA.rowlinks), sets a value, copies a reference,
+// explains itself in a sheet, or only states a value. Keys are "screen|label".
+const STATIC_ROWS = {
+  C10: ["Compagnie A", "Compagnie B", "Compagnie C"],
+  C15: ["Opérateur", "Vos prestations", "Total groupe · démo"],
+  C16: ["Variation totale", "Validité du devis"],
+  C19: ["Le code expire dans"],
+  C20: ["Cet appareil"],
+  C24: ["Sous-total des options"],
+  C25: ["Voyageurs", "Véhicule", "Hébergement", "Frais de service", "Options", "Total à payer · démo"],
+  C26: ["Devis valide jusqu’à"],
+  C27: ["Montant à autoriser"],
+  C28: ["Montant en vérification", "Prochaine actualisation"],
+  C31: ["Voyageurs", "Voiture & cabine"],
+  C33: ["Statut"],
+  C36: ["Différence tarifaire", "Frais de modification", "Complément à payer · démo"],
+  C37: ["Montant payé", "Retenue compagnie", "Frais de service", "Remboursement estimé · démo"],
+  C38: ["Remboursement estimé"],
+  C40: ["Votre billet"],
+  C47: ["Dernier horaire connu"],
+  C48: ["Position indicative", "Attente estimée"],
+  C49: ["Recherche", "Nouvelles réservations", "Dernière mise à jour"],
+  C53: ["Destination / retour"],
+  C58: ["Aller: embarquement"],
+  C59: ["Aller · Alger → Marseille", "Retour · Marseille → Alger"],
+  C60: ["Aller", "Retour", "Montant du retour"],
+  C61: ["Tentative précédente", "Validité du devis"],
+  C62: ["Dernier statut vérifié", "Équipe responsable", "Prochaine information", "Actions en cours"],
+  C63: ["Port de départ", "Mode de voyage"],
+  C64: ["Voyageur concerné", "Frais & accord compagnie"],
+};
+const COPY_ROWS = new Set(["Référence", "Référence Delphin", "Référence du dossier"]);
+// Values picked from a short list; the row then shows the choice.
+const ROW_OPTIONS = {
+  "C23|Charge sur le toit": ["Aucune", "Coffre de toit", "Porte-vélos", "Barres de toit"],
+  "C23|Remorque": ["Aucune", "Remorque bagagère", "Caravane"],
+  "C54|Résidence du mineur": ["Algérie", "Étranger"],
+  "C55|Propriétaire / conducteur": ["Même personne", "Procuration"],
+  "C55|Motorisation": ["Thermique", "Électrique", "Hybride", "GPL"],
+  "C58|Retour: assistance": ["Non demandée", "Demandée"],
+  "C64|Type de demande": ["Correction du nom", "Changement de passager"],
+  "C66|Fréquence des alertes": ["Selon nouveautés vérifiées", "Une fois par jour", "Une fois par semaine"],
+};
+const ROW_ACTIONS = {
+  "C12|Compagnie": () => filterPicker("Compagnie"),
+  "C12|Durée maximale": () => filterPicker("Durée maximale"),
+  "C17|Retirer un favori": () => removeFavorite(),
+  "C19|Renvoyer le code": () => toast("Un nouveau code pourra être envoyé à la fin du délai.", "warn"),
+  "C20|Autre appareil · exemple": () => revokeSession(),
+  "C23|Longueur / hauteur": () => editDimensions(),
+  "C41|Coordonnées personnelles": () => editContact(),
+  "C41|Adulte 2 · démo": () => editTraveler(),
+  "C44|Pièce jointe · facultative": () => addAttachment(),
+  "C47|Modifier / annuler": () => toast("Reconnectez-vous pour modifier ou annuler ce voyage.", "warn"),
+  "C66|Arrêter l’alerte": () => stopAlert(),
+};
+// Official sources shown in an information row's sheet (DATA.evidence ids).
+const ROW_SOURCES = {
+  "C54|Source des formalités": ["S16"],
+  "C56|Devises & objets de valeur": ["S17"],
+  "C56|TPD du véhicule": ["S18"],
+  "C57|Identification & vaccination": ["S23"],
+  "C57|Entrée ou retour en Europe": ["S23"],
+  "C57|Source officielle": ["S23"],
+  "C63|Guide officiel du port": ["S08"],
+  "C65|Départ et transporteur": ["S24"],
+};
+function rowBlock(a, target) {
+  const label = a[1],
+    id = state.id,
+    value = fieldValue(label, a[2]),
+    // C59 rows carry the route in their label; their value already shows it.
+    shown = id === "C59" ? label.split(" · ")[0] : label;
+  if (id === "C02") return btnRow(label, value, "selectPort(" + json(label.split(" · ")[0]) + ")");
+  if (id === "C14") return dateRow(label, a[2]);
+  if (id === "C17" && label === "Retirer un favori" && !favorites().length)
+    return noticeBlock("Aucun favori enregistré", "Ajoutez une recherche à vos favoris pour la retrouver ici.");
+  if (target) return btnRow(label, value, "routeRow(" + json(label) + "," + json(target) + ")", true, "", shown);
+  if (STATIC_ROWS[id]?.includes(label)) return infoRow(label, value, shown);
+  const fn = "rowAction(" + json(label) + ")",
+    k = id + "|" + label;
+  if (COPY_ROWS.has(label)) return btnRow(label, value, fn, "copy");
+  return btnRow(label, value, fn, !!(ROW_OPTIONS[k] || ROW_ACTIONS[k]), "", shown);
+}
+// C14: nearby dates with their estimate; choosing one moves the departure.
+function dateRow(label, fallback) {
+  const day = parseInt(label, 10),
+    fare = [18, 19].indexOf(day),
+    chosen = +state.departureISO.slice(-2) === day;
+  return btnRow(
+    label,
+    fare < 0 ? fallback : money(fixtureTotal(fare)),
+    fare < 0 ? "toast('Aucune traversée publiée ce jour-là.','warn')" : "chooseDay(" + day + ")",
+    false,
+    chosen ? "is-editing" : "",
+  );
+}
+function favorites() {
+  return byId.C17.elements.filter((a) => a[0] === "fare" && !state.favRemoved?.includes(a[1]));
+}
+
 function component(a, i) {
   const k = a[0],
     kk = key(i),
     target = rowRoute(a[1]);
-  if (k === "hero") return heroBlock(a[1]);
+  if (k === "hero") return heroBlock(a[1].includes("Alger →") ? state.origin + " → " + state.dest : a[1]);
   if (k === "label") {
-    const label = `<h3 class="eyebrow"${dk("label", a[1])}>${esc(a[1])}</h3>`;
+    const label = `<h2 class="eyebrow"${dk("label", a[1])}>${esc(a[1])}</h2>`;
     return state.id === "C02" && a[1] === "RÉSULTATS" ? label + `<div class="port-list" data-key="ports">${portsPanel()}</div>` : label;
   }
   if (k === "text") return `<p class="muted"${dk("text", a[1])}>${esc(a[1])}</p>`;
@@ -112,8 +231,7 @@ function component(a, i) {
     return field(a[1], a[2], a[3]);
   }
   if (k === "two") return `<div class="two"${dk("two", a[1])}>${field(a[1], a[2]) + field(a[3], a[4])}</div>`;
-  if (k === "row")
-    return btnRow(a[1], fieldValue(a[1], a[2]), target ? "routeRow(" + json(a[1]) + "," + json(target) + ")" : "rowAction(" + json(a[1]) + ")", !!target);
+  if (k === "row") return rowBlock(a, target);
   if (k === "seg") {
     const labels = state.id === "C22" ? Array.from({ length: totalTravelers() }, (_, j) => "V" + (j + 1)) : a.slice(1);
     const active =
@@ -136,7 +254,8 @@ function component(a, i) {
     return `<div class="two tools"${dk("tools", a[1])}>${a
       .slice(1)
       .map((s) => {
-        const label = s.startsWith("Filtres") ? "Filtres (" + activeFilterCount() + ")" : s.includes("filtres actifs") ? activeFilterCount() + " filtres actifs" : s;
+        if (s.includes("filtres actifs")) return `<p class="tool-status" role="status">${esc(filterCountText())}</p>`;
+        const label = s.startsWith("Filtres") ? "Filtres (" + activeFilterCount() + ")" : s;
         return btn(label, rowRoute(s) ? "routeRow(" + json(s) + "," + json(rowRoute(s)) + ")" : "rowAction(" + json(s) + ")");
       })
       .join("")}</div>`;
@@ -144,20 +263,25 @@ function component(a, i) {
     if (state.id === "C02") return "";
     const disabled = state.id === "C12" && ["Cabine privée", "Véhicule accepté"].includes(a[1]);
     const selected = disabled ? filterCheck(a[1]) : check(kk, state.id === "C12" && a[1] === "Départ le soir" ? false : a[3]);
-    const type = exclusive.has(state.id) ? "radio" : "checkbox";
-    return `<label class="choice ${selected ? "selected" : ""}${disabled ? " locked" : ""}"${dk("choice", a[1])}><input type="${type}" name="${state.id}-choice" ${selected ? "checked" : ""} ${disabled ? "disabled" : ""} onchange="${esc("choose(" + json(kk) + ",this.checked,this)")}"><div><strong>${esc(a[1])}</strong><small>${esc(a[2])}${disabled ? " · configuration du voyage" : ""}</small></div></label>`;
+    const type = exclusive.has(state.id) ? "radio" : "checkbox",
+      n = totalTravelers(),
+      legs = state.tripMode === 1 ? 2 : 1,
+      detail = state.id === "C24" && a[1] === "Repas à bord" ? `${n} voyageur${n > 1 ? "s" : ""} · ${money(n * 1600 * legs)} · démo` : a[2];
+    return `<label class="choice ${selected ? "selected" : ""}${disabled ? " locked" : ""}"${dk("choice", a[1])}${disabled ? ' onclick="lockedFilter()"' : ""}><input type="${type}" name="${state.id}-choice" ${selected ? "checked" : ""} ${disabled ? "disabled" : ""} onchange="${esc("choose(" + json(kk) + ",this.checked,this)")}"><div><strong>${esc(a[1])}</strong><small>${esc(detail)}${disabled ? " · configuration du voyage" : ""}</small></div></label>`;
   }
   if (k === "stepper") {
     const n = state.counts[a[1]] ?? a[3],
       min = ["Adultes", "Cabines privées"].includes(a[1]) ? 1 : 0;
     return `<div class="stepper"${dk("stepper", a[1])}><div><strong>${esc(a[1])}</strong><small>${esc(a[2])}</small></div><div class="stepper-ctrl">${stepButton(a[1], -1, n <= min)}<b class="count"><span data-value>${n}</span></b>${stepButton(a[1], 1, n >= 9)}</div></div>`;
   }
-  if (k === "notice") return noticeBlock(a[1], a[2], a[3]);
+  if (k === "notice") return noticeBlock(a[1], state.id === "C13" && a[1] === "Même configuration" ? partyLine() : a[2], a[3]);
   if (k === "summary") {
     const f = fareFixtures[state.selectedFare || 0];
     let title = a[1].includes("Alger →") ? state.origin + " → " + state.dest : a[1],
       details = a[2];
-    if (state.id === "C11") details = dateText(state.departureISO) + " · " + groupText() + " · " + (state.vehicle ? "voiture" : "piéton");
+    if (["C10", "C11"].includes(state.id)) details = dateText(state.departureISO) + " · " + groupText() + " · " + (state.vehicle ? "voiture" : "piéton");
+    if (state.id === "C48") details = state.origin + " → " + state.dest + " · " + totalTravelers() + " voyageur" + (totalTravelers() > 1 ? "s" : "");
+    if (state.id === "C50") details = state.origin + " → " + state.dest + " · " + shortDate(state.departureISO);
     if (state.id === "C15") {
       title = dateText(state.departureISO) + " · " + f.departure;
       details = "Arrivée " + f.arrival + " (+1 j) · heure locale";
@@ -166,9 +290,12 @@ function component(a, i) {
     return `<div class="summary"${dk("summary", a[1])}><strong data-value>${esc(title)}</strong><p data-value>${esc(details)}</p></div>`;
   }
   if (k === "fare") {
-    if (state.id === "C11") return "";
+    if (state.id === "C11" || (state.id === "C17" && state.favRemoved?.includes(a[1]))) return "";
     const to = state.id === "C32" ? "C33" : state.id === "C17" ? "C11" : "C15";
-    return `<button class="fare"${dk("fare", a[1])} onclick="${esc("go(" + json(to) + ")")}"><span class="operator">${icon("ship")}Démonstration · aucun inventaire réel</span><strong>${esc(a[1])}</strong><small>${esc(a[2])}</small><footer><b data-value${/DZD/.test(a[3]) ? "" : ' class="is-label"'}>${/DZD/.test(a[3]) ? money(basePrice()) : esc(a[3])}</b><span>Voir ${icon("arrowRight")}</span></footer></button>`;
+    const footer = /DZD/.test(a[3])
+      ? `<footer><b data-value>${money(basePrice())}</b><span>Voir ${icon("arrowRight")}</span></footer>`
+      : `<footer class="is-action"><span>${esc(a[3])} ${icon("arrowRight")}</span></footer>`;
+    return `<button class="fare"${dk("fare", a[1])} onclick="${esc("go(" + json(to) + ")")}"><span class="operator">${icon("ship")}Démonstration · aucun inventaire réel</span><strong>${esc(a[1])}</strong><small>${esc(a[2])}</small>${footer}</button>`;
   }
   if (k === "compare") {
     const rows = clone(a[3]);
@@ -223,7 +350,7 @@ function component(a, i) {
       )
       .join("")}</ol>`;
   if (k === "ticket")
-    return `<div class="ticket"${dk("ticket", a[1])}><span class="eyebrow">DOCUMENT DE DÉMONSTRATION</span><h2>${esc(a[1])}</h2><p>${esc(a[2])}</p><div class="tear" aria-hidden="true"></div><div class="ticket-code"><div>DÉMO</div><p><strong>Aucun QR actif</strong><small>Non valable pour embarquer</small></p></div></div>`;
+    return `<div class="ticket"${dk("ticket", a[1])}><span class="eyebrow">DOCUMENT DE DÉMONSTRATION</span><h2>${esc(state.origin + " → " + state.dest)}</h2><p>${esc(dateText(state.departureISO) + " · " + fareFixtures[state.selectedFare || 0].departure)}</p><div class="tear" aria-hidden="true"></div><div class="ticket-code"><div>DÉMO</div><p><strong>Aucun QR actif</strong><small>Non valable pour embarquer</small></p></div></div>`;
   return "";
 }
 
@@ -327,7 +454,7 @@ function policyPanel() {
   };
   return `<div class="summary" data-key="summary:guide"><strong data-value>${esc(o.name)}</strong><p>Consignes publiques · à revalider pour votre départ</p></div><div class="operator-tabs" data-key="tabs:operators">${DATA.operators
     .map((p) => btn(p.name, "openOperator(" + json(p.id) + ")", p.id === o.id ? "active" : ""))
-    .join("")}</div>${policies[o.id].map((t) => noticeBlock("", t)).join("")}<h3 class="eyebrow" data-key="label:sources">SOURCES DE LA COMPAGNIE</h3>${sourceCards(o.guide)}${noticeBlock(
+    .join("")}</div>${policies[o.id].map((t) => noticeBlock("", t)).join("")}<h2 class="eyebrow" data-key="label:sources">SOURCES DE LA COMPAGNIE</h2>${sourceCards(o.guide)}${noticeBlock(
     "Le billet décide du départ",
     "Ces sources ne remplacent pas le tarif, les dates, les dernières consignes ni les contrôles des autorités.",
     "warning",
@@ -346,7 +473,10 @@ ${nav}<i class="home-indicator" aria-hidden="true"></i>
 </article></div>`;
 }
 function appHeader(title, action = "", rtl = false) {
-  return `<header class="app-header"><button class="back" aria-label="Retour" onclick="back()">${icon("chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1>${action}</header>`;
+  // A root screen with no history (the home screens) has nowhere to go back to: no back button,
+  // its place kept so the title does not move.
+  const none = backTarget() === state.id ? ' style="visibility:hidden" aria-hidden="true" tabindex="-1"' : "";
+  return `<header class="app-header"><button class="back" aria-label="Retour"${none} onclick="back()">${icon("chevronLeft")}</button><h1 id="screenHeading" tabindex="-1">${esc(title)}</h1>${action}</header>`;
 }
 function tabBar(label, tabs) {
   return `<nav class="bottomnav" style="--n:${tabs.length}" aria-label="${esc(label)}">${tabs
@@ -375,7 +505,7 @@ function renderArabic() {
     .map(([l, j]) => `<button class="${t === j ? "active" : ""}" aria-pressed="${t === j}" onclick="setTab(${j})">${l}</button>`)
     .join(
       "",
-    )}</div><button class="field clickable has-icon" data-key="field:ar-from" onclick="state.portContext='origin';go('C02')">${icon("location", "field-icon")}<span class="field-label">من</span><strong>${esc(state.origin)}</strong></button><button class="field clickable has-icon" data-key="field:ar-to" onclick="state.portContext='dest';go('C02')">${icon("location", "field-icon")}<span class="field-label">إلى</span><strong>${esc(state.dest)}</strong></button><button class="row" data-key="row:ar-date" onclick="go('C03')"><span>تاريخ المغادرة</span><strong>${esc(dateText(state.departureISO))}</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-party" onclick="go('C04')"><span>المسافرون</span><strong>بالغان وطفل واحد</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-vehicle" onclick="go('C05')"><span>المركبة والإقامة</span><strong>سيارة ومقصورة خاصة</strong>${icon("chevronRight", "row-chevron")}</button>${noticeBlock("سعر واضح", "السعر الإجمالي يشمل المسافرين والمركبة والمقصورة.")}`;
+    )}</div><button class="field clickable has-icon" data-key="field:ar-from" onclick="state.portContext='origin';go('C02')">${icon("location", "field-icon")}<span class="field-label">من</span><strong>${esc(state.origin)}</strong></button><button class="field clickable has-icon" data-key="field:ar-to" onclick="state.portContext='dest';go('C02')">${icon("location", "field-icon")}<span class="field-label">إلى</span><strong>${esc(state.dest)}</strong></button><button class="row" data-key="row:ar-date" onclick="go('C03')"><span>تاريخ المغادرة</span><strong>${esc(dateText(state.departureISO))}</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-party" onclick="go('C04')"><span>المسافرون</span><strong>${esc(groupText())}</strong>${icon("chevronRight", "row-chevron")}</button><button class="row" data-key="row:ar-vehicle" onclick="go('C05')"><span>المركبة والإقامة</span><strong>${esc((state.vehicle ? "Voiture" : "Piéton") + " · " + state.cabin)}</strong>${icon("chevronRight", "row-chevron")}</button>${noticeBlock("سعر واضح", "السعر الإجمالي يشمل المسافرين والمركبة والمقصورة.")}`;
 }
 
 /* Arabic (customer app) ----------------------------------------------------- */
@@ -430,7 +560,8 @@ const AR_PATTERNS = [
   [/^Filtres \((\d+)\)$/, (m, n) => `التصفية (${n})`],
   [/^il y a (\d+) min$/, (m, n) => `منذ ${n} د`],
   [/^(?:vérifié|Vérifiées) le (\d{2}\/\d{2}\/\d{4})$/, (m, d) => `تم التحقق في ${d}`],
-  [/^(.+) est consultable et modifiable dans cette simulation\.$/, (m, x) => `${tr(x)} قابل للعرض والتعديل في هذه المحاكاة.`],
+  [/^Référence (\S+-\d+) copiée\.$/, (m, id) => `تم نسخ المرجع ${id}.`],
+  [/^Continuer avec (\d+) options?$/, (m, n) => (+n === 1 ? "المتابعة مع خيار واحد" : `المتابعة مع ${n} خيارات`)],
   // Codes and ids stay as they are.
   [/^(?:[A-Z]+-)*[A-Z]+-?\d+$|^[ACSV]\d{1,2}$/, (m) => m],
 ];
@@ -447,10 +578,10 @@ function tr(text) {
       }
     }
   // UI joins: "A · B", "Alger → Marseille" (the arrow turns to follow the reading direction).
-  if (out === undefined && / · | → /.test(key))
+  if (out === undefined && / · | → | \/ /.test(key))
     out = key
-      .split(/( · | → )/)
-      .map((p) => (p === " → " ? " ← " : p === " · " ? p : tr(p)))
+      .split(/( · | → | \/ )/)
+      .map((p) => (p === " → " ? " ← " : p === " · " || p === " / " ? p : tr(p)))
       .join("");
   if (out === undefined) {
     (window.arMissing ||= new Set()).add(key);
@@ -481,19 +612,12 @@ function renderCustomer(d) {
     arabicHome = arabic && d.id === "C01";
   let title = arabicHome ? "رحلتك البحرية" : d.title;
   if (d.id === "C22") title = "Voyageur " + (state.traveler + 1) + " / " + totalTravelers();
-  let body = arabicHome ? renderArabic() : d.id === "C51" ? operatorsPanel() : d.id === "C52" ? policyPanel() : d.elements.map(component).join("");
+  if (d.id === "C14") state.dateContext = "departureISO"; // nearby dates move the departure
+  let body = arabicHome ? renderArabic() : d.id === "C51" ? operatorsPanel() : d.id === "C52" ? policyPanel() : screenBody(d);
   if (d.id === "C11") body += resultsPanel();
-  if (d.id === "C03")
-    body =
-      btnRow("Départ", dateText(state.departureISO), "state.dateContext='departureISO';render()", true, state.dateContext === "departureISO" ? "is-editing" : "") +
-      (state.tripMode === 1
-        ? btnRow("Retour", dateText(state.returnISO), "state.dateContext='returnISO';render()", true, state.dateContext === "returnISO" ? "is-editing" : "")
-        : "") +
-      body;
   if (d.id === "C01" && state.tripMode === 1)
     body += btnRow(arabicHome ? "تاريخ العودة" : "Retour", dateText(state.returnISO), "state.dateContext='returnISO';go('C03')");
-  if (d.id === "C25" && state.priceDelta)
-    body += btnRow("Ajustement accepté", money(state.priceDelta), "toast('Variation de tarif acceptée dans le scénario C16.')", false);
+  if (d.id === "C25" && state.priceDelta) body += infoRow("Ajustement accepté", money(state.priceDelta));
   if (d.id === "C25" && (!state.quoteExpiry || Date.now() > state.quoteExpiry)) body += btn("Revalider le devis", "rowAction('Revalider le devis')");
   const totals = ["C23", "C24", "C25", "C26", "C27", "C59"].includes(d.id)
     ? `<div class="action-total"><span>Total du groupe · démo</span><strong data-value>${money(quoteTotal())}</strong></div>`
@@ -508,7 +632,7 @@ function renderCustomer(d) {
         : `<button class="language" onclick="toggleLang()" aria-label="Afficher l’app en arabe" lang="ar">AR</button>`,
       arabic,
     ),
-    screen: `<div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabicHome ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabicHome ? "البحث عن الرحلات" : esc(d.cta)}</button></div>`,
+    screen: `<div class="screen-id">${d.id} · PROTOTYPE V3 · AUCUN ACHAT RÉEL</div>${arabicHome ? "" : rail(d.id)}<main id="body" class="app-body">${body}</main><div class="actionbar">${totals}<p id="gateHint" role="status" class="gate-hint"></p><button id="primary" class="primary" onclick="primary()">${arabicHome ? "البحث عن الرحلات" : esc(ctaText(d))}</button></div>`,
     nav: tabBar(
       "Navigation de l’application",
       APP_NAV.map(([n, to, ic, ar]) => ({ label: arabic ? ar : n, icon: ic, onclick: `navTo('${to}','tab')`, active: n === d.nav })),
@@ -516,6 +640,70 @@ function renderCustomer(d) {
   });
   updatePrimary();
   if (arabic) translateTree($("#viewport .phone"));
+  else frenchTypography($("#viewport .phone"));
+}
+// The elements a screen shows, in order: some depend on the trip or the open tab.
+function screenBody(d) {
+  let els = d.elements.map((a, i) => [a, i]);
+  const keep = (test) => (els = els.filter(([a, i]) => test(a, i)));
+  const seg = els.filter(([a]) => a[0] === "seg");
+  if (d.id === "C03") {
+    // The rows above the calendar say which date it edits; the return only exists for a return trip.
+    keep((a) => !(a[0] === "row" && a[1] === "Aller") && !(a[0] === "field" && a[1] === "Retour") && a[0] !== "seg");
+    const editing = (k) => (state.dateContext === k ? "is-editing" : "");
+    return (
+      seg.map(([a, i]) => component(a, i)).join("") +
+      btnRow("Départ", dateText(state.departureISO), "state.dateContext='departureISO';render()", true, editing("departureISO")) +
+      (state.tripMode === 1 ? btnRow("Retour", dateText(state.returnISO), "state.dateContext='returnISO';render()", true, editing("returnISO")) : "") +
+      els.map(([a, i]) => component(a, i)).join("")
+    );
+  }
+  // Without a vehicle or an animal, their details step aside.
+  if (d.id === "C05" && !state.vehicle)
+    return seg.map(([a, i]) => component(a, i)).join("") + noticeBlock("Voyage sans véhicule", "Vous embarquez à pied. Vous pouvez ajouter un véhicule avant le paiement.");
+  if (d.id === "C08" && !state.pets)
+    return seg.map(([a, i]) => component(a, i)).join("") + noticeBlock("Aucun animal déclaré", "Choisissez « Avec animal » pour voir les options à bord et les documents demandés.");
+  if (d.id === "C18" && state.tab === 1) keep((a) => a[1] !== "Mot de passe oublié ?");
+  if (d.id === "C32" && state.tab === 1) {
+    keep((a) => a[0] !== "fare");
+    els.splice(1, 0, [["notice", "Aucun voyage terminé", "Vos traversées passées apparaîtront ici, avec leurs documents.", "info"], -1]);
+  }
+  if (d.id === "C42") {
+    // Messages, then preferences: one tab each.
+    const split = els.findIndex(([a]) => a[0] === "label");
+    keep((a, i) => a[0] === "seg" || (state.tab === 1 ? i >= split : i < split));
+  }
+  return els.map(([a, i]) => component(a, i)).join("");
+}
+// The primary button names what it will do with the current choices.
+function ctaText(d) {
+  const options = [0, 1, 2].filter((j) => check("C24-" + j)).length;
+  if (d.id === "C05" && !state.vehicle) return "Continuer sans véhicule";
+  if (d.id === "C08" && !state.pets) return "Continuer sans animal";
+  if (d.id === "C14") return "Rechercher le " + shortDate(state.departureISO);
+  if (d.id === "C16") return "Accepter " + money(basePrice() + 2400);
+  if (d.id === "C18" && state.tab === 1) return "Créer mon compte";
+  if (d.id === "C24" && options) return `Continuer avec ${options} option${options > 1 ? "s" : ""}`;
+  if (d.id === "C42" && state.tab === 0) return "Tout marquer comme lu";
+  return d.cta;
+}
+// French typography: a no-break space before : ; ! ? so they never start a line
+// ("Aller: embarquement" reads "Aller : embarquement"). Times like 12:12 are left alone.
+function frenchText(t) {
+  return t
+    .replace(/(\S) ?:(?=\s|$)/g, "$1\u00a0:")
+    .replace(/(\S) ?([;!?])(?=\s|$)/g, "$1\u202f$2")
+    .replace(/« /g, "«\u00a0")
+    .replace(/ »/g, "\u00a0»");
+}
+function frenchTypography(root) {
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n; (n = walker.nextNode()); )
+    if (/[:;!?«»]/.test(n.nodeValue)) {
+      const v = frenchText(n.nodeValue);
+      if (v !== n.nodeValue) n.nodeValue = v;
+    }
 }
 
 /* Staff app (Espace équipe) ----------------------------------------------- */
@@ -581,7 +769,7 @@ function renderStaff(d) {
     : "";
   const extras = d.id === "A05" ? ["A06", "A07", "A08", "A09", "A10", "A11", "A19"] : d.id === "A15" ? ["A13", "A14"] : d.id === "A16" ? ["A17"] : [];
   const shortcuts = extras.length
-    ? `<h3 class="eyebrow" data-key="label:shortcuts">ACCÈS RAPIDES</h3>${extras.map((id) => btnRow(byId[id].title, id, `navTo('${id}','forward')`)).join("")}`
+    ? `<h2 class="eyebrow" data-key="label:shortcuts">ACCÈS RAPIDES</h2>${extras.map((id) => btnRow(byId[id].title, id, `navTo('${id}','forward')`)).join("")}`
     : "";
   const review = a[7]
     .map((f) => {
@@ -596,9 +784,10 @@ function renderStaff(d) {
   renderPhone({
     cls: "staff",
     header: appHeader(d.title, `<button class="header-action" aria-label="Actualiser les données" onclick="staffRefresh(this)">${icon("refresh")}</button>`),
-    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DÉMO</div><div class="ptr" aria-hidden="true"><i>${icon("refresh")}</i></div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…" enterkeyhint="search" oninput="filterRecords(this.value)"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h3 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h3><div class="record-list" data-key="records">${records}</div><p class="record-status" role="status" data-key="records:status"></p>${shortcuts}<h3 class="eyebrow" data-key="label:review">REVUE & ACTION</h3>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
+    screen: `<div class="screen-id">${d.id} · ESPACE ÉQUIPE · DONNÉES DÉMO</div><div class="ptr" aria-hidden="true"><i>${icon("refresh")}</i></div><main id="body" class="app-body"><div class="role-line" data-key="role">${icon("user")}<span><strong>${esc(d.role)}</strong><small>Agence démo · MFA · session vérifiée</small></span></div><label class="field has-icon" data-key="field:search">${icon("search", "field-icon")}<span class="field-label">Rechercher</span><input type="search" aria-label="Rechercher un dossier" placeholder="Dossier, référence…" enterkeyhint="search" oninput="filterRecords(this.value)"></label><div class="metrics" data-key="metrics">${metrics}</div>${chart}<h2 class="eyebrow" data-key="label:records">DOSSIERS & ÉLÉMENTS À REVOIR</h2><div class="record-list" data-key="records">${records}</div><p class="record-status" role="status" data-key="records:status"></p>${shortcuts}<h2 class="eyebrow" data-key="label:review">REVUE & ACTION</h2>${review}${noticeBlock("Contrôle avant action", d.guardrail, "warning")}</main><div class="actionbar">${btn(d.primary_action, `staffAction('${d.id}')`, "primary")}</div>`,
     nav: tabBar("Navigation de l’espace équipe", tabs),
   });
+  frenchTypography($("#viewport .phone"));
 }
 function renderStaffSignIn() {
   renderPhone({

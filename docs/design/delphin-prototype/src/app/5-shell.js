@@ -20,7 +20,7 @@ function buildLibrary() {
       `<button class="chip${k === libraryFilter ? " active" : ""}" data-filter="${k}" aria-pressed="${k === libraryFilter}" onclick="setLibraryFilter('${k}')">${esc(label)}<span>${[...screens, ...staff].filter(test).length}</span></button>`,
   ).join("");
   const item = (s) =>
-    `<button class="lib-item" data-id="${s.id}" data-search="${esc(normalize(s.id + " " + s.title))}" onclick="${esc("navTo(" + json(s.id) + ",'jump')")}"><b>${s.id}</b><span>${esc(s.title)}</span></button>`;
+    `<button class="lib-item" data-id="${s.id}" data-search="${esc(normalize(s.id + " " + s.title))}" onclick="${esc("navTo(" + json(s.id) + ",'jump')")}"><b>${s.id}</b><span>${esc(frenchText(s.title))}</span></button>`;
   $("#screenList").innerHTML = `<i class="lib-indicator" aria-hidden="true"></i><h3 data-group="C">Application client · ${screens.length}</h3>${screens
     .map(item)
     .join("")}<h3 data-group="A">Espace équipe · ${staff.length}</h3>${staff.map(item).join("")}<p class="lib-empty" hidden>Aucun écran ne correspond.</p>`;
@@ -111,7 +111,7 @@ function routeLinks(d) {
   const next = staffView ? DATA.links.find((l) => l.from === d.id && l.label === "Controlled staff action")?.to : DATA.flows[d.id];
   const chip = (id, intent, label) =>
     id && id !== d.id && byId[id]
-      ? `<button class="route-chip ${intent === "back" ? "to-back" : "to-next"}" onclick="${esc("navTo(" + json(id) + ",'" + intent + "')")}"><small>${label}</small><span><b>${id}</b>${esc(byId[id].title)}</span>${icon(intent === "back" ? "arrowLeft" : "arrowRight")}</button>`
+      ? `<button class="route-chip ${intent === "back" ? "to-back" : "to-next"}" onclick="${esc("navTo(" + json(id) + ",'" + intent + "')")}"><small>${label}</small><span><b>${id}</b>${esc(frenchText(byId[id].title))}</span>${icon(intent === "back" ? "arrowLeft" : "arrowRight")}</button>`
       : "";
   const links = chip(next, "forward", staffView ? "Après l’action contrôlée" : "Bouton principal · par défaut") + chip(DATA.back[d.id], "back", "Retour");
   return links || '<p class="route-none">Pas de suite définie pour cet écran.</p>';
@@ -119,16 +119,18 @@ function routeLinks(d) {
 function syncShell(d, kind) {
   const staffView = d.id.startsWith("A"),
     notes = $$(".inspector [data-note]").map((n) => n.textContent);
-  $("#screenTitle").textContent = d.title;
+  $("#screenTitle").textContent = frenchText(d.title);
   $("#counter").textContent = d.id + " / " + order.length + " écrans";
   syncLibrary(d.id);
   $("#modeSwitch").dataset.mode = staffView ? "staff" : "client";
   for (const b of $$("#modeSwitch button")) b.setAttribute("aria-pressed", String(b.dataset.mode === (staffView ? "staff" : "client")));
   $("#flowName").textContent = staffView ? "Espace équipe" : "Application client";
-  $("#purposeText").textContent = d.description || d.guardrail;
-  const contract = DATA.spec.required_screen_contracts.find((s) => s[0] === d.id);
-  $("#requiredText").textContent = contract[2];
-  $("#stateText").textContent = contract[4];
+  // The spec's notes are partly in English: NOTES_FR gives them in French.
+  const contract = DATA.spec.required_screen_contracts.find((s) => s[0] === d.id),
+    fr = NOTES_FR[d.id] || {};
+  $("#purposeText").textContent = frenchText(fr.purpose || d.description || d.guardrail);
+  $("#requiredText").textContent = frenchText(fr.required || contract[2]);
+  $("#stateText").textContent = frenchText(fr.states || contract[4]);
   $("#serviceText").textContent = contract[3];
   $("#routeLinks").innerHTML = routeLinks(d);
   const select = $("#scenarioSelect");
@@ -140,7 +142,7 @@ function syncShell(d, kind) {
 function toast(msg, tone = "info") {
   const t = $("#toast"),
     again = t.classList.contains("show");
-  t.textContent = arabicOn() ? tr(msg) : msg;
+  t.textContent = arabicOn() ? tr(msg) : frenchText(msg);
   t.dir = arabicOn() ? "rtl" : "ltr";
   t.dataset.tone = tone;
   placeToast();
@@ -181,6 +183,7 @@ function modal(title, body, actions = []) {
   m.dir = arabicOn() ? "rtl" : "ltr";
   m.lang = arabicOn() ? "ar" : "fr";
   if (arabicOn()) translateTree(m);
+  else frenchTypography(m);
   m.showModal();
 }
 function modalAction(i) {

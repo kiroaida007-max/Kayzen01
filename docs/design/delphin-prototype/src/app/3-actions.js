@@ -40,8 +40,8 @@ function changeBudget(v) {
   state.filter.budget = +v;
   $("#budgetvalue").textContent = money(v);
   $(".slider input", $("#body"))?.style.setProperty("--fill", budgetFill(+v) + "%");
-  const counter = $$(".tools button", $("#body")).find((b) => /filtres actifs/.test(b.textContent));
-  if (counter) counter.textContent = activeFilterCount() + " filtres actifs";
+  const counter = $(".tool-status", $("#body"));
+  if (counter) counter.textContent = arabicOn() ? tr(filterCountText()) : filterCountText();
   save();
   updatePrimary();
 }
@@ -102,24 +102,9 @@ function rowAction(label) {
     render();
     return;
   }
-  if (state.id === "C12" && (label === "Compagnie" || label === "Durée maximale")) {
-    const company = label === "Compagnie",
-      prop = company ? "company" : "duration";
-    modal(
-      label,
-      "<p>Critère appliqué aux offres fictives du groupe.</p>",
-      (company ? ["Toutes", "Compagnie A", "Compagnie B"] : [16, 20, 22, 30]).map((v) => ({
-        label: company ? v : v + " h",
-        current: state.filter[prop] === v,
-        fn: () => {
-          state.filter[prop] = v;
-          save();
-          render();
-        },
-      })),
-    );
-    return;
-  }
+  const k = state.id + "|" + label;
+  if (ROW_ACTIONS[k]) return ROW_ACTIONS[k]();
+  if (ROW_OPTIONS[k]) return pickOption(label, ROW_OPTIONS[k]);
   if (label === "Sources publiques & mises à jour") {
     go("C52");
     return;
@@ -160,11 +145,171 @@ function rowAction(label) {
     go("C21");
     return;
   }
+  const value = fieldValue(label, byId[state.id].elements.find((a) => a[1] === label)?.[2] ?? "");
+  if (COPY_ROWS.has(label)) return copyReference(value);
+  infoSheet(label, value, ROW_SOURCES[k]);
+}
+// A row that informs: what it says, the caveat and its official sources.
+function infoSheet(label, value, sources = []) {
   modal(
     label,
-    `<p>${esc(label)} est consultable et modifiable dans cette simulation.</p><label>Détail de démonstration<input aria-label="Détail" value="Exemple"></label><p class="muted">Aucune action sur un service réel.</p>`,
-    [{ label: "Fermer" }, { label: "Enregistrer", primary: true, fn: () => toast("Modification conservée dans le prototype.", "success") }],
+    `<p class="sheet-lead">${esc(value)}</p><p class="muted">Information indicative de la démonstration. Confirmez-la auprès de la compagnie ou de l’autorité concernée avant le départ.</p>${sourceCards(sources)}`,
+    [{ label: "Compris", primary: true }],
   );
+}
+function copyReference(value) {
+  const ref = value.split(" · ")[0],
+    shown = () => toast("Référence " + ref);
+  try {
+    navigator.clipboard.writeText(ref).then(() => toast("Référence " + ref + " copiée.", "success"), shown);
+  } catch (e) {
+    shown();
+  }
+}
+// A short list of values: the row then shows the one picked.
+function pickOption(label, options) {
+  const current = fieldValue(label, "");
+  modal(
+    label,
+    "<p>Choisissez l’option qui correspond à votre voyage.</p>",
+    options.map((v) => ({
+      label: v,
+      current: v === current,
+      fn: () => {
+        state.fields[fieldKey(label)] = v;
+        // A different vehicle needs its quote checked again (see the C23 notice).
+        if (state.id === "C23") vehicleChanged();
+        render();
+      },
+    })),
+  );
+}
+function vehicleChanged() {
+  invalidateQuote();
+  toast("Véhicule mis à jour · le devis sera vérifié à nouveau.");
+}
+function filterPicker(label) {
+  const company = label === "Compagnie",
+    prop = company ? "company" : "duration";
+  modal(
+    label,
+    "<p>Critère appliqué aux offres fictives du groupe.</p>",
+    (company ? ["Toutes", "Compagnie A", "Compagnie B"] : [16, 20, 22, 30]).map((v) => ({
+      label: company ? v : v + " h",
+      current: state.filter[prop] === v,
+      fn: () => {
+        state.filter[prop] = v;
+        save();
+        render();
+      },
+    })),
+  );
+}
+// Filters set by the trip itself (cabin, vehicle) say where to change them.
+function lockedFilter() {
+  toast("Ce critère suit la configuration de votre voyage : modifiez-la à l’étape Voyage.");
+}
+function removeFavorite() {
+  const favs = favorites();
+  if (!favs.length) return;
+  modal("Retirer un favori", "<p>Le favori quitte cette liste. Aucune réservation n’est concernée.</p>", [
+    ...favs.map((a) => ({
+      label: a[1],
+      fn: () => {
+        (state.favRemoved ||= []).push(a[1]);
+        render();
+        toast("Favori retiré.", "success");
+      },
+    })),
+    { label: "Annuler" },
+  ]);
+}
+function revokeSession() {
+  const label = "Autre appareil · exemple";
+  if (fieldValue(label, "") === "Session fermée") return toast("Cette session est déjà fermée.");
+  modal("Fermer cette session ?", "<p>L’appareil devra se reconnecter avec votre adresse vérifiée.</p>", [
+    { label: "Annuler" },
+    {
+      label: "Fermer la session",
+      primary: true,
+      fn: () => {
+        state.fields[fieldKey(label)] = "Session fermée";
+        render();
+        toast("Session fermée sur l’autre appareil.", "success");
+      },
+    },
+  ]);
+}
+function editDimensions() {
+  const label = "Longueur / hauteur",
+    [length, height] = fieldValue(label, "4,60 m / 1,65 m").match(/\d+,\d+/g) || ["4,60", "1,65"];
+  modal(
+    label,
+    `<label>Longueur totale (m)<input id="dimLength" inputmode="decimal" autocomplete="off" value="${length}"></label><label>Hauteur totale (m)<input id="dimHeight" inputmode="decimal" autocomplete="off" value="${height}"></label><p class="muted">Charge sur le toit et accessoires compris.</p>`,
+    [
+      { label: "Annuler" },
+      {
+        label: "Enregistrer",
+        primary: true,
+        fn: () => {
+          const num = (sel) => parseFloat($(sel).value.replace(",", ".")),
+            l = num("#dimLength"),
+            h = num("#dimHeight");
+          if (!(l >= 2 && l <= 20 && h >= 1 && h <= 5)) {
+            toast("Longueur entre 2 et 20 m, hauteur entre 1 et 5 m.", "warn");
+            Motion.shake($("#modal"));
+            return false;
+          }
+          const m = (v) => v.toFixed(2).replace(".", ",") + " m";
+          state.fields[fieldKey(label)] = m(l) + " / " + m(h);
+          vehicleChanged();
+          render();
+        },
+      },
+    ],
+  );
+}
+function editContact() {
+  modal(
+    "Coordonnées personnelles",
+    '<label>Adresse e-mail<input type="email" value="vous@exemple.com" autocomplete="off"></label><label>Téléphone<input type="tel" value="+213 555 00 00 00" autocomplete="off"></label><p class="muted">Données fictives uniquement. Une nouvelle adresse doit être vérifiée.</p>',
+    [{ label: "Annuler" }, { label: "Enregistrer", primary: true, fn: () => toast("Coordonnées conservées dans la démonstration.", "success") }],
+  );
+}
+function editTraveler() {
+  modal(
+    "Adulte 2 · démo",
+    '<label>Prénom<input value="VOYAGEUR" autocomplete="off"></label><label>Nom · comme sur le document<input value="EXEMPLE" autocomplete="off"></label><p class="muted">Informations fictives uniquement. Un billet déjà émis n’est pas modifié.</p>',
+    [{ label: "Annuler" }, { label: "Enregistrer", primary: true, fn: () => toast("Voyageur conservé dans la démonstration.", "success") }],
+  );
+}
+function addAttachment() {
+  const label = "Pièce jointe · facultative",
+    k = fieldKey(label),
+    attach = (name) => {
+      name ? (state.fields[k] = name) : delete state.fields[k];
+      render();
+      toast(name ? "Pièce jointe ajoutée à la demande." : "Pièce jointe retirée.", "success");
+    };
+  modal("Ajouter une pièce jointe", "<p>Fichier fictif uniquement. Masquez les numéros sensibles avant l’envoi.</p>", [
+    { label: "Photo · démo", current: state.fields[k] === "Photo · démo", fn: () => attach("Photo · démo") },
+    { label: "Document PDF · démo", current: state.fields[k] === "Document PDF · démo", fn: () => attach("Document PDF · démo") },
+    ...(state.fields[k] ? [{ label: "Retirer la pièce jointe", fn: () => attach(null) }] : []),
+  ]);
+}
+function stopAlert() {
+  if (!state.alertEnabled) return toast("Aucune alerte active pour le moment.");
+  modal("Arrêter l’alerte ?", "<p>Vous ne recevrez plus de message pour cette recherche.</p>", [
+    { label: "Garder l’alerte" },
+    {
+      label: "Arrêter l’alerte",
+      primary: true,
+      fn: () => {
+        state.alertEnabled = false;
+        toast("Alerte arrêtée.", "success");
+      },
+    },
+  ]);
 }
 function documentDemo() {
   modal(
@@ -177,6 +322,7 @@ function documentDemo() {
         primary: true,
         fn: () => {
           state.saved = true;
+          if (state.id === "C34") render();
           toast("Aperçu marqué dans cette session de démonstration.", "success");
         },
       },
@@ -191,6 +337,9 @@ function primary() {
     return;
   }
   if (state.id === "C05" && !state.vehicle) return go("C07");
+  if (state.id === "C05" && check("C05-6")) return go("C06");
+  if (state.id === "C11") toast("Résultats actualisés · offres de démonstration.", "success");
+  if (state.id === "C42" && state.tab === 0) return toast("Messages marqués comme lus.", "success");
   if (state.id === "C15") {
     startQuote();
     return go("C16");
@@ -266,6 +415,7 @@ function routeRow(label, target) {
   if (label === "Retour") state.dateContext = "returnISO";
   if (label === "Simuler un refus confirmé") return scenario("C61", "forward");
   if (label === "Conserver mon voyage") toast("Voyage conservé dans la simulation.", "success");
+  if (target === state.id) return rowAction(label);
   go(target);
 }
 function scenario(id, intent = "jump") {
@@ -352,7 +502,7 @@ function filterRecords(query) {
   const text = (card) => normalize($$("strong, dd, .pill", card).map((e) => e.textContent).join(" "));
   Motion.reflow(list, () => cards.forEach((card) => (card.hidden = !!q && !text(card).includes(q))));
   const shown = cards.filter((card) => !card.hidden).length;
-  status.textContent = !q ? "" : shown ? `${shown} sur ${cards.length}` : `Aucun élément ne correspond à « ${query.trim()} ».`;
+  status.textContent = !q ? "" : shown ? `${shown} sur ${cards.length}` : frenchText(`Aucun élément ne correspond à « ${query.trim()} ».`);
 }
 // "Plus" opens every staff section in a bottom sheet inside the device.
 function openStaffMenu() {
@@ -411,8 +561,14 @@ function go(id, push = true) {
   render(); // a fresh #body always starts scrolled to the top
   closeMenu();
 }
+// Where Back leads: the previous screen, else the screen's parent. A staff screen
+// opened directly stays in the staff app.
+function backTarget() {
+  return state.history.at(-1) || DATA.back[state.id] || (state.id.startsWith("A") ? STAFF_PARENT[state.id] || "A02" : "C01");
+}
 function back() {
-  const target = state.history.pop() || DATA.back[state.id] || "C01";
+  const target = backTarget();
+  state.history.pop();
   if (!Motion.intent) Motion.intent = target === state.id ? "edge" : "back";
   go(target, false);
 }
@@ -421,6 +577,9 @@ function render() {
   const snap = Motion.capture(d);
   if (d.id.startsWith("A")) renderStaff(d);
   else renderCustomer(d);
+  // A screen with nothing to tab to still scrolls from the keyboard.
+  const body = $("#body");
+  if (body && !$("button, a[href], input, select, textarea", body)) body.tabIndex = 0;
   syncShell(d, snap.kind);
   Motion.play(snap);
 }

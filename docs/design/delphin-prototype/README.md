@@ -13,12 +13,50 @@ path) and reworks the experience around them.
 **Arabic**
 
 - The whole customer app reads in Arabic (the AR button in the header): every screen, dialog, message
-  and hint, 1,093 strings in Modern Standard Arabic with Algerian usage (month names such as جوان and
+  and hint, 1,075 strings in Modern Standard Arabic with Algerian usage (month names such as جوان and
   أوت, prices in دج). Live values (dates, prices, traveller counts, timers) go through patterns with
   Arabic number agreement. The staff app stays in French.
 - The layout mirrors right to left: rows, fields, the step rail, the timeline, progress bars, the budget
   slider, and every arrow and chevron, which turn to point along the reading direction.
 - Translations are for the prototype: have a native Arabic copywriter review them before release.
+
+**Screen-by-screen audit**
+
+Every control on the 90 screens was pressed and every screen reviewed at phone size, in French, Arabic
+and the dark theme. What it found, now fixed:
+
+- Rows do what they say. About 110 rows opened the same dialog ("… est consultable et modifiable",
+  an "Exemple" box and "Enregistrer"), even for a total, a fee or a reference. Now amounts, statuses
+  and timers are plain rows; references copy to the clipboard; short lists (roof load, trailer, engine,
+  minor's residence, alert frequency…) open a picker and the row shows the choice; actions ask first
+  (close another session, remove a favourite, add an attachment, stop an alert, edit contact details,
+  a traveller or the vehicle dimensions); information rows open a sheet with the caveat and, where the
+  research has one, the official source.
+- The booking follows your choices: route, date, travellers and vehicle carry through the search,
+  results, nearby dates, trip detail, price change, options, ticket, queue and no-result screens. A
+  nearby-date row now picks that day ("Rechercher le 19 août"), the price-change button shows the new
+  total, the options button counts the options taken, and the Arabic home shows the actual travellers
+  and vehicle instead of fixed text.
+- Tabs change what they show: "Historique" in Mes voyages, "Créer un compte" at sign-in, "Messages" and
+  "Préférences" in notifications. "Sans véhicule" and "Sans animal" put the vehicle or animal details
+  aside and the button reads "Continuer sans …"; towing a trailer now leads through the trailer screen.
+- The dates screen no longer repeats the departure or shows a return field on a one-way trip.
+- Controls that did nothing or misled: "Coordonnées personnelles" pointed at its own screen; the
+  active-filter count was a button whose dialog showed another count ("0 filtres actifs" now reads
+  "0 filtre actif" and is a status); the guest screen had two buttons to the same place; locked filters
+  gave no reason; "Actualiser les résultats" gave no sign it had run.
+- Back goes where it should: a staff screen opened directly no longer goes "back" into the customer
+  app, and a home screen with nothing to return to has no back button (it only bounced).
+- A ticket copy saved on the documents screen shows as saved; prompts such as "Décrivez ce qui bloque…"
+  are placeholders, not text to delete; the e-mail confirmation field brings up the e-mail keyboard.
+- French typography: a no-break space before `:` `;` `!` `?` and inside « », so punctuation never
+  starts a line.
+- Arabic: validation messages and toasts the earlier pass missed (e-mail mismatch, traveller details,
+  document validity, quote revalidation, traveller limit, unknown route, return before departure) are
+  translated; source cards turn with the reading direction.
+- Accessibility: section titles follow the screen title (h2 under h1), a screen with nothing to tab to
+  scrolls from the keyboard, and the screen-list counts meet contrast.
+- The inspector's design notes are in French; they were in English for 70 screens.
 
 **Dark theme**
 
@@ -133,6 +171,10 @@ mode · `T` light / dark theme · `Esc` close the dialog, the staff “Plus” s
 - Same behaviour as v2: nine scripted journeys (about 140 steps — booking through to the ticket and
   back, round trip, travellers, ports, filters, identity checks, payment outcomes, operator guide,
   dialogs, staff sign-in and dual approval) leave v2 and v3 in identical app state.
+- Every control on the 90 screens pressed once (about 1,040): no error, and none does nothing apart from
+  the tab already open or the option already chosen.
+- axe-core finds no accessibility violation on the 90 screens (French light and dark, Arabic dark; phone
+  and desktop).
 - All 90 screens render without errors, on desktop and on phones. In Arabic, the 66 customer screens,
   with every control pressed once (dialogs, messages, hints included), show no untranslated text and,
   at the eight phone sizes below, no overflow; French screens are pixel-identical before and after the
@@ -141,8 +183,7 @@ mode · `T` light / dark theme · `Esc` close the dialog, the staff “Plus” s
   past the edge of the phone, clipped text or a page that scrolls sideways.
 - With reduced motion requested, nothing longer than a short fade runs.
 - Dark theme: no screen keeps a white surface, the device setting and the switch give identical colours,
-  and the choice survives a reload. The light theme is pixel-identical to the previous version on all 90
-  screens.
+  and the choice survives a reload. Adding it left the light theme pixel-identical on all 90 screens.
 - Cost per interaction in desktop Chromium, layout included: about 6 ms for an in-place update and 8 ms
   for a navigation, 10 ms in the staff app (v2: 5 ms and 6 ms).
 
@@ -157,6 +198,7 @@ mode · `T` light / dark theme · `Esc` close the dialog, the staff “Plus” s
 | `src/app/1-core.js` … `5-shell.js` | The script, in load order: data and state, screens, actions, motion, shell |
 | `src/data.json` | Screens, flows, operators, ports and research sources (demo data) |
 | `src/i18n/ar.json` | Arabic for every French string the customer app shows, keyed by the French text |
+| `src/i18n/notes-fr.json` | The design notes the spec gives in English, in French, by screen |
 | `src/assets/`, `src/fonts/` | Images and font subsets (licences in `src/fonts/README.md`) |
 
 ```bash
